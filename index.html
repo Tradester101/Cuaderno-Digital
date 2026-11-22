@@ -3264,8 +3264,9 @@
     })();
   </script>
   <script>
-    // Service worker: permite instalar la app y usarla sin internet
-    if ('serviceWorker' in navigator) {
+    // Service worker: permite instalar la app web y usarla sin internet.
+    // Dentro del APK (Capacitor) los archivos ya vienen incluidos, así que no se registra.
+    if ('serviceWorker' in navigator && !window.Capacitor) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
       });
