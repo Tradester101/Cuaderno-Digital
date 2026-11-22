@@ -22,6 +22,16 @@ Es una sola página web (HTML + CSS + JavaScript puro). No usa frameworks ni lib
 - **Instalable como app (PWA)**: en Android, Chrome → menú → *Agregar a pantalla principal*.
 - Todo el progreso se guarda en el dispositivo (`localStorage`). No hay cuentas ni servidor.
 
+## Diseño y accesibilidad
+
+Revisado con UI/UX Pro Max:
+
+- Paleta “azul de aprendizaje” `#2563EB`, que es la misma del ícono y el manifest. Todos los textos cumplen contraste WCAG AA (4.5:1).
+- Ningún texto mide menos de 12 px y los botones de navegación tienen 36–48 px de alto.
+- Se puede hacer zoom, el foco del teclado es visible y los botones que solo tienen ícono llevan nombre accesible.
+- Los modales se cierran con Esc y respetan *reducir movimiento*.
+- La división larga compacta sus casillas para caber en pantallas de 360 px.
+
 ## Estructura
 
 ```

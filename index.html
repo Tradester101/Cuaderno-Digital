@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#3730a3" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2563eb" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="description" content="Cuaderno digital para primaria: operaciones en cuadrícula, división larga paso a paso, lógica, lectura y ortografía." />
@@ -29,21 +29,21 @@
       --text-light: #94a3b8;
       --border: #e2e8f0;
 
-      --primary: #4338ca;
-      --primary-hover: #3730a3;
-      --primary-soft: #eef2ff;
-      --primary-ring: rgba(67, 56, 202, 0.28);
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --primary-ring: rgba(37, 99, 235, 0.28);
 
-      --accent: #0d9488;
+      --accent: #0f766e;
       --accent-soft: #f0fdfa;
       --violet: #7c3aed;
       --violet-soft: #f5f3ff;
 
-      --success: #059669;
+      --success: #047857;
       --success-soft: #ecfdf5;
       --success-border: #a7f3d0;
 
-      --danger: #e11d48;
+      --danger: #be123c;
       --danger-soft: #fff1f2;
       --danger-border: #fecdd3;
 
@@ -73,6 +73,7 @@
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
+      min-height: 100dvh;
       overflow-x: hidden;
     }
 
@@ -96,6 +97,7 @@
       width: 100%;
       max-width: 440px;
       min-height: 100vh;
+      min-height: 100dvh;
       background: var(--bg-app);
       display: flex;
       flex-direction: column;
@@ -138,20 +140,20 @@
       width: 34px;
       height: 34px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #4338ca, #6d28d9);
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
       color: #fff;
       font-weight: 800;
-      font-size: 13.5px;
+      font-size: 15.5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 3px 8px rgba(67, 56, 202, 0.25);
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
       flex-shrink: 0;
     }
 
     .profile-meta { line-height: 1.18; }
-    .profile-name { font-size: 12px; font-weight: 800; color: var(--text-main); }
-    .profile-sub { font-size: 10.5px; font-weight: 600; color: var(--text-muted); }
+    .profile-name { font-size: 14px; font-weight: 800; color: var(--text-main); }
+    .profile-sub { font-size: 12.5px; font-weight: 600; color: var(--text-muted); }
 
     .top-controls { display: flex; align-items: center; gap: 5px; }
 
@@ -163,7 +165,7 @@
       border-radius: 10px;
       background: var(--bg-soft);
       border: 1px solid var(--border);
-      font-size: 11.5px;
+      font-size: 13.5px;
       font-weight: 800;
     }
 
@@ -176,7 +178,7 @@
       background: var(--bg-soft);
       border: 1px solid var(--border);
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 800;
       color: var(--text-main);
     }
@@ -213,11 +215,11 @@
       padding: 1px;
     }
     .round-seg { flex: 1; border-radius: 99px; background: #cbd5e1; transition: background 0.3s; }
-    .round-seg.done-math { background: #4338ca; }
-    .round-seg.done-lang { background: #0d9488; }
+    .round-seg.done-math { background: #2563eb; }
+    .round-seg.done-lang { background: #0f766e; }
     .round-seg.current { background: #94a3b8; }
     .round-label {
-      font-size: 10.5px;
+      font-size: 12.5px;
       font-weight: 800;
       color: var(--primary);
       white-space: nowrap;
@@ -240,7 +242,7 @@
       border-radius: 10px;
       background: var(--bg-soft);
       color: var(--text-muted);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
       text-align: center;
       transition: all 0.15s;
@@ -248,7 +250,7 @@
     .mode-tab.active {
       background: var(--primary);
       color: #fff;
-      box-shadow: 0 2px 8px rgba(67, 56, 202, 0.25);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
     }
 
     .sub-nav {
@@ -266,7 +268,7 @@
       border-radius: 99px;
       background: #fff;
       border: 1px solid var(--border);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
       white-space: nowrap;
@@ -296,7 +298,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      font-size: 11.5px;
+      font-size: 13.5px;
       color: #065f46;
     }
 
@@ -323,7 +325,7 @@
 
     .card-tags { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
     .badge {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -334,13 +336,13 @@
     .badge-logic { background: var(--violet-soft); color: var(--violet); }
     .badge-lang { background: var(--accent-soft); color: var(--accent); }
 
-    .subtype-text { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .subtype-text { font-size: 13px; font-weight: 700; color: var(--text-muted); }
 
     .card-actions-top { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
     .mini-btn {
       padding: 5px 8px;
       border-radius: 8px;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
       background: #f1f5f9;
@@ -381,7 +383,7 @@
     }
 
     .nb-instruction {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
       text-align: center;
@@ -395,11 +397,11 @@
     .step-banner {
       width: 100%;
       background: var(--primary-soft);
-      border: 1px solid #c7d2fe;
+      border: 1px solid #bfdbfe;
       color: var(--primary);
       border-radius: 10px;
       padding: 6px 9px;
-      font-size: 11.5px;
+      font-size: 13.5px;
       font-weight: 800;
       text-align: center;
       margin-bottom: 8px;
@@ -418,7 +420,7 @@
       justify-content: space-between;
       gap: 6px;
       margin-bottom: 7px;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
     }
@@ -432,7 +434,7 @@
     .seg-toggle button {
       padding: 4px 9px;
       border-radius: 7px;
-      font-size: 10.5px;
+      font-size: 12.5px;
       font-weight: 800;
       color: var(--text-muted);
     }
@@ -459,17 +461,17 @@
     .col-hdr {
       width: 34px;
       text-align: center;
-      font-size: 9.5px;
+      font-size: 12px;
       font-weight: 800;
       padding: 2px 0;
       border-radius: 6px;
     }
-    .hdr-U { background: #ecfdf5; color: #059669; }
+    .hdr-U { background: #ecfdf5; color: #047857; }
     .hdr-D { background: #eff6ff; color: #2563eb; }
     .hdr-C { background: #f5f3ff; color: #7c3aed; }
-    .hdr-UM { background: #fffbeb; color: #d97706; }
-    .hdr-DM { background: #fff1f2; color: #e11d48; }
-    .hdr-CM { background: #eef2ff; color: #4338ca; }
+    .hdr-UM { background: #fffbeb; color: #b45309; }
+    .hdr-DM { background: #fff1f2; color: #9f1239; }
+    .hdr-CM { background: #eff6ff; color: #2563eb; }
 
     .static-cell {
       width: 34px;
@@ -500,14 +502,14 @@
       border-top: 3px solid var(--primary);
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
-      background: rgba(238, 242, 255, 0.72);
+      background: rgba(239, 246, 255, 0.72);
     }
     /* Cifra señalada para bajar */
     .static-cell.div-bring-source {
       border: 2px solid var(--accent);
       background: var(--accent-soft);
       color: #115e59;
-      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
     }
 
     /* Celda editable */
@@ -515,12 +517,12 @@
       width: 34px;
       height: 38px;
       border-radius: 9px;
-      border: 2px solid #c7d2fe;
+      border: 2px solid #bfdbfe;
       background: #ffffff;
       font-family: var(--font-mono);
       font-size: 19px;
       font-weight: 800;
-      color: #1e1b4b;
+      color: #172554;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -530,7 +532,7 @@
     }
     .grid-cell.carry {
       height: 24px;
-      font-size: 11.5px;
+      font-size: 13.5px;
       border: 1.5px dashed #fbbf24;
       background: #fffbeb;
       color: #b45309;
@@ -618,7 +620,7 @@
       padding: 0 8px;
       border-radius: 8px;
       background: var(--primary-soft);
-      border: 1.5px solid #c7d2fe;
+      border: 1.5px solid #bfdbfe;
       font-family: var(--font-mono);
       font-size: 20px;
       font-weight: 800;
@@ -662,7 +664,7 @@
     }
     .down-target-cell.active {
       border-style: solid !important;
-      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.28) !important;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.28) !important;
     }
 
     .div-summary-pill {
@@ -678,7 +680,7 @@
       color: #065f46;
       padding: 4px 10px;
       border-radius: 99px;
-      font-size: 11.5px;
+      font-size: 13.5px;
       font-weight: 800;
     }
 
@@ -690,7 +692,7 @@
       background: var(--amber-soft);
       border: 1px solid var(--amber-border);
       color: #78350f;
-      font-size: 11.5px;
+      font-size: 13.5px;
       line-height: 1.4;
     }
 
@@ -698,7 +700,7 @@
       margin: 0 10px 8px;
       padding: 8px 10px;
       border-radius: 11px;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
       line-height: 1.38;
       display: flex;
@@ -716,9 +718,9 @@
       border-radius: 12px;
       background: var(--primary);
       color: #fff;
-      font-size: 13.5px;
+      font-size: 15.5px;
       font-weight: 800;
-      box-shadow: 0 3px 10px rgba(67, 56, 202, 0.24);
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.24);
     }
     .btn-primary:active { transform: scale(0.98); background: var(--primary-hover); }
 
@@ -728,9 +730,9 @@
       border-radius: 12px;
       background: var(--success);
       color: #fff;
-      font-size: 13.5px;
+      font-size: 15.5px;
       font-weight: 800;
-      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.24);
+      box-shadow: 0 3px 10px rgba(4, 120, 87, 0.24);
     }
     .btn-success:active { transform: scale(0.98); }
 
@@ -739,7 +741,7 @@
       border-radius: 11px;
       background: #e2e8f0;
       color: var(--text-main);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 800;
     }
     .btn-secondary:active { background: #cbd5e1; }
@@ -769,7 +771,7 @@
     }
     .num-key:active { background: var(--primary); color: #fff; transform: scale(0.93); }
     .num-key.del { background: var(--danger-soft); color: var(--danger); font-family: var(--font-sans); font-size: 16px; }
-    .num-key.clr { background: #e2e8f0; color: var(--text-muted); font-family: var(--font-sans); font-size: 13px; }
+    .num-key.clr { background: #e2e8f0; color: var(--text-muted); font-family: var(--font-sans); font-size: 15px; }
 
     /* ==================== MÓDULOS DE LÓGICA Y LENGUA ==================== */
     .choice-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
@@ -778,7 +780,7 @@
       border-radius: 11px;
       border: 2px solid var(--border);
       background: #fff;
-      font-size: 12.5px;
+      font-size: 14.5px;
       font-weight: 800;
       color: var(--text-main);
       text-align: center;
@@ -802,7 +804,7 @@
     .pv-digit.target {
       background: var(--primary);
       color: #fff;
-      box-shadow: 0 4px 10px rgba(67, 56, 202, 0.3);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
       transform: scale(1.06);
     }
 
@@ -817,19 +819,19 @@
       background: var(--violet);
       color: #fff;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 6px;
       white-space: nowrap;
     }
-    .numline-labels { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--text-muted); }
+    .numline-labels { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 13px; font-weight: 800; color: var(--text-muted); }
 
     /* Lecturas */
     .reading-box { background: var(--accent-soft); border: 1px solid #99f6e4; border-radius: 13px; padding: 11px; margin-bottom: 10px; }
-    .reading-title { font-size: 13.5px; font-weight: 800; color: #115e59; margin: 0 0 5px; }
-    .reading-text { font-size: 12.5px; line-height: 1.5; color: #1e293b; margin: 0; }
-    .q-progress { font-size: 10.5px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+    .reading-title { font-size: 15.5px; font-weight: 800; color: #115e59; margin: 0 0 5px; }
+    .reading-text { font-size: 14.5px; line-height: 1.5; color: #1e293b; margin: 0; }
+    .q-progress { font-size: 12.5px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
     .read-opt {
       width: 100%;
       text-align: left;
@@ -837,7 +839,7 @@
       border-radius: 10px;
       border: 2px solid var(--border);
       background: #fff;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text-main);
       margin-bottom: 6px;
@@ -856,7 +858,7 @@
       border-radius: 11px;
       padding: 7px 9px;
       margin-bottom: 8px;
-      font-size: 11.5px;
+      font-size: 13.5px;
       color: #115e59;
     }
     .target-chip {
@@ -930,17 +932,17 @@
       align-items: center;
       justify-content: space-between;
     }
-    .modal-head.video-head { background: linear-gradient(135deg, #4338ca, #7c3aed); }
+    .modal-head.video-head { background: linear-gradient(135deg, #2563eb, #7c3aed); }
     .modal-body { padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 11px; }
 
-    .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; }
+    .form-label { display: block; font-size: 13px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; }
     .form-input, .form-select {
       width: 100%;
       padding: 9px 11px;
       border-radius: 10px;
       border: 1.5px solid #cbd5e1;
       background: #fff;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--text-main);
     }
@@ -959,10 +961,10 @@
 
     /* Panel Padres Tabs */
     .ptabs { display: grid; grid-template-columns: repeat(3, 1fr); background: #f8fafc; border-bottom: 1px solid var(--border); }
-    .ptab { padding: 10px 6px; font-size: 11.5px; font-weight: 800; color: var(--text-muted); border-bottom: 2.5px solid transparent; }
+    .ptab { padding: 10px 6px; font-size: 13.5px; font-weight: 800; color: var(--text-muted); border-bottom: 2.5px solid transparent; }
     .ptab.active { color: var(--primary); border-bottom-color: var(--primary); background: #fff; }
 
-    .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 11.5px; }
+    .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 13.5px; }
     .stat-bar-mini { width: 62px; height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 5px; }
     .stat-bar-fill { height: 100%; border-radius: 99px; display: block; }
 
@@ -975,12 +977,12 @@
       border-radius: 10px;
       background: #f8fafc;
       border: 1px solid var(--border);
-      font-size: 11.5px;
+      font-size: 13.5px;
     }
 
-    .confirm-inline { background: var(--danger-soft); border: 1px solid var(--danger-border); border-radius: 11px; padding: 10px; font-size: 11.5px; color: #9f1239; }
+    .confirm-inline { background: var(--danger-soft); border: 1px solid var(--danger-border); border-radius: 11px; padding: 10px; font-size: 13.5px; color: #9f1239; }
 
-    .footer-stats { display: flex; justify-content: space-between; padding: 0 5px; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .footer-stats { display: flex; justify-content: space-between; padding: 0 5px; font-size: 13px; font-weight: 700; color: var(--text-muted); }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -990,6 +992,55 @@
     }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
     @keyframes bounceDown { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+    /* =====================================================================
+       13. ACCESIBILIDAD Y ÁREAS TÁCTILES (revisión UI/UX Pro Max)
+       ===================================================================== */
+    button, [role="button"], select, input { touch-action: manipulation; }
+    :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+    .grid-cell:focus-visible, .v-cell:focus-visible { outline-offset: 1px; }
+
+    .icon-btn { width: 40px; height: 40px; }
+    .icon-btn svg, .modal-close svg { width: 20px; height: 20px; }
+    .timer-btn, .pill-stat { min-height: 36px; }
+    .mode-tab {
+      min-height: 48px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 1px; line-height: 1.15; white-space: nowrap;
+    }
+    .mode-ico { font-size: 16px; line-height: 1; }
+    .sub-pill { min-height: 36px; padding: 6px 12px; }
+    .mini-btn { min-height: 36px; padding: 6px 10px; }
+    .seg-toggle button { min-height: 32px; padding: 5px 11px; }
+    .modal-close {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; flex-shrink: 0;
+    }
+    .modal-close:active { background: rgba(255,255,255,0.15); }
+    .num-key svg { width: 22px; height: 22px; }
+
+    /* División: compactar casillas cuando dividendo + cociente no caben en pantallas angostas */
+    .notebook { align-items: safe center; }
+    .div-board.div-sm .static-cell, .div-board.div-sm .grid-cell,
+    .div-board.div-sm .div-line-seg, .div-board.div-sm .bring-arrow-cell { width: 28px; font-size: 17px; }
+    .div-board.div-xs .static-cell, .div-board.div-xs .grid-cell,
+    .div-board.div-xs .div-line-seg, .div-board.div-xs .bring-arrow-cell { width: 26px; font-size: 16px; }
+    .div-board.div-sm, .div-board.div-xs { gap: 6px; }
+    .div-board.div-sm .div-galera, .div-board.div-xs .div-galera { min-width: 0; padding-left: 6px; }
+    .div-board.div-sm .div-divisor-chip, .div-board.div-xs .div-divisor-chip { font-size: 18px; }
+    .div-board.div-sm .op-col, .div-board.div-xs .op-col { width: 14px; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1007,13 +1058,13 @@
 
         <div class="top-controls">
           <div class="pill-stat" title="Racha de aciertos">
-            <span id="hdrStreak">0</span><span>🔥</span>
+            <span id="hdrStreak">0</span><span aria-hidden="true">🔥</span><span class="sr-only">aciertos seguidos</span>
           </div>
-          <button id="btnToggleTimer" class="timer-btn" title="Iniciar o pausar cronómetro">
+          <button id="btnToggleTimer" class="timer-btn" title="Iniciar o pausar cronómetro" aria-label="Iniciar o pausar cronómetro de estudio">
             <span class="dot" id="timerDot"></span>
             <span id="timerText">15:00</span>
           </button>
-          <button id="btnOpenParent" class="icon-btn" title="Modo Padres (PIN)">🔒</button>
+          <button id="btnOpenParent" class="icon-btn" title="Modo Padres (PIN)" aria-label="Abrir modo padres"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
         </div>
       </div>
 
@@ -1028,10 +1079,10 @@
 
     <!-- ==================== NAVEGACIÓN DE MODOS ==================== -->
     <nav class="mode-nav">
-      <button class="mode-tab" data-mode="mixto">✨ Ronda</button>
-      <button class="mode-tab" data-mode="cuaderno">📐 Cuaderno</button>
-      <button class="mode-tab" data-mode="logica">🧩 Lógica</button>
-      <button class="mode-tab" data-mode="lengua">📖 Lengua</button>
+      <button class="mode-tab" data-mode="mixto"><span class="mode-ico" aria-hidden="true">✨</span>Ronda</button>
+      <button class="mode-tab" data-mode="cuaderno"><span class="mode-ico" aria-hidden="true">📐</span>Cuaderno</button>
+      <button class="mode-tab" data-mode="logica"><span class="mode-ico" aria-hidden="true">🧩</span>Lógica</button>
+      <button class="mode-tab" data-mode="lengua"><span class="mode-ico" aria-hidden="true">📖</span>Lengua</button>
     </nav>
 
     <div id="subNav" class="sub-nav hidden"></div>
@@ -1043,7 +1094,7 @@
           <strong>¡Meta de estudio cumplida! 🎉</strong><br />
           Excelente concentración hoy.
         </div>
-        <button id="btnRestartTimer" class="btn-secondary" style="background:#059669;color:#fff;padding:6px 10px;font-size:11px;">Reiniciar</button>
+        <button id="btnRestartTimer" class="btn-secondary" style="background:#047857;color:#fff;padding:6px 10px;font-size:13px;">Reiniciar</button>
       </div>
 
       <section class="card">
@@ -1054,16 +1105,16 @@
           </div>
           <div class="card-actions-top">
             <button id="btnHint" class="mini-btn hint">💡 Pista</button>
-            <button id="btnSkip" class="mini-btn" title="Cambiar ejercicio">↻ Otro</button>
+            <button id="btnSkip" class="mini-btn" title="Cambiar ejercicio" aria-label="Cambiar ejercicio">↻ Otro</button>
           </div>
         </div>
 
         <div id="exBody" class="card-body"></div>
 
-        <div id="hintBox" class="hint-box hidden"></div>
+        <div id="hintBox" class="hint-box hidden" role="status" aria-live="polite"></div>
 
-        <div id="feedbackBox" class="feedback-box hidden">
-          <span id="fbIcon" style="font-size:15px;line-height:1;"></span>
+        <div id="feedbackBox" class="feedback-box hidden" role="status" aria-live="polite">
+          <span id="fbIcon" aria-hidden="true" style="font-size:15px;line-height:1;"></span>
           <div id="fbText"></div>
         </div>
 
@@ -1080,37 +1131,37 @@
         <button class="num-key" data-k="3">3</button>
         <button class="num-key" data-k="4">4</button>
         <button class="num-key" data-k="5">5</button>
-        <button class="num-key del" data-k="BACK" title="Borrar">⌫</button>
+        <button class="num-key del" data-k="BACK" title="Borrar" aria-label="Borrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"/><path d="M12 9.5l5 5M17 9.5l-5 5"/></svg></button>
         <button class="num-key" data-k="6">6</button>
         <button class="num-key" data-k="7">7</button>
         <button class="num-key" data-k="8">8</button>
         <button class="num-key" data-k="9">9</button>
         <button class="num-key" data-k="0">0</button>
-        <button class="num-key clr" data-k="CLR">C</button>
+        <button class="num-key clr" data-k="CLR" aria-label="Limpiar casilla">C</button>
       </section>
 
       <div class="footer-stats">
-        <span>Aciertos totales: <strong id="ftrCorrect" style="color:#059669;">0</strong></span>
-        <span>Precisión: <strong id="ftrAcc" style="color:#4338ca;">0%</strong></span>
+        <span>Aciertos totales: <strong id="ftrCorrect" style="color:#047857;">0</strong></span>
+        <span>Precisión: <strong id="ftrAcc" style="color:#2563eb;">0%</strong></span>
       </div>
     </main>
   </div>
 
   <!-- ==================== MODAL 1: PERFIL ==================== -->
   <div id="profileModal" class="modal-backdrop hidden">
-    <div class="modal-card">
-      <div class="modal-head" style="background:linear-gradient(135deg,#4338ca,#6d28d9);">
-        <strong style="font-size:14.5px;">📓 Configurar Cuaderno Digital v3</strong>
-        <button id="btnCloseProfile" style="color:#fff;font-size:18px;font-weight:800;">✕</button>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+      <div class="modal-head" style="background:linear-gradient(135deg,#2563eb,#4f46e5);">
+        <strong id="profileTitle" style="font-size:16px;">📓 Configurar Cuaderno Digital v3</strong>
+        <button id="btnCloseProfile" class="modal-close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
       <div class="modal-body">
         <div>
-          <label class="form-label">Nombre de la estudiante (opcional)</label>
+          <label class="form-label" for="inpName">Nombre de la estudiante (opcional)</label>
           <input id="inpName" class="form-input" type="text" maxlength="20" placeholder="Ej. Sofía" />
         </div>
         <div class="choice-grid-2">
           <div>
-            <label class="form-label">Edad</label>
+            <label class="form-label" for="selAge">Edad</label>
             <select id="selAge" class="form-select">
               <option value="7">7 años</option>
               <option value="8">8 años</option>
@@ -1121,7 +1172,7 @@
             </select>
           </div>
           <div>
-            <label class="form-label">Grado escolar</label>
+            <label class="form-label" for="selGrade">Grado escolar</label>
             <select id="selGrade" class="form-select">
               <option value="2">2do grado</option>
               <option value="3">3er grado</option>
@@ -1131,7 +1182,7 @@
             </select>
           </div>
         </div>
-        <div style="background:var(--primary-soft);border-radius:11px;padding:9px 11px;font-size:11.5px;color:#312e81;line-height:1.45;">
+        <div style="background:var(--primary-soft);border-radius:11px;padding:9px 11px;font-size:13.5px;color:#1e3a8a;line-height:1.45;">
           <strong>Ronda de estudio:</strong> Intercala ejercicios de cuaderno cuadriculado (incluyendo división larga 100% manual) con lectura, ortografía y entrenamiento visual para desbloquear videos educativos curados.
         </div>
         <button id="btnSaveProfile" class="btn-primary">¡Guardar y empezar!</button>
@@ -1141,35 +1192,35 @@
 
   <!-- ==================== MODAL 2: VIDEO EDUCATIVO ==================== -->
   <div id="videoModal" class="modal-backdrop hidden">
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="videoTitle">
       <div class="modal-head video-head">
         <div>
-          <div style="font-size:10px;font-weight:800;opacity:0.9;text-transform:uppercase;">🎉 ¡Ronda completada!</div>
-          <strong style="font-size:14.5px;">Pausa de Video Educativo</strong>
+          <div style="font-size:12px;font-weight:800;opacity:0.9;text-transform:uppercase;">🎉 ¡Ronda completada!</div>
+          <strong id="videoTitle" style="font-size:16px;">Pausa de Video Educativo</strong>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <span id="videoBreakClock" style="background:rgba(255,255,255,0.2);padding:4px 8px;border-radius:8px;font-family:var(--font-mono);font-size:12.5px;font-weight:800;">05:00</span>
-          <button id="btnCloseVideoX" style="color:#fff;font-size:18px;font-weight:800;">✕</button>
+          <span id="videoBreakClock" style="background:rgba(255,255,255,0.2);padding:4px 8px;border-radius:8px;font-family:var(--font-mono);font-size:14.5px;font-weight:800;">05:00</span>
+          <button id="btnCloseVideoX" class="modal-close" aria-label="Cerrar video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
         </div>
       </div>
       <div class="modal-body">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
           <div style="min-width:0;">
-            <div id="vidTitle" style="font-size:13px;font-weight:800;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Video</div>
+            <div id="vidTitle" style="font-size:15px;font-weight:800;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Video</div>
             <span id="vidTag" class="badge badge-lang" style="display:inline-block;margin-top:3px;">Ciencias</span>
           </div>
-          <button id="btnSwitchVideo" class="btn-secondary" style="padding:6px 10px;font-size:11px;flex-shrink:0;">🔀 Otro</button>
+          <button id="btnSwitchVideo" class="btn-secondary" style="padding:6px 10px;font-size:13px;flex-shrink:0;">🔀 Otro</button>
         </div>
 
         <div class="video-frame-wrap">
           <iframe id="ytPlayer" src="" title="Video educativo curado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
 
-        <div id="videoTimeUpBox" class="hidden" style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:10px;padding:8px 10px;font-size:11.5px;color:#92400e;font-weight:700;text-align:center;">
+        <div id="videoTimeUpBox" class="hidden" style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:10px;padding:8px 10px;font-size:13.5px;color:#92400e;font-weight:700;text-align:center;">
           ⏰ ¡Se terminó el descanso! Es hora de volver a estudiar.
         </div>
 
-        <div style="font-size:11px;color:var(--text-muted);text-align:center;line-height:1.35;">
+        <div style="font-size:13px;color:var(--text-muted);text-align:center;line-height:1.35;">
           Solo se reproducen videos aprobados en Modo Padres. Si estás sin internet, pulsa volver a estudiar.
         </div>
 
@@ -1180,26 +1231,26 @@
 
   <!-- ==================== MODAL 3: MODO PADRES ==================== -->
   <div id="parentModal" class="modal-backdrop hidden">
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="parentTitle">
       <div class="modal-head">
-        <strong style="font-size:14px;">🔒 Modo Padres</strong>
-        <button id="btnCloseParent" style="color:#cbd5e1;font-size:18px;font-weight:800;">✕</button>
+        <strong id="parentTitle" style="font-size:16px;">🔒 Modo Padres</strong>
+        <button id="btnCloseParent" class="modal-close" aria-label="Cerrar modo padres"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
 
       <!-- PIN View -->
       <div id="parentPinView" class="modal-body" style="text-align:center;">
-        <p style="margin:0;font-size:12px;color:var(--text-muted);">Ingresa el PIN parental (por defecto: <strong>1234</strong>)</p>
+        <p style="margin:0;font-size:14px;color:var(--text-muted);">Ingresa el PIN parental (por defecto: <strong>1234</strong>)</p>
         <div class="pin-dots">
           <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
         </div>
-        <div id="pinErr" style="height:15px;font-size:11.5px;font-weight:800;color:var(--danger);"></div>
+        <div id="pinErr" role="alert" style="height:15px;font-size:13.5px;font-weight:800;color:var(--danger);"></div>
         <div class="pin-grid">
           <button class="pin-key" data-p="1">1</button><button class="pin-key" data-p="2">2</button><button class="pin-key" data-p="3">3</button>
           <button class="pin-key" data-p="4">4</button><button class="pin-key" data-p="5">5</button><button class="pin-key" data-p="6">6</button>
           <button class="pin-key" data-p="7">7</button><button class="pin-key" data-p="8">8</button><button class="pin-key" data-p="9">9</button>
-          <button class="pin-key" data-p="CLR" style="font-size:11.5px;font-family:var(--font-sans);">Borrar</button>
+          <button class="pin-key" data-p="CLR" style="font-size:13.5px;font-family:var(--font-sans);">Borrar</button>
           <button class="pin-key" data-p="0">0</button>
-          <button class="pin-key" data-p="BACK" style="color:var(--danger);background:var(--danger-soft);">⌫</button>
+          <button class="pin-key" data-p="BACK" aria-label="Borrar último dígito" style="color:var(--danger);background:var(--danger-soft);">⌫</button>
         </div>
       </div>
 
@@ -1217,24 +1268,24 @@
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;text-align:center;">
               <div style="background:var(--success-soft);border:1px solid var(--success-border);border-radius:11px;padding:9px 5px;">
                 <div id="pStatOk" style="font-size:19px;font-weight:800;color:#047857;">0</div>
-                <div style="font-size:10px;font-weight:700;color:#059669;">Aciertos</div>
+                <div style="font-size:12px;font-weight:700;color:#047857;">Aciertos</div>
               </div>
               <div style="background:var(--danger-soft);border:1px solid var(--danger-border);border-radius:11px;padding:9px 5px;">
                 <div id="pStatErr" style="font-size:19px;font-weight:800;color:#be123c;">0</div>
-                <div style="font-size:10px;font-weight:700;color:#e11d48;">Errores</div>
+                <div style="font-size:12px;font-weight:700;color:#be123c;">Errores</div>
               </div>
-              <div style="background:var(--primary-soft);border:1px solid #c7d2fe;border-radius:11px;padding:9px 5px;">
+              <div style="background:var(--primary-soft);border:1px solid #bfdbfe;border-radius:11px;padding:9px 5px;">
                 <div id="pStatAcc" style="font-size:19px;font-weight:800;color:var(--primary);">0%</div>
-                <div style="font-size:10px;font-weight:700;color:var(--primary);">Precisión</div>
+                <div style="font-size:12px;font-weight:700;color:var(--primary);">Precisión</div>
               </div>
             </div>
 
             <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:9px 11px;">
-              <div style="font-size:11.5px;font-weight:800;margin-bottom:5px;">Rendimiento por los 11 módulos</div>
+              <div style="font-size:13.5px;font-weight:800;margin-bottom:5px;">Rendimiento por los 11 módulos</div>
               <div id="moduleStatsList"></div>
             </div>
 
-            <div style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:11px;padding:9px;font-size:11px;color:#78350f;line-height:1.4;">
+            <div style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:11px;padding:9px;font-size:13px;color:#78350f;line-height:1.4;">
               <strong>💡 Bloqueo de otras apps en Android:</strong> Activa <em>"Fijar aplicaciones"</em> en Ajustes → Seguridad para que tu hija no pueda abrir YouTube u otras apps durante su sesión de estudio.
             </div>
 
@@ -1253,10 +1304,10 @@
           <!-- TAB 2: VIDEOS -->
           <div id="pt-videos" class="hidden" style="display:flex;flex-direction:column;gap:9px;">
             <div style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;">
-              <div id="vidFormHeading" style="font-size:11.5px;font-weight:800;">Agregar video educativo de YouTube</div>
-              <input id="inpVidUrl" class="form-input" type="text" placeholder="URL de YouTube o ID (ej. youtu.be/...)" />
-              <input id="inpVidTitle" class="form-input" type="text" placeholder="Título del video" />
-              <select id="selVidTag" class="form-select">
+              <div id="vidFormHeading" style="font-size:13.5px;font-weight:800;">Agregar video educativo de YouTube</div>
+              <input id="inpVidUrl" class="form-input" type="text" placeholder="URL de YouTube o ID (ej. youtu.be/...)" aria-label="URL o ID del video de YouTube" />
+              <input id="inpVidTitle" class="form-input" type="text" placeholder="Título del video" aria-label="Título del video" />
+              <select id="selVidTag" class="form-select" aria-label="Categoría del video">
                 <option value="Ciencias">Ciencias</option>
                 <option value="Matemáticas">Matemáticas</option>
                 <option value="Geografía">Geografía</option>
@@ -1264,15 +1315,15 @@
                 <option value="Curiosidades">Curiosidades</option>
               </select>
               <div style="display:flex;gap:6px;">
-                <button id="btnSaveVideoItem" class="btn-primary" style="padding:9px;font-size:12px;">+ Guardar video</button>
-                <button id="btnCancelEditVid" class="btn-secondary hidden" style="padding:9px;font-size:11.5px;">Cancelar</button>
+                <button id="btnSaveVideoItem" class="btn-primary" style="padding:9px;font-size:14px;">+ Guardar video</button>
+                <button id="btnCancelEditVid" class="btn-secondary hidden" style="padding:9px;font-size:13.5px;">Cancelar</button>
               </div>
-              <div id="vidFormMsg" style="font-size:11px;font-weight:700;" class="hidden"></div>
+              <div id="vidFormMsg" style="font-size:13px;font-weight:700;" class="hidden"></div>
             </div>
 
             <div style="display:flex;align-items:center;justify-content:space-between;">
-              <strong style="font-size:11.5px;">Lista permitida (<span id="vidListCount">0</span>)</strong>
-              <button id="btnPreviewVideo" style="font-size:11.5px;font-weight:800;color:var(--primary);">Probar pausa 🎬</button>
+              <strong style="font-size:13.5px;">Lista permitida (<span id="vidListCount">0</span>)</strong>
+              <button id="btnPreviewVideo" style="font-size:13.5px;font-weight:800;color:var(--primary);">Probar pausa 🎬</button>
             </div>
             <div id="parentVidList" style="display:flex;flex-direction:column;gap:5px;"></div>
           </div>
@@ -1281,14 +1332,14 @@
           <div id="pt-config" class="hidden" style="display:flex;flex-direction:column;gap:9px;">
             <div class="choice-grid-2">
               <div>
-                <label class="form-label">Edad estudiante</label>
+                <label class="form-label" for="cfgAge">Edad estudiante</label>
                 <select id="cfgAge" class="form-select">
                   <option value="7">7 años</option><option value="8">8 años</option><option value="9">9 años</option>
                   <option value="10">10 años</option><option value="11">11 años</option><option value="12">12 años</option>
                 </select>
               </div>
               <div>
-                <label class="form-label">Grado escolar</label>
+                <label class="form-label" for="cfgGrade">Grado escolar</label>
                 <select id="cfgGrade" class="form-select">
                   <option value="2">2do grado</option><option value="3">3er grado</option><option value="4">4to grado</option>
                   <option value="5">5to grado</option><option value="6">6to grado</option>
@@ -1298,14 +1349,14 @@
 
             <div class="choice-grid-2">
               <div>
-                <label class="form-label">Sesión estudio (min)</label>
+                <label class="form-label" for="cfgStudyMins">Sesión estudio (min)</label>
                 <select id="cfgStudyMins" class="form-select">
                   <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
                   <option value="20">20 min</option><option value="30">30 min</option>
                 </select>
               </div>
               <div>
-                <label class="form-label">Pausa de video (min)</label>
+                <label class="form-label" for="cfgBreakMins">Pausa de video (min)</label>
                 <select id="cfgBreakMins" class="form-select">
                   <option value="2">2 min</option><option value="3">3 min</option><option value="5">5 min</option>
                   <option value="7">7 min</option><option value="10">10 min</option>
@@ -1314,7 +1365,7 @@
             </div>
 
             <div>
-              <label class="form-label">Ejercicios por ronda (para desbloquear video)</label>
+              <label class="form-label" for="cfgRoundSize">Ejercicios por ronda (para desbloquear video)</label>
               <select id="cfgRoundSize" class="form-select">
                 <option value="3">3 ejercicios (2 Mat + 1 Len)</option>
                 <option value="5">5 ejercicios (3 Mat + 2 Len)</option>
@@ -1324,12 +1375,12 @@
             </div>
 
             <div>
-              <label class="form-label">Cambiar PIN parental (4 dígitos)</label>
+              <label class="form-label" for="cfgNewPin">Cambiar PIN parental (4 dígitos)</label>
               <input id="cfgNewPin" class="form-input" type="password" inputmode="numeric" maxlength="4" placeholder="Dejar vacío para mantener actual" />
             </div>
 
-            <button id="btnSaveConfig" class="btn-success" style="padding:10px;font-size:12.5px;">Guardar ajustes</button>
-            <div id="cfgSavedMsg" class="hidden" style="text-align:center;font-size:11.5px;font-weight:800;color:var(--success);">✓ Ajustes guardados</div>
+            <button id="btnSaveConfig" class="btn-success" style="padding:10px;font-size:14.5px;">Guardar ajustes</button>
+            <div id="cfgSavedMsg" class="hidden" style="text-align:center;font-size:13.5px;font-weight:800;color:var(--success);">✓ Ajustes guardados</div>
           </div>
         </div>
       </div>
@@ -2101,7 +2152,7 @@
           <div class="notebook">
             ${toggleHtml}
             <div class="${bannerClass}">${bannerText}</div>
-            <div class="div-board">
+            <div class="div-board ${totalCols + ex.steps.length >= 8 ? 'div-xs' : totalCols + ex.steps.length >= 7 ? 'div-sm' : ''}">
               <div class="div-left">
                 ${divdRow}
                 ${procRowsHtml}
@@ -2111,7 +2162,7 @@
                   <div class="div-divisor-chip">${ex.divisor}</div>
                 </div>
                 <div>
-                  <div style="font-size:9.5px;font-weight:800;color:var(--primary);margin-bottom:3px;">Cociente:</div>
+                  <div style="font-size:12px;font-weight:800;color:var(--primary);margin-bottom:3px;">Cociente:</div>
                   ${qRow}
                 </div>
               </div>
@@ -2153,8 +2204,8 @@
         const cols = ex.cols;
         const aS = String(ex.a).padStart(cols, ' ');
         const bS = String(ex.b).padStart(cols, ' ');
-        let hdr = '<div class="op-col"></div>', carry = '<div class="op-col" style="font-size:10px;color:#d97706;">↑</div>';
-        let rA = '<div class="op-col"></div>', rB = `<div class="op-col">${ex.op}</div>`, ans = '<div class="op-col" style="color:#94a3b8;">=</div>';
+        let hdr = '<div class="op-col"></div>', carry = '<div class="op-col" style="font-size:12px;color:#b45309;">↑</div>';
+        let rA = '<div class="op-col"></div>', rB = `<div class="op-col">${ex.op}</div>`, ans = '<div class="op-col" style="color:#64748b;">=</div>';
 
         for (let i = 0; i < cols; i++) {
           const code = PLACE_CODES[cols - 1 - i] || '';
@@ -2186,10 +2237,10 @@
         const cols = ex.cols;
         const aS = String(ex.a).padStart(cols, ' '), bS = String(ex.b).padStart(cols, ' ');
         const p1Len = String(ex.p1).length, p2Len = String(ex.p2).length;
-        let hdr = '<div class="op-col"></div>', carry = '<div class="op-col" style="font-size:10px;color:#d97706;">↑</div>';
+        let hdr = '<div class="op-col"></div>', carry = '<div class="op-col" style="font-size:12px;color:#b45309;">↑</div>';
         let rA = '<div class="op-col"></div>', rB = '<div class="op-col">×</div>';
-        let rP1 = '<div class="op-col" style="font-size:9.5px;color:#4338ca;">P1</div>';
-        let rP2 = '<div class="op-col" style="font-size:12px;color:#059669;">+</div>';
+        let rP1 = '<div class="op-col" style="font-size:12px;color:#2563eb;">P1</div>';
+        let rP2 = '<div class="op-col" style="font-size:14px;color:#047857;">+</div>';
         let rTot = '<div class="op-col" style="color:#64748b;">=</div>';
 
         for (let i = 0; i < cols; i++) {
@@ -2230,20 +2281,20 @@
         for (let i = 0; i < ex.str.length; i++) {
           const fromR = ex.str.length - 1 - i;
           digs += `<span class="pv-digit ${i === ex.targetIdx ? 'target' : ''}">${ex.str[i]}</span>`;
-          if (fromR > 0 && fromR % 3 === 0) digs += '<span style="font-family:var(--font-mono);font-size:20px;font-weight:800;color:#94a3b8;align-self:flex-end;">.</span>';
+          if (fromR > 0 && fromR % 3 === 0) digs += '<span style="font-family:var(--font-mono);font-size:20px;font-weight:800;color:#64748b;align-self:flex-end;">.</span>';
         }
         const opts = ex.options.map(code => `<button type="button" class="choice-btn pv-opt" data-code="${code}">${PLACE_NAMES[code]} (${code})</button>`).join('');
         $('exBody').innerHTML = `
           <div style="text-align:center;">
-            <div style="font-size:11.5px;font-weight:700;color:var(--text-muted);">Observa el dígito resaltado en azul:</div>
+            <div style="font-size:13.5px;font-weight:700;color:var(--text-muted);">Observa el dígito resaltado en azul:</div>
             <div class="pv-digits">${digs}</div>
           </div>
           <div style="margin-bottom:10px;">
-            <div style="font-size:11.5px;font-weight:800;margin-bottom:6px;">1. ¿Qué posición ocupa el <span style="color:var(--primary);">${ex.digit}</span>?</div>
+            <div style="font-size:13.5px;font-weight:800;margin-bottom:6px;">1. ¿Qué posición ocupa el <span style="color:var(--primary);">${ex.digit}</span>?</div>
             <div class="choice-grid-2">${opts}</div>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;border:1px solid var(--border);border-radius:11px;padding:9px 11px;">
-            <span style="font-size:11.5px;font-weight:800;">2. ¿Cuánto vale ese ${ex.digit}?</span>
+            <span style="font-size:13.5px;font-weight:800;">2. ¿Cuánto vale ese ${ex.digit}?</span>
             <button type="button" class="grid-cell wide" data-cell="pv-val" data-max="6"></button>
           </div>
         `;
@@ -2263,8 +2314,8 @@
         const btns = ex.choices.map(val => `<button type="button" class="choice-btn mono-lg rnd-opt" data-val="${val}">${fmtNum(val)}</button>`).join('');
         $('exBody').innerHTML = `
           <div class="notebook" style="margin-bottom:10px;padding-top:14px;padding-bottom:14px;">
-            <div style="font-size:11.5px;font-weight:700;color:var(--text-muted);">Redondea a la</div>
-            <div style="font-size:13.5px;font-weight:800;color:var(--violet);margin:2px 0 8px;">${ex.target.name}</div>
+            <div style="font-size:13.5px;font-weight:700;color:var(--text-muted);">Redondea a la</div>
+            <div style="font-size:15.5px;font-weight:800;color:var(--violet);margin:2px 0 8px;">${ex.target.name}</div>
             <div style="background:#fff;border:2px solid #ddd6fe;border-radius:13px;padding:7px 20px;font-family:var(--font-mono);font-size:26px;font-weight:800;">${fmtNum(ex.num)}</div>
           </div>
           <div class="choice-grid-2">${btns}</div>
@@ -2282,7 +2333,7 @@
       function renderProperty(ex) {
         $('exBody').innerHTML = `
           <div class="notebook" style="margin-bottom:10px;">
-            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:7px;">1. Completa el número que falta y el resultado:</div>
+            <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:7px;">1. Completa el número que falta y el resultado:</div>
             <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;font-family:var(--font-mono);font-size:16px;font-weight:800;">
               <span>${ex.leftExpr}</span><span style="color:var(--primary);">=</span><span>${ex.rightPre}</span>
               <button type="button" class="grid-cell" data-cell="pr-miss" data-max="2" style="width:42px;height:36px;"></button>
@@ -2291,7 +2342,7 @@
             </div>
           </div>
           <div>
-            <div style="font-size:11.5px;font-weight:800;margin-bottom:6px;">2. ¿Qué propiedad se aplicó?</div>
+            <div style="font-size:13.5px;font-weight:800;margin-bottom:6px;">2. ¿Qué propiedad se aplicó?</div>
             <div class="choice-grid-2">
               <button type="button" class="choice-btn prop-opt" data-p="Conmutativa">🔄 Conmutativa</button>
               <button type="button" class="choice-btn prop-opt" data-p="Asociativa">🔗 Asociativa</button>
@@ -2319,7 +2370,7 @@
             <p class="reading-text">${ex.text}</p>
           </div>
           <div class="q-progress">Pregunta ${ex.qIdx + 1} de ${ex.questions.length}</div>
-          <div style="font-size:12.5px;font-weight:800;margin-bottom:7px;">${curQ.q}</div>
+          <div style="font-size:14.5px;font-weight:800;margin-bottom:7px;">${curQ.q}</div>
           <div>${opts}</div>
         `;
         document.querySelectorAll('.read-opt').forEach(b => {
@@ -2338,7 +2389,7 @@
         const btns = ex.pair.map(l => `<button type="button" class="choice-btn mono-lg sp-opt" data-l="${l}" style="height:52px;font-size:23px;">${l}</button>`).join('');
         $('exBody').innerHTML = `
           <div class="notebook" style="margin-bottom:12px;padding-top:16px;padding-bottom:16px;">
-            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Completa la palabra con la letra correcta:</div>
+            <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Completa la palabra con la letra correcta:</div>
             <div style="font-size:15.5px;font-weight:700;text-align:center;line-height:1.45;">${sent}</div>
           </div>
           <div style="display:grid;${colsStyle}gap:9px;max-width:250px;margin:0 auto;">${btns}</div>
@@ -2872,6 +2923,7 @@
           }
         }, 1000);
         $('videoModal').classList.remove('hidden');
+        focusModal('videoModal');
       }
 
       function loadVideoInModal(idx) {
@@ -2921,6 +2973,7 @@
         $('parentDashView').classList.add('hidden');
         $('confirmResetBox').classList.add('hidden');
         $('parentModal').classList.remove('hidden');
+        focusModal('parentModal');
       }
       function updatePinUI() { document.querySelectorAll('.pin-dot').forEach((d, i) => d.classList.toggle('filled', i < pinBuf.length)); }
       function handlePinKey(k) {
@@ -2957,14 +3010,14 @@
           const d = st.modules[m.key] || { ok: 0, err: 0 };
           const mt = d.ok + d.err;
           const pct = mt ? Math.round((d.ok / mt) * 100) : 0;
-          const color = mt === 0 ? '#94a3b8' : pct >= 75 ? '#059669' : pct >= 50 ? '#d97706' : '#e11d48';
+          const color = mt === 0 ? '#64748b' : pct >= 75 ? '#047857' : pct >= 50 ? '#d97706' : '#be123c';
           return `
             <div class="stat-row">
               <span style="font-weight:700;">${m.label}</span>
               <span style="white-space:nowrap;">
                 <span class="stat-bar-mini"><span class="stat-bar-fill" style="width:${pct}%;background:${color};"></span></span>
                 <strong style="font-family:var(--font-mono);color:${color};">${mt ? pct + '%' : '—'}</strong>
-                <span style="font-size:10px;color:var(--text-muted);">(${d.err} err)</span>
+                <span style="font-size:12px;color:var(--text-muted);">(${d.err} err)</span>
               </span>
             </div>
           `;
@@ -2975,7 +3028,7 @@
           <div class="video-item">
             <div style="min-width:0;flex:1;">
               <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
-              <div style="font-size:10px;color:var(--text-muted);">${v.tag || 'Educativo'} · ID: ${v.id}</div>
+              <div style="font-size:12px;color:var(--text-muted);">${v.tag || 'Educativo'} · ID: ${v.id}</div>
             </div>
             <div style="display:flex;gap:4px;flex-shrink:0;">
               <button type="button" class="mini-btn" data-evid="${i}">✏️</button>
@@ -3080,6 +3133,12 @@
         $('ftrAcc').textContent = tot ? `${Math.round((state.stats.ok / tot) * 100)}%` : '0%';
       }
 
+      function focusModal(id) {
+        const m = $(id);
+        const target = m.querySelector('.modal-close') || m.querySelector('button, input, select');
+        if (target) setTimeout(() => target.focus({ preventScroll: true }), 0);
+      }
+
       function bindEvents() {
         document.querySelectorAll('.mode-tab').forEach(b => {
           b.addEventListener('click', () => {
@@ -3103,6 +3162,11 @@
         document.querySelectorAll('.num-key').forEach(b => b.addEventListener('click', () => handleKey(b.dataset.k)));
 
         document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            if (!$('videoModal').classList.contains('hidden')) { closeVideoModal(); return; }
+            if (!$('parentModal').classList.contains('hidden')) { $('parentModal').classList.add('hidden'); return; }
+            if (!$('profileModal').classList.contains('hidden') && state.profileSet) { $('profileModal').classList.add('hidden'); return; }
+          }
           if (!$('profileModal').classList.contains('hidden') || !$('parentModal').classList.contains('hidden') || !$('videoModal').classList.contains('hidden')) return;
           if (/^[0-9]$/.test(e.key)) handleKey(e.key);
           else if (e.key === 'Backspace') handleKey('BACK');
@@ -3120,6 +3184,7 @@
           $('selAge').value = String(state.age);
           $('selGrade').value = String(state.grade);
           $('profileModal').classList.remove('hidden');
+          focusModal('profileModal');
         });
         $('btnCloseProfile').addEventListener('click', () => $('profileModal').classList.add('hidden'));
         $('btnSaveProfile').addEventListener('click', () => {
