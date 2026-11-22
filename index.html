@@ -1308,11 +1308,18 @@
               <input id="inpVidUrl" class="form-input" type="text" placeholder="URL de YouTube o ID (ej. youtu.be/...)" aria-label="URL o ID del video de YouTube" />
               <input id="inpVidTitle" class="form-input" type="text" placeholder="Título del video" aria-label="Título del video" />
               <select id="selVidTag" class="form-select" aria-label="Categoría del video">
+                <option value="Naturaleza">Naturaleza</option>
                 <option value="Ciencias">Ciencias</option>
+                <option value="Tecnología">Tecnología</option>
+                <option value="Astronomía">Astronomía</option>
                 <option value="Matemáticas">Matemáticas</option>
-                <option value="Geografía">Geografía</option>
+                <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                <option value="Sociales">Sociales</option>
+                <option value="Inglés">Inglés</option>
+                <option value="Programación">Programación</option>
                 <option value="Lengua">Lengua</option>
                 <option value="Curiosidades">Curiosidades</option>
+                <option value="Geografía">Geografía</option>
               </select>
               <div style="display:flex;gap:6px;">
                 <button id="btnSaveVideoItem" class="btn-primary" style="padding:9px;font-size:14px;">+ Guardar video</button>
@@ -1325,6 +1332,11 @@
               <strong style="font-size:13.5px;">Lista permitida (<span id="vidListCount">0</span>)</strong>
               <button id="btnPreviewVideo" style="font-size:13.5px;font-weight:800;color:var(--primary);">Probar pausa 🎬</button>
             </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <select id="selVidFilter" class="form-select" aria-label="Filtrar videos por categoría" style="flex:1;min-width:0;"></select>
+              <button id="btnRestoreVideos" class="mini-btn" type="button" title="Volver a agregar los videos recomendados que se hayan borrado" aria-label="Restaurar videos recomendados" style="flex-shrink:0;">↺ Restaurar</button>
+            </div>
+            <div id="vidRestoreMsg" class="hidden" role="status" style="font-size:13px;font-weight:700;color:var(--success);"></div>
             <div id="parentVidList" style="display:flex;flex-direction:column;gap:5px;"></div>
           </div>
 
@@ -1393,15 +1405,113 @@
       'use strict';
 
       /* =====================================================================
-         1. BANCOS DE CONTENIDO (6 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
+         1. BANCOS DE CONTENIDO (100 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
          ===================================================================== */
+      // 100 videos verificados (existen y permiten incrustarse). Intercalados por categoría
+      // para que cada pausa sea de un tema distinto. Si cambias esta lista, sube VIDEOS_VERSION.
+      const VIDEOS_VERSION = 2;
+      const VIDEO_TAGS = ["Naturaleza", "Ciencias", "Tecnología", "Astronomía", "Matemáticas", "Inteligencia Artificial", "Sociales", "Inglés", "Programación", "Lengua", "Curiosidades"];
       const DEFAULT_VIDEOS = [
-        { id: '0t31zWMX8KI', title: '¿Por qué el cielo es azul? (CuriosaMente)', tag: 'Curiosidades' },
-        { id: 'CGXHrIp7Dpw', title: 'Multiplicación de 2 cifras (Daniel Carreón)', tag: 'Matemáticas' },
-        { id: '21Aqc1TQVBQ', title: 'Divisiones de 2 cifras (Daniel Carreón)', tag: 'Matemáticas' },
-        { id: 'ZykXgSqet6A', title: 'El Sistema Solar (Happy Learning)', tag: 'Ciencias' },
-        { id: '3QVj99UGk3Q', title: 'El ciclo del agua (Smile and Learn)', tag: 'Ciencias' },
-        { id: 'QDCohXW6blg', title: 'El ciclo del agua (Happy Learning)', tag: 'Ciencias' }
+        { id: "O2IfmbfwysM", title: "SOS: animales en peligro de extinción (Happy Learning)", tag: "Naturaleza" },
+        { id: "3QVj99UGk3Q", title: "El ciclo del agua (Smile and Learn)", tag: "Ciencias" },
+        { id: "oYxE3L-6-a8", title: "¿Cómo funciona una computadora? (Educ.ar)", tag: "Tecnología" },
+        { id: "ZykXgSqet6A", title: "El Sistema Solar (Happy Learning)", tag: "Astronomía" },
+        { id: "CGXHrIp7Dpw", title: "Multiplicación de 2 cifras (Daniel Carreón)", tag: "Matemáticas" },
+        { id: "UKncFg0PyEk", title: "¿Qué es la inteligencia artificial? (Smile and Learn)", tag: "Inteligencia Artificial" },
+        { id: "YC76paJ1_Zs", title: "Los continentes (Smile and Learn)", tag: "Sociales" },
+        { id: "srr0QE8EgwI", title: "Los días de la semana en inglés (Happy Learning)", tag: "Inglés" },
+        { id: "VZe9tjqa9xw", title: "Programación para niños: conceptos básicos (Smile and Learn)", tag: "Programación" },
+        { id: "p0eyWoajuP8", title: "El sustantivo y sus clases (Happy Learning)", tag: "Lengua" },
+        { id: "0t31zWMX8KI", title: "¿Por qué el cielo es azul? (CuriosaMente)", tag: "Curiosidades" },
+        { id: "5hOBFMX_JPE", title: "Animales vertebrados e invertebrados (Happy Learning)", tag: "Naturaleza" },
+        { id: "QDCohXW6blg", title: "El ciclo del agua (Happy Learning)", tag: "Ciencias" },
+        { id: "bu3ToO5mJU8", title: "El interior de tu computadora (TED-Ed en español)", tag: "Tecnología" },
+        { id: "sWEU_2xTAHg", title: "La Luna y sus fases (Happy Learning)", tag: "Astronomía" },
+        { id: "21Aqc1TQVBQ", title: "Divisiones de 2 cifras (Daniel Carreón)", tag: "Matemáticas" },
+        { id: "yq_9LGdveVA", title: "Uso responsable de la IA y pensamiento crítico (Smile and Learn)", tag: "Inteligencia Artificial" },
+        { id: "MhhCfbEjnGA", title: "América: ¡un continente increíble! (Happy Learning)", tag: "Sociales" },
+        { id: "sKF0RLdlGSk", title: "Los meses del año en inglés (Happy Learning)", tag: "Inglés" },
+        { id: "NBtbTtYJ1so", title: "Programación por bloques (Smile and Learn)", tag: "Programación" },
+        { id: "qk1YBn5OTcE", title: "Los adjetivos (Smile and Learn)", tag: "Lengua" },
+        { id: "pCsCq1LRTiE", title: "Los beneficios de un cerebro bilingüe (TED-Ed en español)", tag: "Curiosidades" },
+        { id: "4tAQyFSYou4", title: "La ballena azul, el animal más grande del mundo (Planeta Darwin)", tag: "Naturaleza" },
+        { id: "h8Wg9y2GKXQ", title: "Curiosidades del cuerpo humano (Happy Learning)", tag: "Ciencias" },
+        { id: "ZXLVU9zFrvE", title: "Cómo funciona el ratón o mouse (GCFAprendeLibre)", tag: "Tecnología" },
+        { id: "QAH8NsQr_JE", title: "Marte, el planeta rojo (Happy Learning)", tag: "Astronomía" },
+        { id: "c9cTIjBqFTw", title: "Fracciones con pizza (Smile and Learn)", tag: "Matemáticas" },
+        { id: "sWfKqT7dGoI", title: "Cómo escribir buenos prompts para la IA (Smile and Learn)", tag: "Inteligencia Artificial" },
+        { id: "XQrZ7giSLxI", title: "La Prehistoria: 5 cosas que deberías saber (Smile and Learn)", tag: "Sociales" },
+        { id: "FERq6sxa2zA", title: "Los animales salvajes en inglés (Happy Learning)", tag: "Inglés" },
+        { id: "65Ed9c8ucaY", title: "¿Qué es un bucle? Aprende a programar (Smile and Learn)", tag: "Programación" },
+        { id: "8Bl1jLFJJRc", title: "La sílaba tónica (Smile and Learn)", tag: "Lengua" },
+        { id: "b7AAHNUTK7U", title: "¿Qué pasa si no tomamos agua? (TED-Ed en español)", tag: "Curiosidades" },
+        { id: "90NDETtorCs", title: "¿Qué es la biodiversidad? (Planeta Darwin)", tag: "Naturaleza" },
+        { id: "1-0Tm0r41v8", title: "Cómo funciona el corazón (Happy Learning)", tag: "Ciencias" },
+        { id: "lcxkRC1kTvQ", title: "Mecanografía 1: cómo colocar los dedos en el teclado (interDidactica)", tag: "Tecnología" },
+        { id: "LORLGccN93Y", title: "Los eclipses de Sol y de Luna (Smile and Learn)", tag: "Astronomía" },
+        { id: "p42-9wQOrAs", title: "Las fracciones (Happy Learning)", tag: "Matemáticas" },
+        { id: "Qoyb3eOZmtk", title: "Máquinas y robots: ¿en qué se diferencian? (Smile and Learn)", tag: "Inteligencia Artificial" },
+        { id: "5qXgipbSuYY", title: "El Antiguo Egipto (Happy Learning)", tag: "Sociales" },
+        { id: "Cb-1erqVVjs", title: "Las frutas en inglés (Happy Learning)", tag: "Inglés" },
+        { id: "EkObhToiseo", title: "¿Qué es un algoritmo? (GCFAprendeLibre)", tag: "Programación" },
+        { id: "TiKkleVQ4AM", title: "La tilde en las palabras agudas (Smile and Learn)", tag: "Lengua" },
+        { id: "q2yI14F0WLg", title: "¿Cómo nos ayudan los anteojos a ver? (TED-Ed en español)", tag: "Curiosidades" },
+        { id: "lXtDWYcPbXY", title: "Los 12 animales más curiosos (CuriosaMente)", tag: "Naturaleza" },
+        { id: "CIhwGRIBEQ8", title: "El aparato digestivo (Happy Learning)", tag: "Ciencias" },
+        { id: "-JVdH8ne-2s", title: "¿Qué es internet? (Educ.ar)", tag: "Tecnología" },
+        { id: "atXh4nQIwgs", title: "¿Qué son los agujeros negros? (Happy Learning)", tag: "Astronomía" },
+        { id: "K5gBz7WflAM", title: "Los números decimales (Smile and Learn)", tag: "Matemáticas" },
+        { id: "xUva8lVnWNM", title: "¡Robots por todos lados! (Educ.ar)", tag: "Inteligencia Artificial" },
+        { id: "9yc4JIMcZQg", title: "¿Qué diferencia a los aztecas de los mayas? (CuriosaMente)", tag: "Sociales" },
+        { id: "Fw0rdSHzWFY", title: "Greetings: Good morning, Good bye (English Singsing)", tag: "Inglés" },
+        { id: "ti315UlVtS4", title: "¿Qué es el pensamiento computacional? (Educ.ar)", tag: "Programación" },
+        { id: "i_Khe6k8kj4", title: "La coma (Smile and Learn)", tag: "Lengua" },
+        { id: "DML24R1x3W0", title: "La rueda: inventos que cambiaron la historia (Happy Learning)", tag: "Curiosidades" },
+        { id: "N6vZBEEWrnY", title: "¿Qué esconden los océanos y los mares? (Happy Learning)", tag: "Naturaleza" },
+        { id: "YeHAxnApHQw", title: "El cerebro (Happy Learning)", tag: "Ciencias" },
+        { id: "l-zFtlzanvQ", title: "¿Quién inventó internet? (CuriosaMente)", tag: "Tecnología" },
+        { id: "DOBiinDLrxg", title: "La carrera espacial: ¿cómo llegamos a la Luna? (Happy Learning)", tag: "Astronomía" },
+        { id: "SXONzObzFk0", title: "Las figuras geométricas planas (Smile and Learn)", tag: "Matemáticas" },
+        { id: "W-y84J07Tgk", title: "Juega y aprende cómo funciona la IA (MoonMakers)", tag: "Inteligencia Artificial" },
+        { id: "HMAT4AjmYpU", title: "Simón Bolívar (BrainPOP Español)", tag: "Sociales" },
+        { id: "D0Ajq682yrA", title: "Numbers 1–20 song (The Singing Walrus)", tag: "Inglés" },
+        { id: "L6_Q5VBZAu4", title: "Tu primer proyecto en Scratch (El Rincón de Primaria)", tag: "Programación" },
+        { id: "wVD9I3IZXHk", title: "El punto: cómo y cuándo usarlo (Happy Learning)", tag: "Lengua" },
+        { id: "i53aXjnPRig", title: "¿Quién inventó la imprenta? (Happy Learning)", tag: "Curiosidades" },
+        { id: "SsRdLoYOMQA", title: "Aprende sobre los ecosistemas (Happy Learning)", tag: "Naturaleza" },
+        { id: "8ZGrFsGiubM", title: "Las partes de la planta y la fotosíntesis (Smile and Learn)", tag: "Ciencias" },
+        { id: "rHDTJQKW2y8", title: "Privacidad y seguridad en internet (Smile and Learn)", tag: "Tecnología" },
+        { id: "d4QGZl18p2w", title: "Artemis II: del lanzamiento al amerizaje (NASA en Español)", tag: "Astronomía" },
+        { id: "d3rI0ONOMMY", title: "¿Qué es el perímetro? (Smile and Learn)", tag: "Matemáticas" },
+        { id: "RSJrBEhdZxw", title: "Los algoritmos y cómo aprenden de nosotros (BBC Mundo)", tag: "Inteligencia Artificial" },
+        { id: "3X4qwBv53iQ", title: "Derechos y deberes de los niños (Smile and Learn)", tag: "Sociales" },
+        { id: "SLZcWGQQsmg", title: "Rainbow Colors song (The Singing Walrus)", tag: "Inglés" },
+        { id: "ZapZiZs-lUw", title: "Programa con Angry Birds · La Hora del Código (elmaestrodetecno)", tag: "Programación" },
+        { id: "soC989dyXoo", title: "¿Cómo se inventó la bicicleta? (Happy Learning)", tag: "Curiosidades" },
+        { id: "gMFO3YuJriA", title: "Cadenas alimentarias: niveles tróficos (Smile and Learn)", tag: "Naturaleza" },
+        { id: "huVPSc9X61E", title: "Los estados de la materia (Happy Learning)", tag: "Ciencias" },
+        { id: "SrDvQCcNwWQ", title: "¿Qué es la netiqueta? Normas en internet (Smile and Learn)", tag: "Tecnología" },
+        { id: "fSzj2OL2AvE", title: "La ciencia de Artemis II (NASA en Español)", tag: "Astronomía" },
+        { id: "wYNvY_bOGdc", title: "Áreas y perímetros súper fácil (Daniel Carreón)", tag: "Matemáticas" },
+        { id: "YtG5yUi87J4", title: "¿Qué es el vibe coding? Programar con IA · para los más grandes (Computer Hoy)", tag: "Inteligencia Artificial" },
+        { id: "_yqOqnCWXak", title: "¿Qué es la democracia? (Happy Learning)", tag: "Sociales" },
+        { id: "3wdM1Rx0HdI", title: "Family vocabulary (Smile and Learn English)", tag: "Inglés" },
+        { id: "tUZriJ9qZD0", title: "Dinosaurios: datos curiosos (Happy Learning)", tag: "Naturaleza" },
+        { id: "4eEri5RivV8", title: "Las energías renovables (Smile and Learn)", tag: "Ciencias" },
+        { id: "rKn4eCLzZ-E", title: "Somos ciudadanos digitales (Common Sense Education)", tag: "Tecnología" },
+        { id: "YBwYar9JY40", title: "El telescopio espacial James Webb (NASA en Español)", tag: "Astronomía" },
+        { id: "7v9ZV0ak1DY", title: "Sudamérica: países y capitales (Hopscotch Español)", tag: "Sociales" },
+        { id: "ChqnN3cKzXQ", title: "ABC Phonics: los sonidos del alfabeto (Tora the Teacher)", tag: "Inglés" },
+        { id: "6-5-A9w5swM", title: "La selva: un lugar misterioso (Happy Learning)", tag: "Naturaleza" },
+        { id: "PW1eXZ81xKg", title: "Volcanes y géiseres (Happy Learning)", tag: "Ciencias" },
+        { id: "Cp4Tiq3LOrc", title: "Contraseñas seguras: 8 claves (PantallasAmigas)", tag: "Tecnología" },
+        { id: "Pt2U47Fu8ZA", title: "¿De qué tamaño es el universo? (CuriosaMente)", tag: "Astronomía" },
+        { id: "snwd8N3IZJg", title: "Los pulmones de la Tierra: el Amazonas (Happy Learning)", tag: "Naturaleza" },
+        { id: "TporKW2jjxI", title: "Causas del cambio climático (Planeta Darwin)", tag: "Ciencias" },
+        { id: "OMkEVX23BdM", title: "Leones 101 · en inglés (Nat Geo Wild)", tag: "Naturaleza" },
+        { id: "5E3kl_7_cT0", title: "¿Qué es la luz? ¿Por qué vemos colores? (CuriosaMente)", tag: "Ciencias" },
+        { id: "P_ckAbOr0r4", title: "Jirafas 101 · en inglés (Nat Geo Wild)", tag: "Naturaleza" },
+        { id: "J20eXhZTHEo", title: "El guepardo · en inglés (Nat Geo Kids)", tag: "Naturaleza" }
       ];
 
       const READINGS = [
@@ -1564,9 +1674,16 @@
         roundProgress: 0,
         pin: '1234',
         videos: DEFAULT_VIDEOS,
+        videosVersion: VIDEOS_VERSION,
         lastVideoIdx: -1,
         stats: createEmptyStats()
       };
+
+      // Agrega los videos recomendados que falten, sin tocar los que agregaron o editaron los padres
+      function mergeDefaultVideos(list) {
+        const have = new Set(list.map(v => v.id));
+        return [...list, ...DEFAULT_VIDEOS.filter(v => !have.has(v.id)).map(v => ({ ...v }))];
+      }
 
       function loadState() {
         try {
@@ -1582,7 +1699,10 @@
           return {
             ...JSON.parse(JSON.stringify(defaultState)),
             ...parsed,
-            videos: Array.isArray(parsed.videos) && parsed.videos.length ? parsed.videos : [...DEFAULT_VIDEOS],
+            videos: Array.isArray(parsed.videos) && parsed.videos.length
+              ? ((parsed.videosVersion || 1) < VIDEOS_VERSION ? mergeDefaultVideos(parsed.videos) : parsed.videos)
+              : [...DEFAULT_VIDEOS],
+            videosVersion: VIDEOS_VERSION,
             stats: {
               ok: parsed.stats?.ok || 0,
               err: parsed.stats?.err || 0,
@@ -3024,11 +3144,15 @@
         }).join('');
 
         $('vidListCount').textContent = state.videos.length;
-        $('parentVidList').innerHTML = state.videos.map((v, i) => `
+        renderVideoFilter();
+        const filter = $('selVidFilter').value;
+        $('parentVidList').innerHTML = state.videos.map((v, i) => ({ v, i }))
+          .filter(({ v }) => !filter || (v.tag || 'Educativo') === filter)
+          .map(({ v, i }) => `
           <div class="video-item">
             <div style="min-width:0;flex:1;">
-              <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
-              <div style="font-size:12px;color:var(--text-muted);">${v.tag || 'Educativo'} · ID: ${v.id}</div>
+              <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escapeHtml(v.title)}">${escapeHtml(v.title)}</div>
+              <div style="font-size:12px;color:var(--text-muted);">${escapeHtml(v.tag || 'Educativo')} · ID: ${escapeHtml(v.id)}</div>
             </div>
             <div style="display:flex;gap:4px;flex-shrink:0;">
               <button type="button" class="mini-btn" data-evid="${i}">✏️</button>
@@ -3065,6 +3189,21 @@
         $('cfgRoundSize').value = String(state.roundSize);
         $('cfgNewPin').value = '';
         $('cfgSavedMsg').classList.add('hidden');
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      }
+
+      function renderVideoFilter() {
+        const sel = $('selVidFilter');
+        const current = sel.value;
+        const counts = {};
+        state.videos.forEach(v => { const t = v.tag || 'Educativo'; counts[t] = (counts[t] || 0) + 1; });
+        const tags = [...VIDEO_TAGS.filter(t => counts[t]), ...Object.keys(counts).filter(t => !VIDEO_TAGS.includes(t))];
+        sel.innerHTML = `<option value="">Todas las categorías (${state.videos.length})</option>` +
+          tags.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)} (${counts[t]})</option>`).join('');
+        sel.value = tags.includes(current) ? current : '';
       }
 
       function resetVideoForm() {
@@ -3239,6 +3378,18 @@
         });
 
         $('btnPreviewVideo').addEventListener('click', () => { $('parentModal').classList.add('hidden'); openVideoModal(); });
+        $('selVidFilter').addEventListener('change', renderParentDash);
+        $('btnRestoreVideos').addEventListener('click', () => {
+          const before = state.videos.length;
+          state.videos = mergeDefaultVideos(state.videos);
+          saveState();
+          const added = state.videos.length - before;
+          $('vidRestoreMsg').textContent = added
+            ? (added === 1 ? 'Se agregó 1 video recomendado.' : `Se agregaron ${added} videos recomendados.`)
+            : 'La lista ya tiene todos los videos recomendados.';
+          $('vidRestoreMsg').classList.remove('hidden');
+          renderParentDash();
+        });
 
         $('btnSaveConfig').addEventListener('click', () => {
           state.age = Number($('cfgAge').value);
