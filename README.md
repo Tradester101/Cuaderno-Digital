@@ -53,23 +53,23 @@ El estudio va por **rondas cortas**. Al completar una ronda se desbloquea un **v
 | 📖 | **Lengua** | Lectura comprensiva (10 textos) · Ortografía de letras confusas (b/d, p/q, s/z/c, v/b) · Entrenador visual 5×5 |
 | ✨ | **Ronda mixta** | Intercala matemáticas y lengua en rondas de 3, 5, 7 o 10 ejercicios |
 
-## 🎬 100 videos para las pausas
+## 🎬 118 videos para las pausas
 
-La app trae **[100 videos educativos verificados](VIDEOS.md)**, de 1 a 12 minutos y en su mayoría en español. Se intercalan por tema para que cada pausa sea distinta:
+La app trae **[118 videos educativos verificados](VIDEOS.md)** en 16 temas, de 1 a 12 minutos y en su mayoría en español. Los padres eligen qué temas se pueden ver en cada momento. Si eligen todos, se intercalan para que cada pausa sea distinta:
 
-| 🦁 Naturaleza | 🔬 Ciencias | 🚀 Astronomía | 💻 Tecnología | 🧩 Programación | 🤖 IA |
-|:-:|:-:|:-:|:-:|:-:|:-:|
-| **14** | **12** | **10** | **10** | **7** | **8** |
-| **🌎 Sociales** | **🇬🇧 Inglés** | **➗ Matemáticas** | **📖 Lengua** | **💡 Curiosidades** | |
-| **9** | **9** | **8** | **6** | **7** | |
+| 🦁 Naturaleza | 🔬 Ciencias | 🚀 Astronomía | 💻 Tecnología | 🧩 Programación | 🤖 IA | 🌎 Sociales | 🇬🇧 Inglés |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| **14** | **12** | **10** | **10** | **7** | **8** | **9** | **9** |
+| **➗ Matemáticas** | **📖 Lengua** | **💡 Curiosidades** | **🇻🇪 Venezuela** | **💚 Emociones y salud** | **💰 Dinero** | **🎨 Arte y música** | **♻️ Medio ambiente** |
+| **8** | **6** | **7** | **3** | **6** | **3** | **3** | **3** |
 
-Vienen de canales como Happy Learning, Smile and Learn, CuriosaMente, NASA en Español, Nat Geo Kids, Planeta Darwin (CNTV), TED-Ed en español, Educ.ar y BrainPOP Español. Hay temas de actualidad: Artemis II, el telescopio James Webb, inteligencia artificial, cómo escribir *prompts*, seguridad en internet y *vibe coding* (este último, para los más grandes).
+Vienen de canales como Happy Learning, Smile and Learn, CuriosaMente, NASA en Español, Nat Geo Kids, Planeta Darwin (CNTV), TED-Ed en español, Educ.ar y BrainPOP Español. Hay temas de actualidad: Artemis II, el telescopio James Webb, inteligencia artificial, cómo escribir *prompts*, seguridad en internet, ahorro y *vibe coding* (este último, para los más grandes).
 
 ## 👨‍👩‍👧 Para padres
 
 - 🔒 **Modo Padres con PIN** con estadísticas por módulo: aciertos, errores y precisión.
 - 🎯 **Elige los temas del momento**: en *Modo Padres → Videos* tocas, por ejemplo, 🚀 Astronomía y 🇬🇧 Inglés, y en las pausas solo salen videos de esos temas. Con **Todos** vuelve la lista completa.
-- 🎬 **Videos agrupados por tema**: 100 recomendados que puedes editar, borrar o restaurar, y además los tuyos de YouTube. Solo se reproducen los de la lista.
+- 🎬 **Videos agrupados por tema**: 118 recomendados que puedes editar, borrar o restaurar, y además los tuyos de YouTube. Solo se reproducen los de la lista.
 - ⏱️ **Tiempos configurables**: duración de la sesión de estudio y de la pausa de video.
 - 🎯 **Edad y grado**, que ajustan la dificultad de los ejercicios.
 - 💾 **Privacidad**: el progreso se guarda solo en el dispositivo. No hay cuentas, servidores ni anuncios.
@@ -124,7 +124,7 @@ cuaderno-digital/
 ├── package.json                    Dependencias de Capacitor
 ├── capacitor.config.json           Configuración del APK (webDir: www)
 ├── vercel.json                     Encabezados para Vercel
-├── VIDEOS.md                       Lista de los 100 videos recomendados
+├── VIDEOS.md                       Lista de los 118 videos recomendados
 ├── docs/                           Capturas del README
 └── .github/workflows/
     └── build-apk.yml               Compilación del APK

@@ -1,6 +1,6 @@
 # 🎬 Videos recomendados
 
-Estos son los **100 videos** que trae Cuaderno Digital para las pausas entre rondas. Todos se verificaron en YouTube: existen y permiten reproducirse dentro de la app. Se reproducen con `youtube-nocookie.com`, sin videos relacionados al final.
+Estos son los **118 videos** que trae Cuaderno Digital para las pausas entre rondas. Todos se verificaron en YouTube: existen y permiten reproducirse dentro de la app. Se reproducen con `youtube-nocookie.com`, sin videos relacionados al final.
 
 Los padres pueden quitar, editar o agregar videos en **Modo Padres → Videos**. El botón **↺ Restaurar** vuelve a agregar los recomendados que se hayan borrado.
 
@@ -17,9 +17,14 @@ Los padres pueden quitar, editar o agregar videos en **Modo Padres → Videos**.
 | ➗ [Matemáticas](#matemáticas) | 8 |
 | 📖 [Lengua](#lengua) | 6 |
 | 💡 [Curiosidades](#curiosidades) | 7 |
-| **Total** | **100** |
+| 🇻🇪 [Venezuela](#venezuela) | 3 |
+| 💚 [Emociones y salud](#emociones-y-salud) | 6 |
+| 💰 [Dinero](#dinero) | 3 |
+| 🎨 [Arte y música](#arte-y-música) | 3 |
+| ♻️ [Medio ambiente](#medio-ambiente) | 3 |
+| **Total** | **118** |
 
-> Los videos marcados como **en inglés** son documentales cortos de Nat Geo: se entienden por las imágenes y además sirven para practicar el idioma. El video sobre *vibe coding* es para los más grandes (5º–6º grado).
+> Los videos marcados como **en inglés** son documentales cortos de Nat Geo: se entienden por las imágenes y además sirven para practicar el idioma. El video sobre *vibe coding* es para los más grandes (5º–6º grado). Los de **Venezuela** vienen de canales pequeños: conviene verlos antes.
 
 
 ## Naturaleza
@@ -176,3 +181,46 @@ Los padres pueden quitar, editar o agregar videos en **Modo Padres → Videos**.
 | 5 | [La rueda: inventos que cambiaron la historia](https://www.youtube.com/watch?v=DML24R1x3W0) | Happy Learning Español | 3:01 |
 | 6 | [¿Quién inventó la imprenta?](https://www.youtube.com/watch?v=i53aXjnPRig) | Happy Learning Español | 2:36 |
 | 7 | [¿Cómo se inventó la bicicleta?](https://www.youtube.com/watch?v=soC989dyXoo) | Happy Learning Español | 4:27 |
+
+## Venezuela
+
+| # | Video | Canal | Duración |
+|:-:|---|---|:-:|
+| 1 | [Las regiones de Venezuela](https://www.youtube.com/watch?v=hBRs-W1N8zM) | Pequeños Venezolanos | 3:33 |
+| 2 | [El Salto Ángel, la cascada más alta del mundo](https://www.youtube.com/watch?v=qDhEA9Lf6LI) | YirbeJunior | 5:06 |
+| 3 | [¿Qué hay en los Llanos de Venezuela?](https://www.youtube.com/watch?v=s72YTj3FCe0) | Meollo Criollo | 5:35 |
+
+## Emociones y salud
+
+| # | Video | Canal | Duración |
+|:-:|---|---|:-:|
+| 1 | [¿Qué son las emociones?](https://www.youtube.com/watch?v=tqOers0tWvI) | Happy Learning Español | 3:52 |
+| 2 | [Las emociones básicas](https://www.youtube.com/watch?v=qBZSlGo4N1k) | Smile and Learn - Español | 4:52 |
+| 3 | [Trucos para sentirte mejor](https://www.youtube.com/watch?v=aQinbTzVS9Q) | Smile and Learn - Español | 4:56 |
+| 4 | [Una dieta saludable](https://www.youtube.com/watch?v=FaLmwmN1MP0) | Happy Learning Español | 5:30 |
+| 5 | [Los nutrientes](https://www.youtube.com/watch?v=i9WV6oRGgoA) | Happy Learning Español | 5:09 |
+| 6 | [Higiene corporal: hábitos de higiene](https://www.youtube.com/watch?v=PSw6wj2ppGk) | Smile and Learn - Español | 4:27 |
+
+## Dinero
+
+| # | Video | Canal | Duración |
+|:-:|---|---|:-:|
+| 1 | [La historia del dinero](https://www.youtube.com/watch?v=VzBJ_FV6eoI) | Happy Learning Español | 6:25 |
+| 2 | [¿Qué es el ahorro?](https://www.youtube.com/watch?v=187yOH-TtDQ) | Smile and Learn - Español | 3:55 |
+| 3 | [¿Qué es un presupuesto?](https://www.youtube.com/watch?v=TEKaSi2aijE) | Smile and Learn - Español | 5:05 |
+
+## Arte y música
+
+| # | Video | Canal | Duración |
+|:-:|---|---|:-:|
+| 1 | [Instrumentos musicales: viento, cuerda y percusión](https://www.youtube.com/watch?v=0cXfbb39VQ4) | Smile and Learn - Español | 8:35 |
+| 2 | [Leonardo da Vinci, el genio del Renacimiento](https://www.youtube.com/watch?v=VYL1Mf1msOc) | Happy Learning Español | 5:34 |
+| 3 | [Frida Kahlo](https://www.youtube.com/watch?v=40sZNGOXEBw) | Shackleton Kids | 5:10 |
+
+## Medio ambiente
+
+| # | Video | Canal | Duración |
+|:-:|---|---|:-:|
+| 1 | [Reducir, reutilizar y reciclar](https://www.youtube.com/watch?v=cvakvfXj0KE) | Happy Learning Español | 3:28 |
+| 2 | [El plástico, el enemigo del agua](https://www.youtube.com/watch?v=_MosbMVHIgU) | Happy Learning Español | 4:28 |
+| 3 | [Residuos y reciclaje](https://www.youtube.com/watch?v=DweX0pLybpQ) | CNTV Infantil | 4:51 |

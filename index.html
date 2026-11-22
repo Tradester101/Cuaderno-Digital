@@ -1350,6 +1350,11 @@
                 <option value="Programación">Programación</option>
                 <option value="Lengua">Lengua</option>
                 <option value="Curiosidades">Curiosidades</option>
+                <option value="Venezuela">Venezuela</option>
+                <option value="Emociones y salud">Emociones y salud</option>
+                <option value="Dinero">Dinero</option>
+                <option value="Arte y música">Arte y música</option>
+                <option value="Medio ambiente">Medio ambiente</option>
                 <option value="Geografía">Geografía</option>
               </select>
               <div style="display:flex;gap:6px;">
@@ -1436,17 +1441,23 @@
       'use strict';
 
       /* =====================================================================
-         1. BANCOS DE CONTENIDO (100 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
+         1. BANCOS DE CONTENIDO (118 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
          ===================================================================== */
-      // 100 videos verificados (existen y permiten incrustarse). Intercalados por categoría
+      // 118 videos verificados (existen y permiten incrustarse). Intercalados por categoría
       // para que cada pausa sea de un tema distinto. Si cambias esta lista, sube VIDEOS_VERSION.
-      const VIDEOS_VERSION = 2;
-      const VIDEO_TAGS = ["Naturaleza", "Ciencias", "Tecnología", "Astronomía", "Matemáticas", "Inteligencia Artificial", "Sociales", "Inglés", "Programación", "Lengua", "Curiosidades"];
+      const VIDEOS_VERSION = 3;
+      const VIDEO_TAGS = ["Naturaleza", "Ciencias", "Tecnología", "Astronomía", "Matemáticas", "Inteligencia Artificial", "Sociales", "Inglés", "Programación", "Lengua", "Curiosidades", "Venezuela", "Emociones y salud", "Dinero", "Arte y música", "Medio ambiente"];
       const CAT_EMOJI = {
         'Naturaleza': '🦁', 'Ciencias': '🔬', 'Astronomía': '🚀', 'Tecnología': '💻', 'Programación': '🧩',
         'Inteligencia Artificial': '🤖', 'Sociales': '🌎', 'Geografía': '🗺️', 'Inglés': '🇬🇧', 'Matemáticas': '➗',
-        'Lengua': '📖', 'Curiosidades': '💡'
+        'Lengua': '📖', 'Curiosidades': '💡', 'Venezuela': '🇻🇪', 'Emociones y salud': '💚', 'Dinero': '💰',
+        'Arte y música': '🎨', 'Medio ambiente': '♻️'
       };
+      // En qué versión de la lista entró cada video (los demás entraron en la v2).
+      // Al actualizar solo se suman los de versiones nuevas: un video borrado por los padres no vuelve solo.
+      const VIDEOS_V1 = new Set(["0t31zWMX8KI", "CGXHrIp7Dpw", "21Aqc1TQVBQ", "ZykXgSqet6A", "3QVj99UGk3Q", "QDCohXW6blg"]);
+      const VIDEOS_V3 = new Set(["hBRs-W1N8zM", "qDhEA9Lf6LI", "s72YTj3FCe0", "tqOers0tWvI", "qBZSlGo4N1k", "aQinbTzVS9Q", "FaLmwmN1MP0", "i9WV6oRGgoA", "PSw6wj2ppGk", "VzBJ_FV6eoI", "187yOH-TtDQ", "TEKaSi2aijE", "0cXfbb39VQ4", "VYL1Mf1msOc", "40sZNGOXEBw", "cvakvfXj0KE", "_MosbMVHIgU", "DweX0pLybpQ"]);
+      const videoSince = id => VIDEOS_V1.has(id) ? 1 : VIDEOS_V3.has(id) ? 3 : 2;
       const DEFAULT_VIDEOS = [
         { id: "O2IfmbfwysM", title: "SOS: animales en peligro de extinción (Happy Learning)", tag: "Naturaleza" },
         { id: "3QVj99UGk3Q", title: "El ciclo del agua (Smile and Learn)", tag: "Ciencias" },
@@ -1459,6 +1470,11 @@
         { id: "VZe9tjqa9xw", title: "Programación para niños: conceptos básicos (Smile and Learn)", tag: "Programación" },
         { id: "p0eyWoajuP8", title: "El sustantivo y sus clases (Happy Learning)", tag: "Lengua" },
         { id: "0t31zWMX8KI", title: "¿Por qué el cielo es azul? (CuriosaMente)", tag: "Curiosidades" },
+        { id: "hBRs-W1N8zM", title: "Las regiones de Venezuela (Pequeños Venezolanos)", tag: "Venezuela" },
+        { id: "tqOers0tWvI", title: "¿Qué son las emociones? (Happy Learning)", tag: "Emociones y salud" },
+        { id: "VzBJ_FV6eoI", title: "La historia del dinero (Happy Learning)", tag: "Dinero" },
+        { id: "0cXfbb39VQ4", title: "Instrumentos musicales: viento, cuerda y percusión (Smile and Learn)", tag: "Arte y música" },
+        { id: "cvakvfXj0KE", title: "Reducir, reutilizar y reciclar (Happy Learning)", tag: "Medio ambiente" },
         { id: "5hOBFMX_JPE", title: "Animales vertebrados e invertebrados (Happy Learning)", tag: "Naturaleza" },
         { id: "QDCohXW6blg", title: "El ciclo del agua (Happy Learning)", tag: "Ciencias" },
         { id: "bu3ToO5mJU8", title: "El interior de tu computadora (TED-Ed en español)", tag: "Tecnología" },
@@ -1470,6 +1486,11 @@
         { id: "NBtbTtYJ1so", title: "Programación por bloques (Smile and Learn)", tag: "Programación" },
         { id: "qk1YBn5OTcE", title: "Los adjetivos (Smile and Learn)", tag: "Lengua" },
         { id: "pCsCq1LRTiE", title: "Los beneficios de un cerebro bilingüe (TED-Ed en español)", tag: "Curiosidades" },
+        { id: "qDhEA9Lf6LI", title: "El Salto Ángel, la cascada más alta del mundo (YirbeJunior)", tag: "Venezuela" },
+        { id: "qBZSlGo4N1k", title: "Las emociones básicas (Smile and Learn)", tag: "Emociones y salud" },
+        { id: "187yOH-TtDQ", title: "¿Qué es el ahorro? (Smile and Learn)", tag: "Dinero" },
+        { id: "VYL1Mf1msOc", title: "Leonardo da Vinci, el genio del Renacimiento (Happy Learning)", tag: "Arte y música" },
+        { id: "_MosbMVHIgU", title: "El plástico, el enemigo del agua (Happy Learning)", tag: "Medio ambiente" },
         { id: "4tAQyFSYou4", title: "La ballena azul, el animal más grande del mundo (Planeta Darwin)", tag: "Naturaleza" },
         { id: "h8Wg9y2GKXQ", title: "Curiosidades del cuerpo humano (Happy Learning)", tag: "Ciencias" },
         { id: "ZXLVU9zFrvE", title: "Cómo funciona el ratón o mouse (GCFAprendeLibre)", tag: "Tecnología" },
@@ -1481,6 +1502,11 @@
         { id: "65Ed9c8ucaY", title: "¿Qué es un bucle? Aprende a programar (Smile and Learn)", tag: "Programación" },
         { id: "8Bl1jLFJJRc", title: "La sílaba tónica (Smile and Learn)", tag: "Lengua" },
         { id: "b7AAHNUTK7U", title: "¿Qué pasa si no tomamos agua? (TED-Ed en español)", tag: "Curiosidades" },
+        { id: "s72YTj3FCe0", title: "¿Qué hay en los Llanos de Venezuela? (Meollo Criollo)", tag: "Venezuela" },
+        { id: "aQinbTzVS9Q", title: "Trucos para sentirte mejor (Smile and Learn)", tag: "Emociones y salud" },
+        { id: "TEKaSi2aijE", title: "¿Qué es un presupuesto? (Smile and Learn)", tag: "Dinero" },
+        { id: "40sZNGOXEBw", title: "Frida Kahlo (Shackleton Kids)", tag: "Arte y música" },
+        { id: "DweX0pLybpQ", title: "Residuos y reciclaje (Planeta Darwin)", tag: "Medio ambiente" },
         { id: "90NDETtorCs", title: "¿Qué es la biodiversidad? (Planeta Darwin)", tag: "Naturaleza" },
         { id: "1-0Tm0r41v8", title: "Cómo funciona el corazón (Happy Learning)", tag: "Ciencias" },
         { id: "lcxkRC1kTvQ", title: "Mecanografía 1: cómo colocar los dedos en el teclado (interDidactica)", tag: "Tecnología" },
@@ -1492,6 +1518,7 @@
         { id: "EkObhToiseo", title: "¿Qué es un algoritmo? (GCFAprendeLibre)", tag: "Programación" },
         { id: "TiKkleVQ4AM", title: "La tilde en las palabras agudas (Smile and Learn)", tag: "Lengua" },
         { id: "q2yI14F0WLg", title: "¿Cómo nos ayudan los anteojos a ver? (TED-Ed en español)", tag: "Curiosidades" },
+        { id: "FaLmwmN1MP0", title: "Una dieta saludable (Happy Learning)", tag: "Emociones y salud" },
         { id: "lXtDWYcPbXY", title: "Los 12 animales más curiosos (CuriosaMente)", tag: "Naturaleza" },
         { id: "CIhwGRIBEQ8", title: "El aparato digestivo (Happy Learning)", tag: "Ciencias" },
         { id: "-JVdH8ne-2s", title: "¿Qué es internet? (Educ.ar)", tag: "Tecnología" },
@@ -1503,6 +1530,7 @@
         { id: "ti315UlVtS4", title: "¿Qué es el pensamiento computacional? (Educ.ar)", tag: "Programación" },
         { id: "i_Khe6k8kj4", title: "La coma (Smile and Learn)", tag: "Lengua" },
         { id: "DML24R1x3W0", title: "La rueda: inventos que cambiaron la historia (Happy Learning)", tag: "Curiosidades" },
+        { id: "i9WV6oRGgoA", title: "Los nutrientes (Happy Learning)", tag: "Emociones y salud" },
         { id: "N6vZBEEWrnY", title: "¿Qué esconden los océanos y los mares? (Happy Learning)", tag: "Naturaleza" },
         { id: "YeHAxnApHQw", title: "El cerebro (Happy Learning)", tag: "Ciencias" },
         { id: "l-zFtlzanvQ", title: "¿Quién inventó internet? (CuriosaMente)", tag: "Tecnología" },
@@ -1514,6 +1542,7 @@
         { id: "L6_Q5VBZAu4", title: "Tu primer proyecto en Scratch (El Rincón de Primaria)", tag: "Programación" },
         { id: "wVD9I3IZXHk", title: "El punto: cómo y cuándo usarlo (Happy Learning)", tag: "Lengua" },
         { id: "i53aXjnPRig", title: "¿Quién inventó la imprenta? (Happy Learning)", tag: "Curiosidades" },
+        { id: "PSw6wj2ppGk", title: "Higiene corporal: hábitos de higiene (Smile and Learn)", tag: "Emociones y salud" },
         { id: "SsRdLoYOMQA", title: "Aprende sobre los ecosistemas (Happy Learning)", tag: "Naturaleza" },
         { id: "8ZGrFsGiubM", title: "Las partes de la planta y la fotosíntesis (Smile and Learn)", tag: "Ciencias" },
         { id: "rHDTJQKW2y8", title: "Privacidad y seguridad en internet (Smile and Learn)", tag: "Tecnología" },
@@ -1717,9 +1746,12 @@
       };
 
       // Agrega los videos recomendados que falten, sin tocar los que agregaron o editaron los padres
-      function mergeDefaultVideos(list) {
+      // Agrega los recomendados que falten. Con fromVersion, solo los que entraron después de esa versión.
+      function mergeDefaultVideos(list, fromVersion = 0) {
         const have = new Set(list.map(v => v.id));
-        return [...list, ...DEFAULT_VIDEOS.filter(v => !have.has(v.id)).map(v => ({ ...v }))];
+        return [...list, ...DEFAULT_VIDEOS
+          .filter(v => !have.has(v.id) && videoSince(v.id) > fromVersion)
+          .map(v => ({ ...v }))];
       }
 
       function loadState() {
@@ -1737,7 +1769,7 @@
             ...JSON.parse(JSON.stringify(defaultState)),
             ...parsed,
             videos: Array.isArray(parsed.videos) && parsed.videos.length
-              ? ((parsed.videosVersion || 1) < VIDEOS_VERSION ? mergeDefaultVideos(parsed.videos) : parsed.videos)
+              ? ((parsed.videosVersion || 1) < VIDEOS_VERSION ? mergeDefaultVideos(parsed.videos, parsed.videosVersion || 1) : parsed.videos)
               : [...DEFAULT_VIDEOS],
             videosVersion: VIDEOS_VERSION,
             videoCats: Array.isArray(parsed.videoCats) ? parsed.videoCats : [],
