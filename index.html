@@ -1,0 +1,3210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#3730a3" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="description" content="Cuaderno digital para primaria: operaciones en cuadrícula, división larga paso a paso, lógica, lectura y ortografía." />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <title>Cuaderno Digital v3 — Primaria</title>
+  <style>
+    /* =====================================================================
+       1. VARIABLES DE DISEÑO Y RESET (100% OFFLINE / SIN DEPENDENCIAS)
+       ===================================================================== */
+    :root {
+      --bg-outer: #e2e8f0;
+      --bg-app: #f3f4f6;
+      --bg-card: #ffffff;
+      --bg-soft: #f8fafc;
+      --notebook-cream: #fffdf5;
+      --grid-line: rgba(59, 130, 246, 0.16);
+      --margin-red: rgba(239, 68, 68, 0.34);
+
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #94a3b8;
+      --border: #e2e8f0;
+
+      --primary: #4338ca;
+      --primary-hover: #3730a3;
+      --primary-soft: #eef2ff;
+      --primary-ring: rgba(67, 56, 202, 0.28);
+
+      --accent: #0d9488;
+      --accent-soft: #f0fdfa;
+      --violet: #7c3aed;
+      --violet-soft: #f5f3ff;
+
+      --success: #059669;
+      --success-soft: #ecfdf5;
+      --success-border: #a7f3d0;
+
+      --danger: #e11d48;
+      --danger-soft: #fff1f2;
+      --danger-border: #fecdd3;
+
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --amber-border: #fde68a;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, 'Cascadia Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.07);
+      --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.24);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-outer);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body { display: flex; justify-content: center; }
+
+    button, input, select { font-family: inherit; outline: none; }
+    button {
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .hidden { display: none !important; }
+
+    /* =====================================================================
+       2. ESTRUCTURA PRINCIPAL ESTILO APP ANDROID
+       ===================================================================== */
+    .app-shell {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background: var(--bg-app);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 40px rgba(15, 23, 42, 0.14);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ==================== BARRA SUPERIOR ==================== */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 10px 7px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 2px 6px 2px 2px;
+      border-radius: var(--radius-md);
+      text-align: left;
+    }
+    .profile-btn:active { background: var(--bg-app); transform: scale(0.98); }
+
+    .grade-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4338ca, #6d28d9);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 8px rgba(67, 56, 202, 0.25);
+      flex-shrink: 0;
+    }
+
+    .profile-meta { line-height: 1.18; }
+    .profile-name { font-size: 12px; font-weight: 800; color: var(--text-main); }
+    .profile-sub { font-size: 10.5px; font-weight: 600; color: var(--text-muted); }
+
+    .top-controls { display: flex; align-items: center; gap: 5px; }
+
+    .pill-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 5px 8px;
+      border-radius: 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      font-weight: 800;
+    }
+
+    .timer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      border-radius: 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .timer-btn:active { transform: scale(0.96); }
+
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+    .dot.running { background: var(--success); animation: pulse 1.4s infinite; }
+    .dot.done { background: var(--text-light); }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .icon-btn:active { transform: scale(0.94); background: var(--primary-soft); color: var(--primary); }
+
+    /* Barra segmentada de ronda */
+    .round-bar-wrap { display: flex; align-items: center; gap: 7px; }
+    .round-track {
+      flex: 1;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 99px;
+      overflow: hidden;
+      display: flex;
+      gap: 2px;
+      padding: 1px;
+    }
+    .round-seg { flex: 1; border-radius: 99px; background: #cbd5e1; transition: background 0.3s; }
+    .round-seg.done-math { background: #4338ca; }
+    .round-seg.done-lang { background: #0d9488; }
+    .round-seg.current { background: #94a3b8; }
+    .round-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--primary);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* ==================== NAVEGACIÓN ==================== */
+    .mode-nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 6px 8px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+    .mode-tab {
+      padding: 7px 4px;
+      border-radius: 10px;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .mode-tab.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(67, 56, 202, 0.25);
+    }
+
+    .sub-nav {
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      padding: 5px 8px;
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .sub-nav::-webkit-scrollbar { display: none; }
+    .sub-pill {
+      padding: 4px 9px;
+      border-radius: 99px;
+      background: #fff;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .sub-pill.active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* ==================== ÁREA PRINCIPAL ==================== */
+    .main-area {
+      flex: 1;
+      padding: 8px 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .banner-done {
+      background: var(--success-soft);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius-md);
+      padding: 8px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11.5px;
+      color: #065f46;
+    }
+
+    /* Tarjeta principal */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      padding: 8px 10px;
+      border-bottom: 1px solid #f1f5f9;
+      background: #fafbfc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .card-tags { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+    .badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      padding: 3px 7px;
+      border-radius: 7px;
+    }
+    .badge-math { background: var(--primary-soft); color: var(--primary); }
+    .badge-logic { background: var(--violet-soft); color: var(--violet); }
+    .badge-lang { background: var(--accent-soft); color: var(--accent); }
+
+    .subtype-text { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+
+    .card-actions-top { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .mini-btn {
+      padding: 5px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: #f1f5f9;
+    }
+    .mini-btn:active { background: #e2e8f0; }
+    .mini-btn.hint { background: var(--amber-soft); color: #b45309; border: 1px solid var(--amber-border); }
+
+    .card-body { padding: 10px; }
+
+    /* =====================================================================
+       3. HOJA DE CUADERNO CUADRICULADO (ESTÉTICA REAL CREMA + AZUL + ROJO)
+       ===================================================================== */
+    .notebook {
+      background-color: var(--notebook-cream);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 24px 24px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 10px 8px 12px 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .notebook::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 16px;
+      width: 2px;
+      background: var(--margin-red);
+      pointer-events: none;
+    }
+
+    .nb-instruction {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+      margin: 0 0 8px;
+      background: rgba(255, 253, 245, 0.92);
+      padding: 3px 8px;
+      border-radius: 8px;
+    }
+
+    /* Indicador de paso actual */
+    .step-banner {
+      width: 100%;
+      background: var(--primary-soft);
+      border: 1px solid #c7d2fe;
+      color: var(--primary);
+      border-radius: 10px;
+      padding: 6px 9px;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .step-banner.phase-mul { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+    .step-banner.phase-sub { background: #ffe4e6; border-color: #fecdd3; color: #9f1239; }
+    .step-banner.phase-down { background: #ccfbf1; border-color: #99f6e4; color: #115e59; }
+    .step-banner.phase-done { background: var(--success-soft); border-color: var(--success-border); color: #065f46; }
+
+    /* Selector divisor 1 o 2 cifras */
+    .div-toggle-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .seg-toggle {
+      display: inline-flex;
+      background: #e2e8f0;
+      padding: 2px;
+      border-radius: 9px;
+      gap: 2px;
+    }
+    .seg-toggle button {
+      padding: 4px 9px;
+      border-radius: 7px;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+    .seg-toggle button.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
+    }
+
+    /* Celdas matemáticas en cuadrícula */
+    .math-grid { display: flex; flex-direction: column; gap: 4px; }
+    .math-row { display: flex; align-items: center; gap: 4px; }
+
+    .op-col {
+      width: 20px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .col-hdr {
+      width: 34px;
+      text-align: center;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 0;
+      border-radius: 6px;
+    }
+    .hdr-U { background: #ecfdf5; color: #059669; }
+    .hdr-D { background: #eff6ff; color: #2563eb; }
+    .hdr-C { background: #f5f3ff; color: #7c3aed; }
+    .hdr-UM { background: #fffbeb; color: #d97706; }
+    .hdr-DM { background: #fff1f2; color: #e11d48; }
+    .hdr-CM { background: #eef2ff; color: #4338ca; }
+
+    .static-cell {
+      width: 34px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: rgba(255, 255, 255, 0.88);
+      font-family: var(--font-mono);
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .static-cell.empty { border-color: transparent; background: transparent; }
+    .static-cell.placeholder-dash {
+      background: #f1f5f9;
+      border: 1px dashed #94a3b8;
+      color: #64748b;
+      font-size: 15px;
+    }
+
+    /* Arco superior para las cifras iniciales tomadas en la división */
+    .static-cell.div-taken {
+      border-top: 3px solid var(--primary);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      background: rgba(238, 242, 255, 0.72);
+    }
+    /* Cifra señalada para bajar */
+    .static-cell.div-bring-source {
+      border: 2px solid var(--accent);
+      background: var(--accent-soft);
+      color: #115e59;
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+    }
+
+    /* Celda editable */
+    .grid-cell {
+      width: 34px;
+      height: 38px;
+      border-radius: 9px;
+      border: 2px solid #c7d2fe;
+      background: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 19px;
+      font-weight: 800;
+      color: #1e1b4b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.12s;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      flex-shrink: 0;
+    }
+    .grid-cell.carry {
+      height: 24px;
+      font-size: 11.5px;
+      border: 1.5px dashed #fbbf24;
+      background: #fffbeb;
+      color: #b45309;
+      box-shadow: none;
+    }
+    .grid-cell.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 0 0 3px var(--primary-ring);
+    }
+    .grid-cell.locked {
+      border-color: #a7f3d0;
+      background: #ecfdf5;
+      color: #065f46;
+      box-shadow: none;
+      cursor: default;
+    }
+    .grid-cell.pending {
+      border: 1.5px dashed #cbd5e1;
+      background: rgba(248, 250, 252, 0.7);
+      color: #94a3b8;
+      box-shadow: none;
+      cursor: default;
+    }
+    .grid-cell.ok {
+      border-color: var(--success) !important;
+      background: var(--success-soft) !important;
+      color: #065f46 !important;
+    }
+    .grid-cell.err {
+      border-color: var(--danger) !important;
+      background: var(--danger-soft) !important;
+      color: #be123c !important;
+      animation: shake 0.32s ease-in-out;
+    }
+    .grid-cell.wide { width: auto; min-width: 72px; padding: 0 10px; }
+
+    .math-line {
+      height: 3px;
+      background: #1e293b;
+      border-radius: 4px;
+      margin: 2px 0 2px 24px;
+    }
+
+    /* Compactar cuando hay 6 columnas */
+    .cols-6 .col-hdr, .cols-6 .static-cell, .cols-6 .grid-cell {
+      width: 30px;
+      font-size: 16.5px;
+    }
+    .cols-6 .op-col { width: 16px; font-size: 15px; }
+    .cols-6 .math-line { margin-left: 20px; }
+
+    /* =====================================================================
+       4. ESTILOS ESPECÍFICOS DE DIVISIÓN LARGA (GALERA LATINOAMERICANA)
+       ===================================================================== */
+    .div-board {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      max-width: 100%;
+    }
+    .div-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .div-galera {
+      border-left: 3px solid #0f172a;
+      padding-left: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 82px;
+    }
+    .div-divisor-row {
+      border-bottom: 3px solid #0f172a;
+      padding-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .div-divisor-chip {
+      height: 36px;
+      min-width: 36px;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      border: 1.5px solid #c7d2fe;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .div-sub-line-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 4px;
+    }
+    .div-line-seg {
+      width: 34px;
+      height: 2.5px;
+      background: #1e293b;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .div-line-seg.empty { background: transparent; }
+
+    /* Flecha visual para bajar la siguiente cifra */
+    .bring-arrow-cell {
+      width: 34px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--accent);
+      flex-shrink: 0;
+      animation: bounceDown 1.1s infinite;
+    }
+    .down-target-cell {
+      border: 2px dashed var(--accent) !important;
+      background: var(--accent-soft) !important;
+      color: #115e59 !important;
+    }
+    .down-target-cell.active {
+      border-style: solid !important;
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.28) !important;
+    }
+
+    .div-summary-pill {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .div-summary-pill span {
+      background: var(--success-soft);
+      border: 1px solid var(--success-border);
+      color: #065f46;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 800;
+    }
+
+    /* ==================== PISTA, FEEDBACK Y BOTONERA ==================== */
+    .hint-box {
+      margin: 0 10px 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-border);
+      color: #78350f;
+      font-size: 11.5px;
+      line-height: 1.4;
+    }
+
+    .feedback-box {
+      margin: 0 10px 8px;
+      padding: 8px 10px;
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.38;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+    .feedback-box.ok { background: var(--success-soft); border: 1px solid var(--success-border); color: #065f46; }
+    .feedback-box.err { background: var(--danger-soft); border: 1px solid var(--danger-border); color: #9f1239; }
+
+    .card-footer { padding: 0 10px 10px; display: flex; gap: 7px; }
+
+    .btn-primary {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 800;
+      box-shadow: 0 3px 10px rgba(67, 56, 202, 0.24);
+    }
+    .btn-primary:active { transform: scale(0.98); background: var(--primary-hover); }
+
+    .btn-success {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--success);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 800;
+      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.24);
+    }
+    .btn-success:active { transform: scale(0.98); }
+
+    .btn-secondary {
+      padding: 10px 13px;
+      border-radius: 11px;
+      background: #e2e8f0;
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .btn-secondary:active { background: #cbd5e1; }
+
+    /* ==================== TECLADO NUMÉRICO TÁCTIL ==================== */
+    .numpad {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 7px;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+    }
+    .num-key {
+      height: 44px;
+      border-radius: 11px;
+      background: #f1f5f9;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 19px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .num-key:active { background: var(--primary); color: #fff; transform: scale(0.93); }
+    .num-key.del { background: var(--danger-soft); color: var(--danger); font-family: var(--font-sans); font-size: 16px; }
+    .num-key.clr { background: #e2e8f0; color: var(--text-muted); font-family: var(--font-sans); font-size: 13px; }
+
+    /* ==================== MÓDULOS DE LÓGICA Y LENGUA ==================== */
+    .choice-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
+    .choice-btn {
+      padding: 11px 9px;
+      border-radius: 11px;
+      border: 2px solid var(--border);
+      background: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-align: center;
+    }
+    .choice-btn.selected { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+    .choice-btn.mono-lg { font-family: var(--font-mono); font-size: 18px; }
+
+    .pv-digits { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 8px 0 12px; }
+    .pv-digit {
+      width: 38px;
+      height: 48px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pv-digit.target {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(67, 56, 202, 0.3);
+      transform: scale(1.06);
+    }
+
+    /* Recta numérica */
+    .numline-wrap { margin-top: 6px; padding: 6px 4px 2px; }
+    .numline-bar { position: relative; height: 6px; background: #cbd5e1; border-radius: 99px; margin: 18px 8px 8px; }
+    .numline-mid { position: absolute; left: 50%; top: -5px; width: 2px; height: 16px; background: #64748b; }
+    .numline-pin {
+      position: absolute;
+      top: -22px;
+      transform: translateX(-50%);
+      background: var(--violet);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .numline-labels { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--text-muted); }
+
+    /* Lecturas */
+    .reading-box { background: var(--accent-soft); border: 1px solid #99f6e4; border-radius: 13px; padding: 11px; margin-bottom: 10px; }
+    .reading-title { font-size: 13.5px; font-weight: 800; color: #115e59; margin: 0 0 5px; }
+    .reading-text { font-size: 12.5px; line-height: 1.5; color: #1e293b; margin: 0; }
+    .q-progress { font-size: 10.5px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+    .read-opt {
+      width: 100%;
+      text-align: left;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .read-opt.selected { border-color: var(--accent); background: var(--accent-soft); color: #115e59; }
+
+    /* Entrenador visual 5x5 */
+    .visual-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: var(--accent-soft);
+      border: 1px solid #99f6e4;
+      border-radius: 11px;
+      padding: 7px 9px;
+      margin-bottom: 8px;
+      font-size: 11.5px;
+      color: #115e59;
+    }
+    .target-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 6px;
+      border-radius: 7px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 800;
+      margin: 0 2px;
+    }
+    .visual-grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .v-cell {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: #fff;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .v-cell:active { transform: scale(0.92); }
+    .v-cell.picked { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .v-cell.ok { border-color: var(--success); background: var(--success); color: #fff; }
+    .v-cell.err { border-color: var(--danger); background: var(--danger-soft); color: var(--danger); animation: shake 0.3s; }
+
+    /* ==================== MODALES ==================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .modal-card {
+      width: 100%;
+      max-width: 410px;
+      max-height: 92vh;
+      background: #fff;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-head {
+      padding: 13px 15px;
+      background: #0f172a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-head.video-head { background: linear-gradient(135deg, #4338ca, #7c3aed); }
+    .modal-body { padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 11px; }
+
+    .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-ring); }
+
+    .video-frame-wrap { width: 100%; aspect-ratio: 16 / 9; background: #0f172a; border-radius: 13px; overflow: hidden; }
+    .video-frame-wrap iframe { width: 100%; height: 100%; border: 0; }
+
+    /* PIN Pad */
+    .pin-dots { display: flex; justify-content: center; gap: 12px; margin: 6px 0; }
+    .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #cbd5e1; }
+    .pin-dot.filled { background: var(--primary); border-color: var(--primary); }
+    .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 220px; margin: 0 auto; }
+    .pin-key { height: 46px; border-radius: 12px; background: #f1f5f9; font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: var(--text-main); }
+    .pin-key:active { background: var(--primary); color: #fff; }
+
+    /* Panel Padres Tabs */
+    .ptabs { display: grid; grid-template-columns: repeat(3, 1fr); background: #f8fafc; border-bottom: 1px solid var(--border); }
+    .ptab { padding: 10px 6px; font-size: 11.5px; font-weight: 800; color: var(--text-muted); border-bottom: 2.5px solid transparent; }
+    .ptab.active { color: var(--primary); border-bottom-color: var(--primary); background: #fff; }
+
+    .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 11.5px; }
+    .stat-bar-mini { width: 62px; height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 5px; }
+    .stat-bar-fill { height: 100%; border-radius: 99px; display: block; }
+
+    .video-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+    }
+
+    .confirm-inline { background: var(--danger-soft); border: 1px solid var(--danger-border); border-radius: 11px; padding: 10px; font-size: 11.5px; color: #9f1239; }
+
+    .footer-stats { display: flex; justify-content: space-between; padding: 0 5px; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-3px); }
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @keyframes bounceDown { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ==================== BARRA SUPERIOR ==================== -->
+    <header class="top-bar">
+      <div class="top-row">
+        <button id="btnOpenProfile" class="profile-btn" title="Configurar edad y grado">
+          <div class="grade-badge" id="hdrGradeBadge">4°</div>
+          <div class="profile-meta">
+            <div class="profile-name" id="hdrName">Cuaderno Digital v3</div>
+            <div class="profile-sub" id="hdrAgeGrade">9 años · 4to grado</div>
+          </div>
+        </button>
+
+        <div class="top-controls">
+          <div class="pill-stat" title="Racha de aciertos">
+            <span id="hdrStreak">0</span><span>🔥</span>
+          </div>
+          <button id="btnToggleTimer" class="timer-btn" title="Iniciar o pausar cronómetro">
+            <span class="dot" id="timerDot"></span>
+            <span id="timerText">15:00</span>
+          </button>
+          <button id="btnOpenParent" class="icon-btn" title="Modo Padres (PIN)">🔒</button>
+        </div>
+      </div>
+
+      <div class="round-bar-wrap">
+        <div class="round-track" id="roundTrack"></div>
+        <div class="round-label">
+          <span id="roundCountText">0/5</span>
+          <span title="Video educativo al completar la ronda">🎬</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== NAVEGACIÓN DE MODOS ==================== -->
+    <nav class="mode-nav">
+      <button class="mode-tab" data-mode="mixto">✨ Ronda</button>
+      <button class="mode-tab" data-mode="cuaderno">📐 Cuaderno</button>
+      <button class="mode-tab" data-mode="logica">🧩 Lógica</button>
+      <button class="mode-tab" data-mode="lengua">📖 Lengua</button>
+    </nav>
+
+    <div id="subNav" class="sub-nav hidden"></div>
+
+    <!-- ==================== ÁREA PRINCIPAL ==================== -->
+    <main class="main-area">
+      <div id="timerDoneBanner" class="banner-done hidden">
+        <div>
+          <strong>¡Meta de estudio cumplida! 🎉</strong><br />
+          Excelente concentración hoy.
+        </div>
+        <button id="btnRestartTimer" class="btn-secondary" style="background:#059669;color:#fff;padding:6px 10px;font-size:11px;">Reiniciar</button>
+      </div>
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-tags">
+            <span id="exBadge" class="badge badge-math">Cuaderno</span>
+            <span id="exSubtype" class="subtype-text">División</span>
+          </div>
+          <div class="card-actions-top">
+            <button id="btnHint" class="mini-btn hint">💡 Pista</button>
+            <button id="btnSkip" class="mini-btn" title="Cambiar ejercicio">↻ Otro</button>
+          </div>
+        </div>
+
+        <div id="exBody" class="card-body"></div>
+
+        <div id="hintBox" class="hint-box hidden"></div>
+
+        <div id="feedbackBox" class="feedback-box hidden">
+          <span id="fbIcon" style="font-size:15px;line-height:1;"></span>
+          <div id="fbText"></div>
+        </div>
+
+        <div class="card-footer">
+          <button id="btnCheck" class="btn-primary">Comprobar respuesta</button>
+          <button id="btnNext" class="btn-success hidden">Siguiente ejercicio →</button>
+        </div>
+      </section>
+
+      <!-- Teclado numérico táctil -->
+      <section id="numpad" class="numpad hidden">
+        <button class="num-key" data-k="1">1</button>
+        <button class="num-key" data-k="2">2</button>
+        <button class="num-key" data-k="3">3</button>
+        <button class="num-key" data-k="4">4</button>
+        <button class="num-key" data-k="5">5</button>
+        <button class="num-key del" data-k="BACK" title="Borrar">⌫</button>
+        <button class="num-key" data-k="6">6</button>
+        <button class="num-key" data-k="7">7</button>
+        <button class="num-key" data-k="8">8</button>
+        <button class="num-key" data-k="9">9</button>
+        <button class="num-key" data-k="0">0</button>
+        <button class="num-key clr" data-k="CLR">C</button>
+      </section>
+
+      <div class="footer-stats">
+        <span>Aciertos totales: <strong id="ftrCorrect" style="color:#059669;">0</strong></span>
+        <span>Precisión: <strong id="ftrAcc" style="color:#4338ca;">0%</strong></span>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== MODAL 1: PERFIL ==================== -->
+  <div id="profileModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-head" style="background:linear-gradient(135deg,#4338ca,#6d28d9);">
+        <strong style="font-size:14.5px;">📓 Configurar Cuaderno Digital v3</strong>
+        <button id="btnCloseProfile" style="color:#fff;font-size:18px;font-weight:800;">✕</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label class="form-label">Nombre de la estudiante (opcional)</label>
+          <input id="inpName" class="form-input" type="text" maxlength="20" placeholder="Ej. Sofía" />
+        </div>
+        <div class="choice-grid-2">
+          <div>
+            <label class="form-label">Edad</label>
+            <select id="selAge" class="form-select">
+              <option value="7">7 años</option>
+              <option value="8">8 años</option>
+              <option value="9" selected>9 años</option>
+              <option value="10">10 años</option>
+              <option value="11">11 años</option>
+              <option value="12">12 años</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Grado escolar</label>
+            <select id="selGrade" class="form-select">
+              <option value="2">2do grado</option>
+              <option value="3">3er grado</option>
+              <option value="4" selected>4to grado</option>
+              <option value="5">5to grado</option>
+              <option value="6">6to grado</option>
+            </select>
+          </div>
+        </div>
+        <div style="background:var(--primary-soft);border-radius:11px;padding:9px 11px;font-size:11.5px;color:#312e81;line-height:1.45;">
+          <strong>Ronda de estudio:</strong> Intercala ejercicios de cuaderno cuadriculado (incluyendo división larga 100% manual) con lectura, ortografía y entrenamiento visual para desbloquear videos educativos curados.
+        </div>
+        <button id="btnSaveProfile" class="btn-primary">¡Guardar y empezar!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: VIDEO EDUCATIVO ==================== -->
+  <div id="videoModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-head video-head">
+        <div>
+          <div style="font-size:10px;font-weight:800;opacity:0.9;text-transform:uppercase;">🎉 ¡Ronda completada!</div>
+          <strong style="font-size:14.5px;">Pausa de Video Educativo</strong>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span id="videoBreakClock" style="background:rgba(255,255,255,0.2);padding:4px 8px;border-radius:8px;font-family:var(--font-mono);font-size:12.5px;font-weight:800;">05:00</span>
+          <button id="btnCloseVideoX" style="color:#fff;font-size:18px;font-weight:800;">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div style="min-width:0;">
+            <div id="vidTitle" style="font-size:13px;font-weight:800;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Video</div>
+            <span id="vidTag" class="badge badge-lang" style="display:inline-block;margin-top:3px;">Ciencias</span>
+          </div>
+          <button id="btnSwitchVideo" class="btn-secondary" style="padding:6px 10px;font-size:11px;flex-shrink:0;">🔀 Otro</button>
+        </div>
+
+        <div class="video-frame-wrap">
+          <iframe id="ytPlayer" src="" title="Video educativo curado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <div id="videoTimeUpBox" class="hidden" style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:10px;padding:8px 10px;font-size:11.5px;color:#92400e;font-weight:700;text-align:center;">
+          ⏰ ¡Se terminó el descanso! Es hora de volver a estudiar.
+        </div>
+
+        <div style="font-size:11px;color:var(--text-muted);text-align:center;line-height:1.35;">
+          Solo se reproducen videos aprobados en Modo Padres. Si estás sin internet, pulsa volver a estudiar.
+        </div>
+
+        <button id="btnReturnStudy" class="btn-primary">Volver a estudiar (Nueva ronda) →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: MODO PADRES ==================== -->
+  <div id="parentModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong style="font-size:14px;">🔒 Modo Padres</strong>
+        <button id="btnCloseParent" style="color:#cbd5e1;font-size:18px;font-weight:800;">✕</button>
+      </div>
+
+      <!-- PIN View -->
+      <div id="parentPinView" class="modal-body" style="text-align:center;">
+        <p style="margin:0;font-size:12px;color:var(--text-muted);">Ingresa el PIN parental (por defecto: <strong>1234</strong>)</p>
+        <div class="pin-dots">
+          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+        </div>
+        <div id="pinErr" style="height:15px;font-size:11.5px;font-weight:800;color:var(--danger);"></div>
+        <div class="pin-grid">
+          <button class="pin-key" data-p="1">1</button><button class="pin-key" data-p="2">2</button><button class="pin-key" data-p="3">3</button>
+          <button class="pin-key" data-p="4">4</button><button class="pin-key" data-p="5">5</button><button class="pin-key" data-p="6">6</button>
+          <button class="pin-key" data-p="7">7</button><button class="pin-key" data-p="8">8</button><button class="pin-key" data-p="9">9</button>
+          <button class="pin-key" data-p="CLR" style="font-size:11.5px;font-family:var(--font-sans);">Borrar</button>
+          <button class="pin-key" data-p="0">0</button>
+          <button class="pin-key" data-p="BACK" style="color:var(--danger);background:var(--danger-soft);">⌫</button>
+        </div>
+      </div>
+
+      <!-- Dashboard View -->
+      <div id="parentDashView" class="hidden" style="display:flex;flex-direction:column;overflow:hidden;max-height:80vh;">
+        <div class="ptabs">
+          <button class="ptab active" data-pt="stats">📊 Progreso</button>
+          <button class="ptab" data-pt="videos">🎬 Videos</button>
+          <button class="ptab" data-pt="config">⚙️ Ajustes</button>
+        </div>
+
+        <div class="modal-body" style="flex:1;">
+          <!-- TAB 1: PROGRESO -->
+          <div id="pt-stats" style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;text-align:center;">
+              <div style="background:var(--success-soft);border:1px solid var(--success-border);border-radius:11px;padding:9px 5px;">
+                <div id="pStatOk" style="font-size:19px;font-weight:800;color:#047857;">0</div>
+                <div style="font-size:10px;font-weight:700;color:#059669;">Aciertos</div>
+              </div>
+              <div style="background:var(--danger-soft);border:1px solid var(--danger-border);border-radius:11px;padding:9px 5px;">
+                <div id="pStatErr" style="font-size:19px;font-weight:800;color:#be123c;">0</div>
+                <div style="font-size:10px;font-weight:700;color:#e11d48;">Errores</div>
+              </div>
+              <div style="background:var(--primary-soft);border:1px solid #c7d2fe;border-radius:11px;padding:9px 5px;">
+                <div id="pStatAcc" style="font-size:19px;font-weight:800;color:var(--primary);">0%</div>
+                <div style="font-size:10px;font-weight:700;color:var(--primary);">Precisión</div>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:9px 11px;">
+              <div style="font-size:11.5px;font-weight:800;margin-bottom:5px;">Rendimiento por los 11 módulos</div>
+              <div id="moduleStatsList"></div>
+            </div>
+
+            <div style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:11px;padding:9px;font-size:11px;color:#78350f;line-height:1.4;">
+              <strong>💡 Bloqueo de otras apps en Android:</strong> Activa <em>"Fijar aplicaciones"</em> en Ajustes → Seguridad para que tu hija no pueda abrir YouTube u otras apps durante su sesión de estudio.
+            </div>
+
+            <button id="btnAskReset" class="btn-secondary" style="background:var(--danger-soft);color:var(--danger);border:1px solid var(--danger-border);">
+              Reiniciar estadísticas
+            </button>
+            <div id="confirmResetBox" class="confirm-inline hidden">
+              <div style="font-weight:800;margin-bottom:7px;">¿Seguro que deseas borrar todas las estadísticas?</div>
+              <div style="display:flex;gap:7px;">
+                <button id="btnConfirmResetYes" class="btn-secondary" style="flex:1;background:var(--danger);color:#fff;">Sí, borrar</button>
+                <button id="btnConfirmResetNo" class="btn-secondary" style="flex:1;">Cancelar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: VIDEOS -->
+          <div id="pt-videos" class="hidden" style="display:flex;flex-direction:column;gap:9px;">
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;">
+              <div id="vidFormHeading" style="font-size:11.5px;font-weight:800;">Agregar video educativo de YouTube</div>
+              <input id="inpVidUrl" class="form-input" type="text" placeholder="URL de YouTube o ID (ej. youtu.be/...)" />
+              <input id="inpVidTitle" class="form-input" type="text" placeholder="Título del video" />
+              <select id="selVidTag" class="form-select">
+                <option value="Ciencias">Ciencias</option>
+                <option value="Matemáticas">Matemáticas</option>
+                <option value="Geografía">Geografía</option>
+                <option value="Lengua">Lengua</option>
+                <option value="Curiosidades">Curiosidades</option>
+              </select>
+              <div style="display:flex;gap:6px;">
+                <button id="btnSaveVideoItem" class="btn-primary" style="padding:9px;font-size:12px;">+ Guardar video</button>
+                <button id="btnCancelEditVid" class="btn-secondary hidden" style="padding:9px;font-size:11.5px;">Cancelar</button>
+              </div>
+              <div id="vidFormMsg" style="font-size:11px;font-weight:700;" class="hidden"></div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <strong style="font-size:11.5px;">Lista permitida (<span id="vidListCount">0</span>)</strong>
+              <button id="btnPreviewVideo" style="font-size:11.5px;font-weight:800;color:var(--primary);">Probar pausa 🎬</button>
+            </div>
+            <div id="parentVidList" style="display:flex;flex-direction:column;gap:5px;"></div>
+          </div>
+
+          <!-- TAB 3: AJUSTES -->
+          <div id="pt-config" class="hidden" style="display:flex;flex-direction:column;gap:9px;">
+            <div class="choice-grid-2">
+              <div>
+                <label class="form-label">Edad estudiante</label>
+                <select id="cfgAge" class="form-select">
+                  <option value="7">7 años</option><option value="8">8 años</option><option value="9">9 años</option>
+                  <option value="10">10 años</option><option value="11">11 años</option><option value="12">12 años</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Grado escolar</label>
+                <select id="cfgGrade" class="form-select">
+                  <option value="2">2do grado</option><option value="3">3er grado</option><option value="4">4to grado</option>
+                  <option value="5">5to grado</option><option value="6">6to grado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="choice-grid-2">
+              <div>
+                <label class="form-label">Sesión estudio (min)</label>
+                <select id="cfgStudyMins" class="form-select">
+                  <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
+                  <option value="20">20 min</option><option value="30">30 min</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Pausa de video (min)</label>
+                <select id="cfgBreakMins" class="form-select">
+                  <option value="2">2 min</option><option value="3">3 min</option><option value="5">5 min</option>
+                  <option value="7">7 min</option><option value="10">10 min</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="form-label">Ejercicios por ronda (para desbloquear video)</label>
+              <select id="cfgRoundSize" class="form-select">
+                <option value="3">3 ejercicios (2 Mat + 1 Len)</option>
+                <option value="5">5 ejercicios (3 Mat + 2 Len)</option>
+                <option value="7">7 ejercicios (4 Mat + 3 Len)</option>
+                <option value="10">10 ejercicios (6 Mat + 4 Len)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Cambiar PIN parental (4 dígitos)</label>
+              <input id="cfgNewPin" class="form-input" type="password" inputmode="numeric" maxlength="4" placeholder="Dejar vacío para mantener actual" />
+            </div>
+
+            <button id="btnSaveConfig" class="btn-success" style="padding:10px;font-size:12.5px;">Guardar ajustes</button>
+            <div id="cfgSavedMsg" class="hidden" style="text-align:center;font-size:11.5px;font-weight:800;color:var(--success);">✓ Ajustes guardados</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LÓGICA JAVASCRIPT ==================== -->
+  <script>
+    (() => {
+      'use strict';
+
+      /* =====================================================================
+         1. BANCOS DE CONTENIDO (6 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
+         ===================================================================== */
+      const DEFAULT_VIDEOS = [
+        { id: '0t31zWMX8KI', title: '¿Por qué el cielo es azul? (CuriosaMente)', tag: 'Curiosidades' },
+        { id: 'CGXHrIp7Dpw', title: 'Multiplicación de 2 cifras (Daniel Carreón)', tag: 'Matemáticas' },
+        { id: '21Aqc1TQVBQ', title: 'Divisiones de 2 cifras (Daniel Carreón)', tag: 'Matemáticas' },
+        { id: 'ZykXgSqet6A', title: 'El Sistema Solar (Happy Learning)', tag: 'Ciencias' },
+        { id: '3QVj99UGk3Q', title: 'El ciclo del agua (Smile and Learn)', tag: 'Ciencias' },
+        { id: 'QDCohXW6blg', title: 'El ciclo del agua (Happy Learning)', tag: 'Ciencias' }
+      ];
+
+      const READINGS = [
+        {
+          title: 'El viaje del ciclo del agua',
+          text: 'El agua de los ríos, lagos y océanos nunca se queda quieta. Cuando el Sol la calienta, se transforma en vapor invisible y sube al cielo en un proceso llamado evaporación. Allá arriba, el vapor se enfría y forma millones de gotitas que crean las nubes. Cuando las nubes pesan mucho, el agua regresa a la Tierra en forma de lluvia o nieve.',
+          questions: [
+            { q: '¿Cómo se llama el proceso cuando el agua se convierte en vapor por el calor del Sol?', opts: ['Evaporación', 'Congelación', 'Erosión'], ok: 0, exp: 'La evaporación ocurre cuando el calor del Sol convierte el agua líquida en vapor.' },
+            { q: '¿Qué ocurre cuando el vapor de agua se enfría en lo alto del cielo?', opts: ['Se vuelve arena', 'Forma gotitas que crean las nubes', 'Desaparece para siempre'], ok: 1, exp: 'Al enfriarse (condensación), el vapor forma pequeñas gotas que se agrupan en nubes.' }
+          ]
+        },
+        {
+          title: 'Las abejas y su baile secreto',
+          text: 'Las abejas son insectos fundamentales para la naturaleza porque transportan polen de flor en flor, ayudando a que crezcan frutas y verduras. Cuando una abeja exploradora descubre un campo con mucho néctar, regresa a su colmena y hace una danza en forma de ocho. Según la velocidad y dirección del baile, sus compañeras saben exactamente hacia dónde volar.',
+          questions: [
+            { q: '¿Por qué son tan importantes las abejas para las plantas?', opts: ['Porque riegan las raíces', 'Porque transportan polen de flor en flor', 'Porque cortan las hojas secas'], ok: 1, exp: 'Al llevar polen de una flor a otra (polinización), permiten que nazcan frutos y semillas.' },
+            { q: '¿Qué forma tiene el baile con el que se comunican las abejas?', opts: ['De círculo grande', 'De triángulo', 'De número ocho'], ok: 2, exp: 'El baile en forma de ocho indica tanto la dirección como la distancia de las flores.' }
+          ]
+        },
+        {
+          title: 'El Salto Ángel, tesoro de Venezuela',
+          text: 'En el Parque Nacional Canaima, al sur de Venezuela, se eleva el Auyantepuy, una enorme montaña con la cima plana. Desde lo más alto cae el Salto Ángel, la cascada ininterrumpida más alta del mundo, con 979 metros de altura. Como la caída es tan larga, gran parte del agua se convierte en una fina neblina antes de tocar el río abajo.',
+          questions: [
+            { q: '¿Qué característica tiene la cima de un tepuy como el Auyantepuy?', opts: ['Es completamente plana', 'Está cubierta de hielo', 'Tiene forma de espiral'], ok: 0, exp: 'Los tepuyes son mesetas milenarias famosas por sus paredes verticales y cimas planas.' },
+            { q: '¿Por qué se forma neblina durante la caída del Salto Ángel?', opts: ['Porque el agua está hirviendo', 'Porque la caída es tan alta que el agua se pulveriza en el aire', 'Porque no hay viento'], ok: 1, exp: 'Al caer casi un kilómetro (979 metros), el viento dispersa el agua en finas gotas.' }
+          ]
+        },
+        {
+          title: 'Un paseo por el Sistema Solar',
+          text: 'Nuestro Sistema Solar está formado por el Sol y ocho planetas que giran a su alrededor. Los cuatro planetas más cercanos al Sol —Mercurio, Venus, la Tierra y Marte— son rocosos y pequeños. Más lejos giran los gigantes gaseosos y helados: Júpiter, Saturno, Urano y Neptuno. Saturno es famoso por sus brillantes anillos hechos de hielo y polvo.',
+          questions: [
+            { q: '¿Cuáles son los cuatro planetas rocosos del Sistema Solar?', opts: ['Júpiter, Saturno, Urano y Neptuno', 'Mercurio, Venus, la Tierra y Marte', 'Solo la Tierra y la Luna'], ok: 1, exp: 'Los cuatro planetas interiores son rocosos; los cuatro exteriores son gigantes de gas y hielo.' },
+            { q: '¿De qué están hechos principalmente los anillos de Saturno?', opts: ['De fuego y lava', 'De hielo y polvo', 'De metal sólido'], ok: 1, exp: 'Los anillos de Saturno están compuestos por millones de fragmentos de hielo, roca y polvo.' }
+          ]
+        },
+        {
+          title: 'Los delfines, acróbatas del océano',
+          text: 'Aunque viven en el mar y nadan como peces, los delfines son mamíferos que respiran aire por un orificio en la parte superior de su cabeza llamado espiráculo. Son animales muy sociables que viven en grupos llamados manadas y se comunican con silbidos y chasquidos. Incluso cada delfín tiene un silbido propio, casi como si fuera su nombre.',
+          questions: [
+            { q: '¿Cómo respiran aire los delfines?', opts: ['Por branquias debajo de las aletas', 'Por un orificio llamado espiráculo', 'No necesitan respirar aire'], ok: 1, exp: 'Como son mamíferos marinos, suben a la superficie y respiran por su espiráculo.' },
+            { q: '¿Para qué usa cada delfín su silbido único?', opts: ['Para asustar a los barcos', 'Para identificarse ante otros delfines, como un nombre', 'Para cambiar de color'], ok: 1, exp: 'Cada delfín desarrolla un silbido firma único para reconocerse en su manada.' }
+          ]
+        },
+        {
+          title: 'Las tres erres del reciclaje',
+          text: 'Cuidar el planeta empieza con pequeñas acciones diarias en casa y en la escuela. La regla de las tres erres nos enseña a Reducir lo que no necesitamos, Reutilizar envases y cuadernos dándoles una segunda vida, y Reciclar separando el papel, el vidrio y el plástico. Así evitamos que toneladas de basura contaminen los ríos y los bosques.',
+          questions: [
+            { q: '¿Qué significa "Reutilizar" dentro de las tres erres?', opts: ['Tirar todo a la misma bolsa', 'Darle un nuevo uso a los objetos antes de desecharlos', 'Comprar siempre cosas nuevas'], ok: 1, exp: 'Reutilizar consiste en aprovechar un objeto más de una vez para generar menos residuos.' },
+            { q: '¿Qué materiales debemos separar para reciclar mejor?', opts: ['Papel, vidrio y plástico', 'Solo restos de comida', 'Tierra y piedras'], ok: 0, exp: 'Separar papel, cartón, vidrio y plástico facilita transformarlos en nuevos productos.' }
+          ]
+        },
+        {
+          title: '¿Cómo nacen los volcanes?',
+          text: 'Muy debajo de la corteza terrestre hace tanto calor que las rocas se derriten y forman una masa espesa llamada magma. Cuando la presión subterránea aumenta, el magma busca una salida hacia la superficie a través de grietas. Al salir al exterior, el magma recibe el nombre de lava, y al enfriarse capa sobre capa va construyendo la montaña volcánica.',
+          questions: [
+            { q: '¿Cómo se llama la roca derretida cuando todavía está debajo de la Tierra?', opts: ['Magma', 'Ceniza fría', 'Granito'], ok: 0, exp: 'Mientras está bajo la superficie se llama magma; al salir al exterior se llama lava.' },
+            { q: '¿Cómo crece la montaña de un volcán con el paso del tiempo?', opts: ['Con la lluvia de invierno', 'Con las capas de lava que se enfrían y endurecen', 'Con arena que trae el mar'], ok: 1, exp: 'Cada erupción deposita lava y ceniza que se solidifican formando el cono volcánico.' }
+          ]
+        },
+        {
+          title: 'El ajolote, un anfibio extraordinario',
+          text: 'El ajolote es un pequeño anfibio que vive en los canales de Xochimilco, en México. Llama la atención por sus branquias externas que parecen plumitas rosadas a los lados de su cabeza. Su habilidad más asombrosa es que puede regenerar una pata, su cola e incluso partes de su corazón si sufre un accidente, algo que los científicos investigan para ayudar a la medicina.',
+          questions: [
+            { q: '¿Qué parecen las branquias externas del ajolote?', opts: ['Plumitas a los lados de su cabeza', 'Un caparazón duro', 'Alas transparentes'], ok: 0, exp: 'Sus branquias externas tienen forma de pequeñas plumas y le permiten respirar bajo el agua.' },
+            { q: '¿Por qué estudian los científicos al ajolote?', opts: ['Porque puede volar muy alto', 'Por su capacidad para regenerar partes de su cuerpo', 'Porque vive en la nieve'], ok: 1, exp: 'Su regeneración celular sin cicatrices es única entre los vertebrados.' }
+          ]
+        },
+        {
+          title: 'La luz viajera de las estrellas',
+          text: 'Cuando observas el cielo estrellado por la noche, en realidad estás mirando hacia el pasado. Aunque la luz viaja rapidísimo —unos 300.000 kilómetros cada segundo—, las estrellas están tan lejos que su brillo tarda años en llegar hasta nuestros ojos. Incluso la luz del Sol, nuestra estrella más cercana, demora aproximadamente ocho minutos en alcanzar la Tierra.',
+          questions: [
+            { q: '¿Cuánto tiempo tarda la luz del Sol en llegar a la Tierra?', opts: ['Ocho minutos aproximadamente', 'Dos horas exactas', 'Un año entero'], ok: 0, exp: 'El Sol está a unos 150 millones de kilómetros, y su luz tarda alrededor de 8 minutos en llegar.' },
+            { q: '¿Por qué decimos que al ver estrellas lejanas miramos el pasado?', opts: ['Porque las estrellas se apagan de día', 'Porque su luz tardó años viajando por el espacio hasta llegar a nosotros', 'Porque los telescopios graban videos'], ok: 1, exp: 'Vemos la estrella tal como era en el momento en que emitió esa luz hace años.' }
+          ]
+        },
+        {
+          title: 'El valor de trabajar en equipo',
+          text: 'En el bosque, una sola hormiga apenas puede cargar una migaja pequeña, pero cuando cientos de hormigas colaboran, logran mover alimentos mucho más pesados que ellas y construir túneles seguros. Lo mismo ocurre en el salón de clases: cuando escuchamos las ideas de los demás y nos ayudamos con respeto, los retos difíciles se vuelven mucho más sencillos.',
+          questions: [
+            { q: '¿Qué enseñanza nos deja el ejemplo de las hormigas?', opts: ['Que es mejor trabajar siempre solos', 'Que colaborar en equipo permite lograr grandes metas', 'Que las hormigas no duermen'], ok: 1, exp: 'La cooperación multiplica el esfuerzo individual y facilita resolver retos grandes.' },
+            { q: '¿Qué actitud ayuda a trabajar bien en equipo en el salón de clases?', opts: ['Escuchar las ideas de los demás con respeto', 'No dejar hablar a nadie', 'Esconder los cuadernos'], ok: 0, exp: 'El respeto y la escucha activa son claves para que un equipo funcione.' }
+          ]
+        }
+      ];
+
+      const SPELLING_BANK = [
+        { pair: ['b', 'd'], sentence: 'El ___arco navega suavemente sobre el mar.', ans: 'b', word: 'barco', rule: 'Barco se escribe con b (la barriguita mira a la derecha).' },
+        { pair: ['b', 'd'], sentence: 'El ___elfín saltó muy alto cerca de la costa.', ans: 'd', word: 'delfín', rule: 'Delfín comienza con d (la barriguita mira a la izquierda).' },
+        { pair: ['b', 'd'], sentence: 'Mi cua___erno cuadriculado está muy ordenado.', ans: 'd', word: 'cuaderno', rule: 'Cuaderno lleva d en la sílaba "der".' },
+        { pair: ['b', 'd'], sentence: 'Me encanta di___ujar montañas y estrellas.', ans: 'b', word: 'dibujar', rule: 'Dibujar se escribe con b.' },
+        { pair: ['p', 'q'], sentence: 'Abrí mi ___araguas porque comenzó a llover.', ans: 'p', word: 'paraguas', rule: 'Paraguas empieza con p.' },
+        { pair: ['p', 'q'], sentence: 'Me gusta el ___ueso fresco en el desayuno.', ans: 'q', word: 'queso', rule: 'Antes de "ue" y "ui" usamos la letra q (que, qui).' },
+        { pair: ['p', 'q'], sentence: 'El pe___ueño colibrí voló hasta la flor.', ans: 'q', word: 'pequeño', rule: 'Pequeño lleva q porque forma la sílaba "que".' },
+        { pair: ['p', 'q'], sentence: 'La Tierra es un ___laneta lleno de vida.', ans: 'p', word: 'planeta', rule: 'Planeta se escribe con p.' },
+        { pair: ['s', 'z'], sentence: 'Mi ___apato deportivo es de color azul.', ans: 'z', word: 'zapato', rule: 'Zapato se escribe con z.' },
+        { pair: ['s', 'z'], sentence: 'La ___anahoria ayuda a cuidar nuestra vista.', ans: 'z', word: 'zanahoria', rule: 'Zanahoria comienza con z.' },
+        { pair: ['s', 'z'], sentence: 'La ___emilla creció hasta formar un árbol.', ans: 's', word: 'semilla', rule: 'Semilla se escribe con s.' },
+        { pair: ['c', 's', 'z'], sentence: 'El cielo está ___eleste y sin nubes hoy.', ans: 'c', word: 'celeste', rule: 'Celeste se escribe con c antes de e.' },
+        { pair: ['c', 's', 'z'], sentence: 'Los peces nadan feli___es en el arrecife.', ans: 'c', word: 'felices', rule: 'El plural de palabras terminadas en z (feliz) cambia a c (felices).' },
+        { pair: ['c', 's', 'z'], sentence: 'Llevé una ta___a de leche tibia.', ans: 'z', word: 'taza', rule: 'Taza (recipiente) se escribe con z.' },
+        { pair: ['v', 'b'], sentence: 'El ___olcán expulsó una nube de ceniza.', ans: 'v', word: 'volcán', rule: 'Volcán se escribe con v.' },
+        { pair: ['v', 'b'], sentence: 'Ayer escri___í un cuento sobre el espacio.', ans: 'b', word: 'escribí', rule: 'Los verbos terminados en -bir (como escribir) se escriben con b.' },
+        { pair: ['v', 'b'], sentence: 'En in___ierno hace un poco más de frío.', ans: 'v', word: 'invierno', rule: 'Después de la letra n siempre se escribe v (invierno).' },
+        { pair: ['v', 'b'], sentence: 'La ___iblioteca tiene libros de ciencias.', ans: 'b', word: 'biblioteca', rule: 'Las palabras que empiezan por bibl- se escriben con b.' }
+      ];
+
+      const VISUAL_PAIRS = [
+        { target: 'b', dist: 'd', desc: 'la letra b' },
+        { target: 'd', dist: 'b', desc: 'la letra d' },
+        { target: 'p', dist: 'q', desc: 'la letra p' },
+        { target: 'q', dist: 'p', desc: 'la letra q' },
+        { target: '2', dist: '5', desc: 'el número 2' },
+        { target: '5', dist: '2', desc: 'el número 5' },
+        { target: 'E', dist: '3', desc: 'la letra E' },
+        { target: '3', dist: 'E', desc: 'el número 3' },
+        { target: '7', dist: 'F', desc: 'el número 7' },
+        { target: 'F', dist: '7', desc: 'la letra F' },
+        { target: '6', dist: '9', desc: 'el número 6' },
+        { target: '9', dist: '6', desc: 'el número 9' },
+        { target: 'n', dist: 'u', desc: 'la letra n' },
+        { target: 'u', dist: 'n', desc: 'la letra u' }
+      ];
+
+      const MODULE_META = [
+        { key: 'sumas', label: 'Sumas en cuadrícula' },
+        { key: 'restas', label: 'Restas en cuadrícula' },
+        { key: 'mult1', label: 'Multiplicación (1 cifra)' },
+        { key: 'mult2', label: 'Multiplicación (2 cifras)' },
+        { key: 'division', label: 'División larga manual' },
+        { key: 'valorPos', label: 'Valor Posicional' },
+        { key: 'redondeo', label: 'Redondeo' },
+        { key: 'propiedades', label: 'Propiedades (Conm./Asoc.)' },
+        { key: 'lectura', label: 'Lectura comprensiva' },
+        { key: 'ortografia', label: 'Ortografía (letras confusas)' },
+        { key: 'visual', label: 'Discriminación Visual 5×5' }
+      ];
+
+      /* =====================================================================
+         2. ESTADO PERSISTENTE (LOCALSTORAGE)
+         ===================================================================== */
+      const STORAGE_KEY = 'cuaderno_digital_v3_state';
+
+      function createEmptyStats() {
+        const mods = {};
+        MODULE_META.forEach(m => { mods[m.key] = { ok: 0, err: 0 }; });
+        return { ok: 0, err: 0, streak: 0, modules: mods };
+      }
+
+      const defaultState = {
+        profileSet: false,
+        name: '',
+        age: 9,
+        grade: 4,
+        mode: 'mixto',
+        subFilter: 'all',
+        divTwoDigits: false, // Interruptor opcional para divisor de 2 cifras (4to-6to)
+        studyMins: 15,
+        breakMins: 5,
+        roundSize: 5,
+        roundProgress: 0,
+        pin: '1234',
+        videos: DEFAULT_VIDEOS,
+        lastVideoIdx: -1,
+        stats: createEmptyStats()
+      };
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return JSON.parse(JSON.stringify(defaultState));
+          const parsed = JSON.parse(raw);
+          const mergedMods = createEmptyStats().modules;
+          if (parsed.stats && parsed.stats.modules) {
+            Object.keys(mergedMods).forEach(k => {
+              if (parsed.stats.modules[k]) mergedMods[k] = parsed.stats.modules[k];
+            });
+          }
+          return {
+            ...JSON.parse(JSON.stringify(defaultState)),
+            ...parsed,
+            videos: Array.isArray(parsed.videos) && parsed.videos.length ? parsed.videos : [...DEFAULT_VIDEOS],
+            stats: {
+              ok: parsed.stats?.ok || 0,
+              err: parsed.stats?.err || 0,
+              streak: parsed.stats?.streak || 0,
+              modules: mergedMods
+            }
+          };
+        } catch {
+          return JSON.parse(JSON.stringify(defaultState));
+        }
+      }
+
+      let state = loadState();
+      function saveState() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+      }
+
+      /* =====================================================================
+         3. UTILIDADES Y VARIABLES DE SESIÓN
+         ===================================================================== */
+      const $ = (id) => document.getElementById(id);
+      const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+      const fmtNum = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      const fmtClock = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+
+      const PLACE_CODES = ['U', 'D', 'C', 'UM', 'DM', 'CM'];
+      const PLACE_NAMES = { U: 'Unidad', D: 'Decena', C: 'Centena', UM: 'Unidad de Mil', DM: 'Decena de Mil', CM: 'Centena de Mil' };
+
+      function extractYTId(str) {
+        if (!str) return null;
+        const s = str.trim();
+        if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
+        const pats = [
+          /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+          /[?&]v=([a-zA-Z0-9_-]{11})/
+        ];
+        for (const p of pats) {
+          const m = s.match(p);
+          if (m && m[1]) return m[1];
+        }
+        return null;
+      }
+
+      let currentEx = null;
+      let exSolved = false;
+      let activeCell = null;
+
+      let studySecs = state.studyMins * 60;
+      let studyRunning = false;
+      let studyTimerId = null;
+
+      let breakSecs = state.breakMins * 60;
+      let breakTimerId = null;
+
+      let visualSecs = 0;
+      let visualTimerId = null;
+      let visualTimedMode = false;
+
+      let editingVideoIdx = -1;
+
+      function getRoundPlan(size) {
+        const mathCount = size === 7 ? 4 : Math.ceil(size * 0.6);
+        return Array.from({ length: size }, (_, i) => (i < mathCount ? 'math' : 'lang'));
+      }
+
+      /* =====================================================================
+         4. GENERADORES DE EJERCICIOS
+         ===================================================================== */
+
+      // 4.1 SUMAS
+      function genSumas(g) {
+        let min = 25, max = 95;
+        if (g === 3) { min = 140; max = 880; }
+        else if (g === 4) { min = 520; max = 4890; }
+        else if (g >= 5) { min = 1850; max = 28900; }
+        let a = randInt(min, max), b = randInt(min, max);
+        if ((a % 10) + (b % 10) < 10) {
+          a = Math.floor(a / 10) * 10 + randInt(5, 9);
+          b = Math.floor(b / 10) * 10 + randInt(5, 9);
+        }
+        const res = a + b;
+        return {
+          moduleKey: 'sumas', category: 'math',
+          badge: 'Cuaderno · Suma', subtype: 'Suma vertical con llevadas',
+          type: 'vertical-basic', op: '+', a, b, res, cols: String(res).length, usesNumpad: true,
+          hint: 'Empieza por las Unidades (U, a la derecha). Si la suma pasa de 9, anota la llevada en la fila amarilla superior.'
+        };
+      }
+
+      // 4.2 RESTAS
+      function genRestas(g) {
+        let min = 35, max = 96;
+        if (g === 3) { min = 240; max = 950; }
+        else if (g === 4) { min = 920; max = 5940; }
+        else if (g >= 5) { min = 3200; max = 38500; }
+        let a = randInt(min, max);
+        let b = randInt(Math.floor(min * 0.45), a - 18);
+        if ((a % 10) >= (b % 10)) {
+          const uA = randInt(1, 5), uB = randInt(uA + 1, 9);
+          a = Math.floor(a / 10) * 10 + uA;
+          b = Math.floor(b / 10) * 10 + uB;
+          if (a <= b) a += 100;
+        }
+        const res = a - b;
+        return {
+          moduleKey: 'restas', category: 'math',
+          badge: 'Cuaderno · Resta', subtype: 'Resta vertical con préstamo',
+          type: 'vertical-basic', op: '−', a, b, res, cols: String(a).length, usesNumpad: true,
+          hint: 'Si el dígito de arriba es menor que el de abajo, pide 1 decena prestada a la columna izquierda. Anota tus cambios en la fila amarilla.'
+        };
+      }
+
+      // 4.3 MULTIPLICACIÓN 1 CIFRA
+      function genMult1(g) {
+        let a, b;
+        if (g <= 2) { a = randInt(12, 39); b = randInt(2, 5); }
+        else if (g === 3) { a = randInt(32, 189); b = randInt(3, 7); }
+        else if (g === 4) { a = randInt(135, 689); b = randInt(3, 9); }
+        else { a = randInt(340, 1890); b = randInt(4, 9); }
+        const res = a * b;
+        return {
+          moduleKey: 'mult1', category: 'math',
+          badge: 'Cuaderno · Mult. 1 cifra', subtype: 'Multiplicación vertical',
+          type: 'vertical-basic', op: '×', a, b, res, cols: String(res).length, usesNumpad: true,
+          hint: `Multiplica ${b} por cada dígito de ${fmtNum(a)} empezando por las Unidades (U). Suma las llevadas.`
+        };
+      }
+
+      // 4.4 MULTIPLICACIÓN 2 CIFRAS PASO A PASO
+      function genMult2(g) {
+        let a, b;
+        if (g <= 3) { a = randInt(14, 48); b = randInt(12, 24); }
+        else if (g === 4) { a = randInt(24, 148); b = randInt(12, 39); }
+        else { a = randInt(115, 385); b = randInt(14, 58); }
+        const bUnits = b % 10, bTens = Math.floor(b / 10);
+        const p1 = a * bUnits, p2 = a * bTens, total = a * b;
+        const cols = Math.max(String(total).length, String(p2).length + 1);
+        return {
+          moduleKey: 'mult2', category: 'math',
+          badge: 'Cuaderno · Mult. 2 cifras', subtype: 'Paso a paso con parciales',
+          type: 'mult-2digit', a, b, bUnits, bTens, p1, p2, total, cols, usesNumpad: true,
+          hint: `Paso 1: Multiplica ${a} × ${bUnits}. Paso 2: Multiplica ${a} × ${bTens} dejando el guion "—" en las unidades. Paso 3: Suma ambos parciales.`
+        };
+      }
+
+      // 4.5 DIVISIÓN LARGA 100% MANUAL PASO A PASO (FORMATO LATINOAMERICANO / VENEZUELA)
+      function genDivision(g) {
+        const allowTwoDigit = g >= 4 && state.divTwoDigits;
+        let divisor, dividend;
+
+        if (g <= 3) {
+          // 2do-3ro: dividendo 2 cifras, divisor 1 cifra
+          divisor = randInt(2, 7);
+          dividend = randInt(Math.max(12, divisor * 2 + 1), 96);
+        } else if (g === 4) {
+          if (allowTwoDigit) {
+            divisor = randInt(11, 24);
+            dividend = randInt(245, 1480);
+          } else {
+            // 4to grado por defecto: dividendo 3 a 4 cifras, divisor 1 cifra
+            divisor = randInt(3, 9);
+            dividend = Math.random() < 0.72 ? randInt(124, 986) : randInt(1045, 3890);
+          }
+        } else {
+          // 5to-6to: dividendo 3-4 cifras, divisor 1 o 2 cifras
+          if (allowTwoDigit) {
+            divisor = randInt(12, 35);
+            dividend = randInt(480, 4850);
+          } else {
+            divisor = randInt(4, 9);
+            dividend = randInt(320, 4890);
+          }
+        }
+
+        // Construir secuencia exacta de pasos (incluyendo casos donde 1ra cifra < divisor y ceros intermedios)
+        const dStr = String(dividend);
+        const steps = [];
+        let rem = 0;
+        let started = false;
+        let initialCols = [];
+
+        for (let idx = 0; idx < dStr.length; idx++) {
+          const cur = rem * 10 + Number(dStr[idx]);
+          if (!started && cur < divisor && idx < dStr.length - 1) {
+            initialCols.push(idx);
+            rem = cur;
+            continue;
+          }
+          if (!started) {
+            initialCols.push(idx);
+            started = true;
+          }
+          const qDigit = Math.floor(cur / divisor);
+          const sub = qDigit * divisor;
+          const nextRem = cur - sub;
+          const hasNext = idx + 1 < dStr.length;
+
+          steps.push({
+            endCol: idx,
+            cur,
+            qDigit,
+            sub,
+            rem: nextRem,
+            nextDigit: hasNext ? dStr[idx + 1] : null,
+            nextCol: hasNext ? idx + 1 : null,
+            // Memoria de lo que escribe la niña (sin autocompletar nada)
+            userQ: '',
+            userSub: Array(String(sub).length).fill(''),
+            userRem: Array(String(nextRem).length).fill(''),
+            userDown: ''
+          });
+          rem = nextRem;
+        }
+
+        return {
+          moduleKey: 'division',
+          category: 'math',
+          badge: 'Cuaderno · División Larga',
+          subtype: allowTwoDigit ? 'Divisor de 2 cifras · Manual' : 'Procedimiento completo manual',
+          type: 'division-manual',
+          dividend,
+          divisor,
+          dStr,
+          initialCols,
+          quotient: Math.floor(dividend / divisor),
+          remainder: dividend % divisor,
+          steps,
+          stepIdx: 0,
+          phase: 'quotient', // 'quotient' -> 'multiply' -> 'subtract' -> 'bringdown' -> 'done'
+          usesNumpad: true
+        };
+      }
+
+      // 4.6 VALOR POSICIONAL
+      function genValorPos(g) {
+        let min = 135, max = 987;
+        if (g === 3) { min = 1120; max = 9870; }
+        else if (g === 4) { min = 1250; max = 49870; }
+        else if (g >= 5) { min = 12500; max = 198700; }
+        const num = randInt(min, max), str = String(num);
+        const nonZero = [];
+        for (let i = 0; i < str.length; i++) if (str[i] !== '0') nonZero.push(i);
+        const targetIdx = pick(nonZero);
+        const power = str.length - 1 - targetIdx;
+        const code = PLACE_CODES[power];
+        const digit = Number(str[targetIdx]);
+        const value = digit * Math.pow(10, power);
+        const pool = PLACE_CODES.slice(0, Math.min(str.length + 1, 5));
+        const options = [...new Set([code, ...pool])].slice(0, 4).sort(() => Math.random() - 0.5);
+        return {
+          moduleKey: 'valorPos', category: 'logic',
+          badge: 'Lógica · Valor Posicional', subtype: 'Posición y valor del dígito',
+          type: 'place-value', num, str, targetIdx, power, code, digit, value, options,
+          selectedCode: null, usesNumpad: true,
+          hint: 'Cuenta las posiciones desde la derecha: Unidad (U), Decena (D), Centena (C), Unidad de Mil (UM), Decena de Mil (DM).'
+        };
+      }
+
+      // 4.7 REDONDEO
+      function genRedondeo(g) {
+        const targets = [{ unit: 10, name: 'Decena más cercana' }];
+        if (g >= 3) targets.push({ unit: 100, name: 'Centena más cercana' });
+        if (g >= 4) targets.push({ unit: 1000, name: 'Unidad de Mil más cercana' });
+        const target = pick(targets);
+        let num = target.unit === 10 ? randInt(24, 986) : target.unit === 100 ? randInt(125, 4875) : randInt(1250, 18750);
+        if (num % target.unit === 0) num += randInt(1, target.unit - 1);
+        const low = Math.floor(num / target.unit) * target.unit;
+        const high = Math.ceil(num / target.unit) * target.unit;
+        const mid = low + target.unit / 2;
+        const ans = Math.round(num / target.unit) * target.unit;
+        const decoy = ans === high ? Math.max(0, low - target.unit) : high + target.unit;
+        const choices = [...new Set([ans, low, high, decoy])].sort((a, b) => a - b);
+        const pct = Math.round(((num - low) / (high - low)) * 100);
+        return {
+          moduleKey: 'redondeo', category: 'logic',
+          badge: 'Lógica · Redondeo', subtype: `A la ${target.name}`,
+          type: 'rounding', num, target, low, mid, high, ans, choices, pct,
+          selected: null, usesNumpad: false, hint: 'RECTA_NUMERICA'
+        };
+      }
+
+      // 4.8 PROPIEDADES
+      function genPropiedades(g) {
+        const isAssoc = Math.random() < 0.55;
+        const useMult = g >= 4 && Math.random() < 0.4;
+        const op = useMult ? '×' : '+';
+        if (!isAssoc) {
+          const a = useMult ? randInt(3, 9) : randInt(7, 32);
+          let b = useMult ? randInt(3, 9) : randInt(7, 32);
+          if (a === b) b += 2;
+          return {
+            moduleKey: 'propiedades', category: 'logic',
+            badge: 'Lógica · Propiedades', subtype: 'Conmutativa y Asociativa',
+            type: 'property', propName: 'Conmutativa',
+            missing: a, total: useMult ? a * b : a + b,
+            leftExpr: `${a} ${op} ${b}`, rightPre: `${b} ${op} `, rightPost: '',
+            selectedProp: null, usesNumpad: true,
+            hint: 'Propiedad Conmutativa: el orden de los números no cambia el resultado. Propiedad Asociativa: cambia cómo se agrupan con paréntesis.'
+          };
+        } else {
+          const a = useMult ? randInt(2, 5) : randInt(4, 15);
+          const b = useMult ? randInt(2, 5) : randInt(4, 15);
+          const c = useMult ? randInt(2, 4) : randInt(4, 15);
+          return {
+            moduleKey: 'propiedades', category: 'logic',
+            badge: 'Lógica · Propiedades', subtype: 'Conmutativa y Asociativa',
+            type: 'property', propName: 'Asociativa',
+            missing: b, total: useMult ? a * b * c : a + b + c,
+            leftExpr: `(${a} ${op} ${b}) ${op} ${c}`, rightPre: `${a} ${op} (`, rightPost: ` ${op} ${c})`,
+            selectedProp: null, usesNumpad: true,
+            hint: 'Observa cómo cambiaron de lugar los paréntesis sin cambiar los números. Completa el número que falta y el total.'
+          };
+        }
+      }
+
+      // 4.9 LECTURA, 4.10 ORTOGRAFÍA, 4.11 VISUAL
+      function genLectura() {
+        const t = pick(READINGS);
+        return {
+          moduleKey: 'lectura', category: 'lang',
+          badge: 'Lengua · Lectura', subtype: 'Comprensión lectora',
+          type: 'reading', title: t.title, text: t.text, questions: t.questions,
+          qIdx: 0, selectedOpt: null, usesNumpad: false,
+          hint: 'Relee la oración del texto donde aparece la palabra clave de la pregunta.'
+        };
+      }
+
+      function genOrtografia() {
+        const item = pick(SPELLING_BANK);
+        return {
+          moduleKey: 'ortografia', category: 'lang',
+          badge: 'Lengua · Ortografía', subtype: `Elige entre ${item.pair.join(' / ')}`,
+          type: 'spelling', ...item, selected: null, usesNumpad: false,
+          hint: `Lee la oración en voz alta. Pista: ${item.rule}`
+        };
+      }
+
+      function genVisual() {
+        const pair = pick(VISUAL_PAIRS);
+        const targetCount = randInt(6, 9);
+        const cells = Array.from({ length: 25 }, (_, i) => (i < targetCount ? pair.target : pair.dist));
+        for (let i = cells.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [cells[i], cells[j]] = [cells[j], cells[i]];
+        }
+        return {
+          moduleKey: 'visual', category: 'lang',
+          badge: 'Entrenador Visual 5×5', subtype: `Distingue ${pair.target} de ${pair.dist}`,
+          type: 'visual', target: pair.target, dist: pair.dist, desc: pair.desc,
+          cells, picked: new Set(), usesNumpad: false,
+          hint: `Revisa fila por fila de izquierda a derecha buscando únicamente "${pair.target}".`
+        };
+      }
+
+      /* =====================================================================
+         5. SELECCIÓN Y CARGA DE EJERCICIOS
+         ===================================================================== */
+      function buildNextExercise() {
+        const g = state.grade, mode = state.mode, sub = state.subFilter;
+        if (mode === 'mixto') {
+          const plan = getRoundPlan(state.roundSize);
+          const slot = plan[Math.min(state.roundProgress, plan.length - 1)];
+          if (slot === 'math') {
+            return pick([genSumas, genRestas, genMult1, genMult2, genDivision, genValorPos, genRedondeo, genPropiedades])(g);
+          }
+          return pick([genLectura, genOrtografia, genVisual])(g);
+        }
+        if (mode === 'cuaderno') {
+          if (sub === 'sumas') return genSumas(g);
+          if (sub === 'restas') return genRestas(g);
+          if (sub === 'mult1') return genMult1(g);
+          if (sub === 'mult2') return genMult2(g);
+          if (sub === 'division') return genDivision(g);
+          return pick([genSumas, genRestas, genMult1, genMult2, genDivision])(g);
+        }
+        if (mode === 'logica') {
+          if (sub === 'valorPos') return genValorPos(g);
+          if (sub === 'redondeo') return genRedondeo(g);
+          if (sub === 'propiedades') return genPropiedades(g);
+          return pick([genValorPos, genRedondeo, genPropiedades])(g);
+        }
+        if (sub === 'lectura') return genLectura();
+        if (sub === 'ortografia') return genOrtografia();
+        if (sub === 'visual') return genVisual();
+        return pick([genLectura, genOrtografia, genVisual])();
+      }
+
+      function stopVisualTimer() { clearInterval(visualTimerId); visualTimerId = null; }
+
+      function loadExercise() {
+        stopVisualTimer();
+        currentEx = buildNextExercise();
+        exSolved = false;
+        activeCell = null;
+
+        $('exBadge').textContent = currentEx.badge;
+        $('exBadge').className = 'badge ' + (
+          currentEx.category === 'math' ? 'badge-math' :
+          currentEx.category === 'logic' ? 'badge-logic' : 'badge-lang'
+        );
+        $('exSubtype').textContent = currentEx.subtype;
+
+        $('hintBox').classList.add('hidden');
+        $('feedbackBox').classList.add('hidden');
+        $('btnCheck').classList.remove('hidden');
+        $('btnCheck').textContent = currentEx.type === 'division-manual' ? 'Confirmar paso ✓' : 'Comprobar respuesta';
+        $('btnNext').classList.add('hidden');
+        $('numpad').classList.toggle('hidden', !currentEx.usesNumpad);
+
+        switch (currentEx.type) {
+          case 'vertical-basic': renderVerticalBasic(currentEx); break;
+          case 'mult-2digit': renderMult2Digit(currentEx); break;
+          case 'division-manual': renderDivisionManual(currentEx); break;
+          case 'place-value': renderPlaceValue(currentEx); break;
+          case 'rounding': renderRounding(currentEx); break;
+          case 'property': renderProperty(currentEx); break;
+          case 'reading': renderReading(currentEx); break;
+          case 'spelling': renderSpelling(currentEx); break;
+          case 'visual': renderVisual(currentEx); break;
+        }
+      }
+
+      /* =====================================================================
+         6. RENDERIZADO DE DIVISIÓN LARGA 100% MANUAL (FORMATO LATAM / VENEZUELA)
+         ===================================================================== */
+      function renderDivisionManual(ex) {
+        const totalCols = ex.dStr.length;
+        const curSt = ex.steps[ex.stepIdx];
+
+        // 1. Indicador de micro-paso actual
+        let bannerClass = 'step-banner';
+        let bannerText = '';
+        if (ex.phase === 'done') {
+          bannerClass += ' phase-done';
+          bannerText = `🎉 ¡División completada! Cociente: ${ex.quotient} · Residuo final: ${ex.remainder}`;
+        } else if (ex.phase === 'quotient') {
+          bannerText = `Paso 1: Escribe el dígito del cociente (${curSt.cur} ÷ ${ex.divisor})`;
+        } else if (ex.phase === 'multiply') {
+          bannerClass += ' phase-mul';
+          bannerText = `Paso 2: Multiplica ${curSt.qDigit} × ${ex.divisor} y escribe el resultado para restar`;
+        } else if (ex.phase === 'subtract') {
+          bannerClass += ' phase-sub';
+          bannerText = `Paso 3: Resta ${curSt.cur} − ${curSt.sub} y escribe el residuo`;
+        } else if (ex.phase === 'bringdown') {
+          bannerClass += ' phase-down';
+          bannerText = `Paso 4: Baja la siguiente cifra del dividendo junto al residuo`;
+        }
+
+        // Interruptor opcional de divisor de 2 cifras (disponible en 4to-6to grado)
+        let toggleHtml = '';
+        if (state.grade >= 4) {
+          toggleHtml = `
+            <div class="div-toggle-row">
+              <span>Dificultad del divisor:</span>
+              <div class="seg-toggle">
+                <button type="button" id="btnDiv1D" class="${!state.divTwoDigits ? 'active' : ''}">1 cifra</button>
+                <button type="button" id="btnDiv2D" class="${state.divTwoDigits ? 'active' : ''}">2 cifras</button>
+              </div>
+            </div>
+          `;
+        }
+
+        // 2. Fila del dividendo (dígito por dígito)
+        let divdRow = '<div class="math-row"><div class="op-col"></div>';
+        for (let c = 0; c < totalCols; c++) {
+          let cls = 'static-cell';
+          if (ex.initialCols.includes(c)) cls += ' div-taken';
+          if (ex.phase === 'bringdown' && curSt && curSt.nextCol === c) cls += ' div-bring-source';
+          divdRow += `<div class="${cls}">${ex.dStr[c]}</div>`;
+        }
+        divdRow += '</div>';
+
+        // 3. Filas de procedimiento (solo se muestran hasta el paso y fase actuales)
+        let procRowsHtml = '';
+        for (let s = 0; s <= ex.stepIdx && s < ex.steps.length; s++) {
+          const st = ex.steps[s];
+          const isPastStep = s < ex.stepIdx || ex.phase === 'done';
+
+          // ¿Mostrar fila de multiplicación/resta para este paso?
+          const showSub = isPastStep || ex.phase === 'multiply' || ex.phase === 'subtract' || ex.phase === 'bringdown';
+          if (showSub) {
+            const subLen = st.userSub.length;
+            const subStart = st.endCol - subLen + 1;
+            const isSubEditable = !isPastStep && ex.phase === 'multiply';
+
+            let subRow = '<div class="math-row"><div class="op-col" style="color:var(--danger);font-size:16px;">−</div>';
+            for (let c = 0; c < totalCols; c++) {
+              const p = c - subStart;
+              if (p >= 0 && p < subLen) {
+                const cellCls = isSubEditable ? 'grid-cell' : 'grid-cell locked';
+                subRow += `<button type="button" class="${cellCls}" data-cell="dsub-${s}-${p}" data-max="1" ${isSubEditable ? '' : 'disabled'}>${st.userSub[p]}</button>`;
+              } else {
+                subRow += '<div class="static-cell empty"></div>';
+              }
+            }
+            subRow += '</div>';
+
+            // Línea horizontal de resta alineada bajo las columnas de la operación
+            const lineStart = Math.min(subStart, st.endCol - String(st.cur).length + 1);
+            let lineRow = '<div class="div-sub-line-row"><div class="op-col"></div>';
+            for (let c = 0; c < totalCols; c++) {
+              const hasLine = c >= lineStart && c <= st.endCol;
+              lineRow += `<div class="div-line-seg ${hasLine ? '' : 'empty'}"></div>`;
+            }
+            lineRow += '</div>';
+
+            procRowsHtml += subRow + lineRow;
+          }
+
+          // ¿Mostrar fila de residuo parcial (y casilla para bajar cifra)?
+          const showRem = isPastStep || ex.phase === 'subtract' || ex.phase === 'bringdown';
+          if (showRem) {
+            const remLen = st.userRem.length;
+            const remStart = st.endCol - remLen + 1;
+            const isRemEditable = !isPastStep && ex.phase === 'subtract';
+            const showDownCell = st.nextDigit !== null && (isPastStep || ex.phase === 'bringdown');
+            const isDownEditable = !isPastStep && ex.phase === 'bringdown';
+
+            // Si estamos en fase 'bringdown', mostrar flecha sutil ↓ arriba de la casilla destino
+            if (isDownEditable && st.nextCol !== null) {
+              let arrowRow = '<div class="math-row"><div class="op-col"></div>';
+              for (let c = 0; c < totalCols; c++) {
+                if (c === st.nextCol) {
+                  arrowRow += '<div class="bring-arrow-cell" style="height:18px;font-size:14px;">↓</div>';
+                } else {
+                  arrowRow += '<div class="static-cell empty" style="height:18px;"></div>';
+                }
+              }
+              arrowRow += '</div>';
+              procRowsHtml += arrowRow;
+            }
+
+            let remRow = '<div class="math-row"><div class="op-col"></div>';
+            for (let c = 0; c < totalCols; c++) {
+              const p = c - remStart;
+              if (p >= 0 && p < remLen) {
+                const cellCls = isRemEditable ? 'grid-cell' : 'grid-cell locked';
+                remRow += `<button type="button" class="${cellCls}" data-cell="drem-${s}-${p}" data-max="1" ${isRemEditable ? '' : 'disabled'}>${st.userRem[p]}</button>`;
+              } else if (showDownCell && c === st.nextCol) {
+                const downCls = isDownEditable ? 'grid-cell down-target-cell' : 'grid-cell locked';
+                remRow += `<button type="button" class="${downCls}" data-cell="ddown-${s}" data-max="1" ${isDownEditable ? '' : 'disabled'}>${st.userDown}</button>`;
+              } else {
+                remRow += '<div class="static-cell empty"></div>';
+              }
+            }
+            remRow += '</div>';
+            procRowsHtml += remRow;
+          }
+        }
+
+        // 4. Lado derecho: Galera (Divisor arriba, Cociente abajo)
+        let qRow = '<div class="math-row">';
+        ex.steps.forEach((st, s) => {
+          const isCurrentQ = ex.phase === 'quotient' && s === ex.stepIdx;
+          const isDoneQ = s < ex.stepIdx || (s === ex.stepIdx && ex.phase !== 'quotient') || ex.phase === 'done';
+          const cls = isCurrentQ ? 'grid-cell' : isDoneQ ? 'grid-cell locked' : 'grid-cell pending';
+          qRow += `<button type="button" class="${cls}" data-cell="dq-${s}" data-max="1" ${isCurrentQ ? '' : 'disabled'}>${st.userQ}</button>`;
+        });
+        qRow += '</div>';
+
+        const summaryHtml = ex.phase === 'done'
+          ? `<div class="div-summary-pill"><span>Cociente: ${ex.quotient}</span><span>Residuo final: ${ex.remainder}</span></div>`
+          : '';
+
+        $('exBody').innerHTML = `
+          <div class="notebook">
+            ${toggleHtml}
+            <div class="${bannerClass}">${bannerText}</div>
+            <div class="div-board">
+              <div class="div-left">
+                ${divdRow}
+                ${procRowsHtml}
+              </div>
+              <div class="div-galera">
+                <div class="div-divisor-row">
+                  <div class="div-divisor-chip">${ex.divisor}</div>
+                </div>
+                <div>
+                  <div style="font-size:9.5px;font-weight:800;color:var(--primary);margin-bottom:3px;">Cociente:</div>
+                  ${qRow}
+                </div>
+              </div>
+            </div>
+            ${summaryHtml}
+          </div>
+        `;
+
+        // Eventos del interruptor 1 cifra / 2 cifras
+        if (state.grade >= 4) {
+          $('btnDiv1D').addEventListener('click', () => {
+            if (!state.divTwoDigits) return;
+            state.divTwoDigits = false;
+            saveState();
+            loadExercise();
+          });
+          $('btnDiv2D').addEventListener('click', () => {
+            if (state.divTwoDigits) return;
+            state.divTwoDigits = true;
+            saveState();
+            loadExercise();
+          });
+        }
+
+        bindCells();
+
+        // Enfocar automáticamente la primera casilla editable del micro-paso actual
+        if (ex.phase === 'quotient') setActiveCell(`dq-${ex.stepIdx}`);
+        else if (ex.phase === 'multiply') setActiveCell(`dsub-${ex.stepIdx}-0`);
+        else if (ex.phase === 'subtract') setActiveCell(`drem-${ex.stepIdx}-0`);
+        else if (ex.phase === 'bringdown') setActiveCell(`ddown-${ex.stepIdx}`);
+        else activeCell = null;
+      }
+
+      /* =====================================================================
+         7. RENDERIZADO DE LOS DEMÁS MÓDULOS
+         ===================================================================== */
+      function renderVerticalBasic(ex) {
+        const cols = ex.cols;
+        const aS = String(ex.a).padStart(cols, ' ');
+        const bS = String(ex.b).padStart(cols, ' ');
+        let hdr = '<div class="op-col"></div>', carry = '<div class="op-col" style="font-size:10px;color:#d97706;">↑</div>';
+        let rA = '<div class="op-col"></div>', rB = `<div class="op-col">${ex.op}</div>`, ans = '<div class="op-col" style="color:#94a3b8;">=</div>';
+
+        for (let i = 0; i < cols; i++) {
+          const code = PLACE_CODES[cols - 1 - i] || '';
+          hdr += `<div class="col-hdr hdr-${code}">${code}</div>`;
+          carry += `<button type="button" class="grid-cell carry" data-cell="c-${i}" data-max="2"></button>`;
+          rA += `<div class="static-cell ${aS[i] === ' ' ? 'empty' : ''}">${aS[i] === ' ' ? '' : aS[i]}</div>`;
+          rB += `<div class="static-cell ${bS[i] === ' ' ? 'empty' : ''}">${bS[i] === ' ' ? '' : bS[i]}</div>`;
+          ans += `<button type="button" class="grid-cell" data-cell="a-${i}" data-max="1"></button>`;
+        }
+
+        $('exBody').innerHTML = `
+          <div class="notebook">
+            <p class="nb-instruction">Empieza por las <strong>Unidades (U)</strong>. Usa la fila amarilla para llevadas o préstamos.</p>
+            <div class="math-grid ${cols >= 6 ? 'cols-6' : ''}">
+              <div class="math-row">${hdr}</div>
+              <div class="math-row">${carry}</div>
+              <div class="math-row">${rA}</div>
+              <div class="math-row">${rB}</div>
+              <div class="math-line"></div>
+              <div class="math-row">${ans}</div>
+            </div>
+          </div>
+        `;
+        bindCells();
+        setActiveCell(`a-${cols - 1}`);
+      }
+
+      function renderMult2Digit(ex) {
+        const cols = ex.cols;
+        const aS = String(ex.a).padStart(cols, ' '), bS = String(ex.b).padStart(cols, ' ');
+        const p1Len = String(ex.p1).length, p2Len = String(ex.p2).length;
+        let hdr = '<div class="op-col"></div>', carry = '<div class="op-col" style="font-size:10px;color:#d97706;">↑</div>';
+        let rA = '<div class="op-col"></div>', rB = '<div class="op-col">×</div>';
+        let rP1 = '<div class="op-col" style="font-size:9.5px;color:#4338ca;">P1</div>';
+        let rP2 = '<div class="op-col" style="font-size:12px;color:#059669;">+</div>';
+        let rTot = '<div class="op-col" style="color:#64748b;">=</div>';
+
+        for (let i = 0; i < cols; i++) {
+          const code = PLACE_CODES[cols - 1 - i] || '';
+          hdr += `<div class="col-hdr hdr-${code}">${code}</div>`;
+          carry += `<button type="button" class="grid-cell carry" data-cell="mc-${i}" data-max="2"></button>`;
+          rA += `<div class="static-cell ${aS[i] === ' ' ? 'empty' : ''}">${aS[i] === ' ' ? '' : aS[i]}</div>`;
+          rB += `<div class="static-cell ${bS[i] === ' ' ? 'empty' : ''}">${bS[i] === ' ' ? '' : bS[i]}</div>`;
+          rP1 += i >= cols - p1Len ? `<button type="button" class="grid-cell" data-cell="p1-${i}" data-max="1"></button>` : '<div class="static-cell empty"></div>';
+          if (i === cols - 1) rP2 += '<div class="static-cell placeholder-dash">—</div>';
+          else if (i >= cols - 1 - p2Len) rP2 += `<button type="button" class="grid-cell" data-cell="p2-${i}" data-max="1"></button>`;
+          else rP2 += '<div class="static-cell empty"></div>';
+          rTot += `<button type="button" class="grid-cell" data-cell="tot-${i}" data-max="1"></button>`;
+        }
+
+        $('exBody').innerHTML = `
+          <div class="notebook">
+            <div id="mult2StepBanner" class="step-banner">Paso 1: Multiplica ${ex.a} × ${ex.bUnits} (unidades)</div>
+            <div class="math-grid ${cols >= 6 ? 'cols-6' : ''}">
+              <div class="math-row">${hdr}</div>
+              <div class="math-row">${carry}</div>
+              <div class="math-row">${rA}</div>
+              <div class="math-row">${rB}</div>
+              <div class="math-line"></div>
+              <div class="math-row">${rP1}</div>
+              <div class="math-row">${rP2}</div>
+              <div class="math-line"></div>
+              <div class="math-row">${rTot}</div>
+            </div>
+          </div>
+        `;
+        bindCells();
+        setActiveCell(`p1-${cols - 1}`);
+      }
+
+      function renderPlaceValue(ex) {
+        let digs = '';
+        for (let i = 0; i < ex.str.length; i++) {
+          const fromR = ex.str.length - 1 - i;
+          digs += `<span class="pv-digit ${i === ex.targetIdx ? 'target' : ''}">${ex.str[i]}</span>`;
+          if (fromR > 0 && fromR % 3 === 0) digs += '<span style="font-family:var(--font-mono);font-size:20px;font-weight:800;color:#94a3b8;align-self:flex-end;">.</span>';
+        }
+        const opts = ex.options.map(code => `<button type="button" class="choice-btn pv-opt" data-code="${code}">${PLACE_NAMES[code]} (${code})</button>`).join('');
+        $('exBody').innerHTML = `
+          <div style="text-align:center;">
+            <div style="font-size:11.5px;font-weight:700;color:var(--text-muted);">Observa el dígito resaltado en azul:</div>
+            <div class="pv-digits">${digs}</div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <div style="font-size:11.5px;font-weight:800;margin-bottom:6px;">1. ¿Qué posición ocupa el <span style="color:var(--primary);">${ex.digit}</span>?</div>
+            <div class="choice-grid-2">${opts}</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;border:1px solid var(--border);border-radius:11px;padding:9px 11px;">
+            <span style="font-size:11.5px;font-weight:800;">2. ¿Cuánto vale ese ${ex.digit}?</span>
+            <button type="button" class="grid-cell wide" data-cell="pv-val" data-max="6"></button>
+          </div>
+        `;
+        document.querySelectorAll('.pv-opt').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.selectedCode = b.dataset.code;
+            document.querySelectorAll('.pv-opt').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+          });
+        });
+        bindCells();
+        setActiveCell('pv-val');
+      }
+
+      function renderRounding(ex) {
+        const btns = ex.choices.map(val => `<button type="button" class="choice-btn mono-lg rnd-opt" data-val="${val}">${fmtNum(val)}</button>`).join('');
+        $('exBody').innerHTML = `
+          <div class="notebook" style="margin-bottom:10px;padding-top:14px;padding-bottom:14px;">
+            <div style="font-size:11.5px;font-weight:700;color:var(--text-muted);">Redondea a la</div>
+            <div style="font-size:13.5px;font-weight:800;color:var(--violet);margin:2px 0 8px;">${ex.target.name}</div>
+            <div style="background:#fff;border:2px solid #ddd6fe;border-radius:13px;padding:7px 20px;font-family:var(--font-mono);font-size:26px;font-weight:800;">${fmtNum(ex.num)}</div>
+          </div>
+          <div class="choice-grid-2">${btns}</div>
+        `;
+        document.querySelectorAll('.rnd-opt').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.selected = Number(b.dataset.val);
+            document.querySelectorAll('.rnd-opt').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+          });
+        });
+      }
+
+      function renderProperty(ex) {
+        $('exBody').innerHTML = `
+          <div class="notebook" style="margin-bottom:10px;">
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:7px;">1. Completa el número que falta y el resultado:</div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;font-family:var(--font-mono);font-size:16px;font-weight:800;">
+              <span>${ex.leftExpr}</span><span style="color:var(--primary);">=</span><span>${ex.rightPre}</span>
+              <button type="button" class="grid-cell" data-cell="pr-miss" data-max="2" style="width:42px;height:36px;"></button>
+              <span>${ex.rightPost}</span><span style="color:var(--primary);">=</span>
+              <button type="button" class="grid-cell" data-cell="pr-tot" data-max="3" style="width:52px;height:36px;"></button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11.5px;font-weight:800;margin-bottom:6px;">2. ¿Qué propiedad se aplicó?</div>
+            <div class="choice-grid-2">
+              <button type="button" class="choice-btn prop-opt" data-p="Conmutativa">🔄 Conmutativa</button>
+              <button type="button" class="choice-btn prop-opt" data-p="Asociativa">🔗 Asociativa</button>
+            </div>
+          </div>
+        `;
+        document.querySelectorAll('.prop-opt').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.selectedProp = b.dataset.p;
+            document.querySelectorAll('.prop-opt').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+          });
+        });
+        bindCells();
+        setActiveCell('pr-miss');
+      }
+
+      function renderReading(ex) {
+        const curQ = ex.questions[ex.qIdx];
+        const opts = curQ.opts.map((o, i) => `<button type="button" class="read-opt" data-idx="${i}"><strong style="color:var(--accent);">${String.fromCharCode(65 + i)})</strong> ${o}</button>`).join('');
+        $('exBody').innerHTML = `
+          <div class="reading-box">
+            <h4 class="reading-title">📖 ${ex.title}</h4>
+            <p class="reading-text">${ex.text}</p>
+          </div>
+          <div class="q-progress">Pregunta ${ex.qIdx + 1} de ${ex.questions.length}</div>
+          <div style="font-size:12.5px;font-weight:800;margin-bottom:7px;">${curQ.q}</div>
+          <div>${opts}</div>
+        `;
+        document.querySelectorAll('.read-opt').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.selectedOpt = Number(b.dataset.idx);
+            document.querySelectorAll('.read-opt').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+          });
+        });
+      }
+
+      function renderSpelling(ex) {
+        const sent = ex.sentence.replace('___', '<span id="spellBlank" style="display:inline-block;min-width:22px;border-bottom:2.5px solid var(--primary);color:var(--primary);font-weight:800;text-align:center;">?</span>');
+        const colsStyle = ex.pair.length === 3 ? 'grid-template-columns:repeat(3,1fr);' : 'grid-template-columns:repeat(2,1fr);';
+        const btns = ex.pair.map(l => `<button type="button" class="choice-btn mono-lg sp-opt" data-l="${l}" style="height:52px;font-size:23px;">${l}</button>`).join('');
+        $('exBody').innerHTML = `
+          <div class="notebook" style="margin-bottom:12px;padding-top:16px;padding-bottom:16px;">
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">Completa la palabra con la letra correcta:</div>
+            <div style="font-size:15.5px;font-weight:700;text-align:center;line-height:1.45;">${sent}</div>
+          </div>
+          <div style="display:grid;${colsStyle}gap:9px;max-width:250px;margin:0 auto;">${btns}</div>
+        `;
+        document.querySelectorAll('.sp-opt').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.selected = b.dataset.l;
+            $('spellBlank').textContent = ex.selected;
+            document.querySelectorAll('.sp-opt').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+          });
+        });
+      }
+
+      function renderVisual(ex) {
+        visualSecs = 0;
+        const cellsHtml = ex.cells.map((ch, idx) => `<button type="button" class="v-cell" data-vi="${idx}">${ch}</button>`).join('');
+        $('exBody').innerHTML = `
+          <div class="visual-header">
+            <div>Toca todos los <span class="target-chip">${ex.target}</span> (${ex.desc})</div>
+            <button type="button" id="btnToggleVisTimer" class="mini-btn" style="background:#fff;border:1px solid #99f6e4;color:#0f766e;">
+              ⏱ <span id="visClock">${visualTimedMode ? '00:00' : 'Libre'}</span>
+            </button>
+          </div>
+          <div class="visual-grid-5">${cellsHtml}</div>
+        `;
+        if (visualTimedMode) startVisualClock();
+        $('btnToggleVisTimer').addEventListener('click', () => {
+          visualTimedMode = !visualTimedMode;
+          if (visualTimedMode) { visualSecs = 0; startVisualClock(); }
+          else { stopVisualTimer(); $('visClock').textContent = 'Libre'; }
+        });
+        document.querySelectorAll('.v-cell').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            const i = Number(b.dataset.vi);
+            b.classList.remove('err', 'ok');
+            if (ex.picked.has(i)) { ex.picked.delete(i); b.classList.remove('picked'); }
+            else { ex.picked.add(i); b.classList.add('picked'); }
+          });
+        });
+      }
+
+      function startVisualClock() {
+        stopVisualTimer();
+        const el = $('visClock');
+        if (el) el.textContent = fmtClock(visualSecs);
+        visualTimerId = setInterval(() => {
+          visualSecs++;
+          const c = $('visClock');
+          if (c) c.textContent = fmtClock(visualSecs);
+        }, 1000);
+      }
+
+      /* =====================================================================
+         8. INTERACCIÓN DE CELDAS Y TECLADO NUMÉRICO
+         ===================================================================== */
+      function bindCells() {
+        document.querySelectorAll('.grid-cell:not([disabled])').forEach(c => {
+          c.addEventListener('click', () => {
+            if (exSolved) return;
+            setActiveCell(c.dataset.cell);
+          });
+        });
+      }
+
+      function setActiveCell(cellId) {
+        activeCell = cellId;
+        document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('active'));
+        const el = document.querySelector(`[data-cell="${cellId}"]:not([disabled])`);
+        if (el) {
+          el.classList.add('active');
+          if (currentEx && currentEx.type === 'mult-2digit') {
+            const banner = $('mult2StepBanner');
+            if (banner) {
+              if (cellId.startsWith('p1-')) banner.textContent = `Paso 1: Multiplica ${currentEx.a} × ${currentEx.bUnits} (unidades)`;
+              else if (cellId.startsWith('p2-')) banner.textContent = `Paso 2: Multiplica ${currentEx.a} × ${currentEx.bTens} (decenas, sin usar U)`;
+              else if (cellId.startsWith('tot-')) banner.textContent = `Paso 3: Suma ambos resultados parciales`;
+            }
+          }
+        }
+      }
+
+      function syncDivisionModel(cellId, val) {
+        if (!currentEx || currentEx.type !== 'division-manual') return;
+        const st = currentEx.steps[currentEx.stepIdx];
+        if (!st) return;
+        if (cellId === `dq-${currentEx.stepIdx}`) st.userQ = val;
+        else if (cellId === `ddown-${currentEx.stepIdx}`) st.userDown = val;
+        else if (cellId.startsWith(`dsub-${currentEx.stepIdx}-`)) {
+          const p = Number(cellId.split('-')[2]);
+          st.userSub[p] = val;
+        } else if (cellId.startsWith(`drem-${currentEx.stepIdx}-`)) {
+          const p = Number(cellId.split('-')[2]);
+          st.userRem[p] = val;
+        }
+      }
+
+      function handleKey(k) {
+        if (exSolved || !activeCell) return;
+        const cell = document.querySelector(`[data-cell="${activeCell}"]:not([disabled])`);
+        if (!cell) return;
+        cell.classList.remove('err', 'ok');
+
+        const max = Number(cell.dataset.max || 1);
+        const cur = cell.textContent.trim();
+
+        if (k === 'CLR') {
+          cell.textContent = '';
+          syncDivisionModel(activeCell, '');
+          return;
+        }
+        if (k === 'BACK') {
+          const nextVal = cur.slice(0, -1);
+          cell.textContent = nextVal;
+          syncDivisionModel(activeCell, nextVal);
+          // Si ya estaba vacío en división multi-dígito, retroceder a la celda anterior del mismo paso
+          if (cur === '' && currentEx.type === 'division-manual') {
+            const m = activeCell.match(/^(dsub|drem)-(\d+)-(\d+)$/);
+            if (m && Number(m[3]) > 0) setActiveCell(`${m[1]}-${m[2]}-${Number(m[3]) - 1}`);
+          }
+          return;
+        }
+
+        if (max === 1) {
+          cell.textContent = k;
+          syncDivisionModel(activeCell, k);
+          advanceCell(activeCell);
+        } else if (cur.length < max) {
+          const nextVal = cur + k;
+          cell.textContent = nextVal;
+          syncDivisionModel(activeCell, nextVal);
+        }
+      }
+
+      function advanceCell(id) {
+        // Avance derecha -> izquierda en sumas, restas y multiplicaciones
+        const m = id.match(/^(a|p1|p2|tot)-(\d+)$/);
+        if (m) {
+          const prefix = m[1], idx = Number(m[2]);
+          const left = document.querySelector(`[data-cell="${prefix}-${idx - 1}"]`);
+          if (left) { setActiveCell(`${prefix}-${idx - 1}`); return; }
+          if (prefix === 'p1') {
+            const p2Start = document.querySelector(`[data-cell="p2-${currentEx.cols - 2}"]`);
+            if (p2Start) setActiveCell(`p2-${currentEx.cols - 2}`);
+          } else if (prefix === 'p2') {
+            const totStart = document.querySelector(`[data-cell="tot-${currentEx.cols - 1}"]`);
+            if (totStart) setActiveCell(`tot-${currentEx.cols - 1}`);
+          }
+          return;
+        }
+        if (id === 'pr-miss') { setActiveCell('pr-tot'); return; }
+
+        // Avance izquierda -> derecha dentro del mismo micro-paso en división manual
+        const dm = id.match(/^(dsub|drem)-(\d+)-(\d+)$/);
+        if (dm) {
+          const nxt = document.querySelector(`[data-cell="${dm[1]}-${dm[2]}-${Number(dm[3]) + 1}"]:not([disabled])`);
+          if (nxt) setActiveCell(`${dm[1]}-${dm[2]}-${Number(dm[3]) + 1}`);
+        }
+      }
+
+      /* =====================================================================
+         9. VALIDACIÓN INTELIGENTE (SIN REGALAR RESPUESTAS)
+         ===================================================================== */
+      function showFeedback(isOk, html) {
+        const box = $('feedbackBox');
+        box.classList.remove('hidden', 'ok', 'err');
+        box.classList.add(isOk ? 'ok' : 'err');
+        $('fbIcon').textContent = isOk ? '✅' : '🔎';
+        $('fbText').innerHTML = html;
+      }
+
+      function markCell(el, isOk) {
+        if (!el) return;
+        el.classList.remove('ok', 'err');
+        el.classList.add(isOk ? 'ok' : 'err');
+      }
+
+      function recordOutcome(isOk, finishExercise = true) {
+        const mk = currentEx.moduleKey;
+        if (!state.stats.modules[mk]) state.stats.modules[mk] = { ok: 0, err: 0 };
+
+        if (isOk) {
+          state.stats.ok++;
+          state.stats.streak++;
+          state.stats.modules[mk].ok++;
+          if (!studyRunning && studySecs > 0) startStudyTimer();
+          if (finishExercise) {
+            exSolved = true;
+            state.roundProgress++;
+            $('btnCheck').classList.add('hidden');
+            $('btnNext').classList.remove('hidden');
+            $('btnNext').textContent = state.roundProgress >= state.roundSize ? '🎉 ¡Ver video educativo!' : 'Siguiente ejercicio →';
+          }
+        } else {
+          state.stats.err++;
+          state.stats.streak = 0;
+          state.stats.modules[mk].err++;
+        }
+        saveState();
+        renderHeaderUI();
+      }
+
+      // --- VALIDACIÓN PASO A PASO DE DIVISIÓN MANUAL ---
+      function validateDivisionStep(ex) {
+        const st = ex.steps[ex.stepIdx];
+        $('hintBox').classList.add('hidden');
+
+        // FASE 1: COCIENTE
+        if (ex.phase === 'quotient') {
+          const cell = document.querySelector(`[data-cell="dq-${ex.stepIdx}"]`);
+          const val = st.userQ.trim();
+          if (val === '') {
+            showFeedback(false, 'Escribe un dígito en la casilla azul del cociente.');
+            return;
+          }
+          const num = Number(val);
+          if (num === st.qDigit) {
+            $('feedbackBox').classList.add('hidden');
+            ex.phase = 'multiply';
+            renderDivisionManual(ex);
+          } else {
+            markCell(cell, false);
+            if (num * ex.divisor > st.cur) {
+              showFeedback(false, `Ese número se pasa al multiplicar por ${ex.divisor}. Prueba un dígito más pequeño.`);
+            } else {
+              showFeedback(false, `Todavía cabe un poco más al dividir entre ${ex.divisor}. Prueba un dígito más grande.`);
+            }
+            recordOutcome(false, false);
+          }
+          return;
+        }
+
+        // FASE 2: MULTIPLICACIÓN (cociente × divisor)
+        if (ex.phase === 'multiply') {
+          const expStr = String(st.sub);
+          let anyEmpty = false, allOk = true;
+          for (let p = 0; p < expStr.length; p++) {
+            const cell = document.querySelector(`[data-cell="dsub-${ex.stepIdx}-${p}"]`);
+            const v = (st.userSub[p] || '').trim();
+            if (v === '') anyEmpty = true;
+            const ok = v === expStr[p];
+            if (!ok) { allOk = false; markCell(cell, false); }
+            else markCell(cell, true);
+          }
+          if (anyEmpty) {
+            showFeedback(false, 'Completa todas las casillas del producto antes de confirmar.');
+            return;
+          }
+          if (allOk) {
+            $('feedbackBox').classList.add('hidden');
+            ex.phase = 'subtract';
+            renderDivisionManual(ex);
+          } else {
+            showFeedback(false, `Revisa tu multiplicación (${st.qDigit} × ${ex.divisor}) y corrige las casillas en rojo.`);
+            recordOutcome(false, false);
+          }
+          return;
+        }
+
+        // FASE 3: RESTA (dividendo parcial − producto)
+        if (ex.phase === 'subtract') {
+          const expStr = String(st.rem);
+          let anyEmpty = false, allOk = true;
+          for (let p = 0; p < expStr.length; p++) {
+            const cell = document.querySelector(`[data-cell="drem-${ex.stepIdx}-${p}"]`);
+            const v = (st.userRem[p] || '').trim();
+            if (v === '') anyEmpty = true;
+            const ok = v === expStr[p];
+            if (!ok) { allOk = false; markCell(cell, false); }
+            else markCell(cell, true);
+          }
+          if (anyEmpty) {
+            showFeedback(false, 'Escribe el resultado de la resta antes de confirmar.');
+            return;
+          }
+          if (allOk) {
+            if (st.nextDigit !== null) {
+              $('feedbackBox').classList.add('hidden');
+              ex.phase = 'bringdown';
+              renderDivisionManual(ex);
+            } else {
+              // ¡Última resta terminada!
+              ex.phase = 'done';
+              renderDivisionManual(ex);
+              showFeedback(true, `¡Excelente trabajo! Completaste todo el procedimiento: ${ex.dividend} ÷ ${ex.divisor} = <strong>${ex.quotient}</strong> y residuo <strong>${ex.remainder}</strong>.`);
+              recordOutcome(true, true);
+            }
+          } else {
+            showFeedback(false, `Revisa la resta (${st.cur} − ${st.sub}) y corrige las casillas en rojo.`);
+            recordOutcome(false, false);
+          }
+          return;
+        }
+
+        // FASE 4: BAJAR LA SIGUIENTE CIFRA
+        if (ex.phase === 'bringdown') {
+          const cell = document.querySelector(`[data-cell="ddown-${ex.stepIdx}"]`);
+          const v = st.userDown.trim();
+          if (v === '') {
+            showFeedback(false, 'Copia aquí el dígito señalado arriba en el dividendo.');
+            return;
+          }
+          if (v === st.nextDigit) {
+            $('feedbackBox').classList.add('hidden');
+            ex.stepIdx++;
+            ex.phase = 'quotient';
+            renderDivisionManual(ex);
+          } else {
+            markCell(cell, false);
+            showFeedback(false, 'Mira bien la cifra resaltada arriba en el dividendo y escríbela exactamente aquí.');
+            recordOutcome(false, false);
+          }
+        }
+      }
+
+      // --- VALIDACIÓN GENERAL ---
+      function checkAnswer() {
+        if (!currentEx || exSolved) return;
+        const ex = currentEx;
+
+        if (ex.type === 'division-manual') {
+          validateDivisionStep(ex);
+          return;
+        }
+
+        if (ex.type === 'vertical-basic') {
+          const exp = String(ex.res).padStart(ex.cols, ' ');
+          let allOk = true;
+          const wrongCols = [];
+          for (let i = 0; i < ex.cols; i++) {
+            const cell = document.querySelector(`[data-cell="a-${i}"]`);
+            const val = cell.textContent.trim();
+            const eCh = exp[i] === ' ' ? '' : exp[i];
+            const ok = val === eCh || (eCh === '' && val === '0');
+            markCell(cell, ok);
+            if (!ok) { allOk = false; wrongCols.push(PLACE_NAMES[PLACE_CODES[ex.cols - 1 - i]] || 'casilla'); }
+          }
+          if (allOk) { showFeedback(true, `¡Excelente! Resultado correcto: <strong>${fmtNum(ex.res)}</strong>.`); recordOutcome(true); }
+          else { showFeedback(false, `Revisa las casillas en rojo (${wrongCols.reverse().join(', ')}).`); recordOutcome(false); }
+          return;
+        }
+
+        if (ex.type === 'mult-2digit') {
+          const p1S = String(ex.p1), p2S = String(ex.p2), totS = String(ex.total).padStart(ex.cols, ' ');
+          let p1Ok = true, p2Ok = true, totOk = true;
+          for (let k = 0; k < p1S.length; k++) {
+            const cell = document.querySelector(`[data-cell="p1-${ex.cols - p1S.length + k}"]`);
+            const ok = cell.textContent.trim() === p1S[k];
+            markCell(cell, ok);
+            if (!ok) p1Ok = false;
+          }
+          for (let k = 0; k < p2S.length; k++) {
+            const cell = document.querySelector(`[data-cell="p2-${ex.cols - 1 - p2S.length + k}"]`);
+            const ok = cell.textContent.trim() === p2S[k];
+            markCell(cell, ok);
+            if (!ok) p2Ok = false;
+          }
+          for (let i = 0; i < ex.cols; i++) {
+            const cell = document.querySelector(`[data-cell="tot-${i}"]`);
+            const val = cell.textContent.trim();
+            const eCh = totS[i] === ' ' ? '' : totS[i];
+            const ok = val === eCh || (eCh === '' && val === '0');
+            markCell(cell, ok);
+            if (!ok) totOk = false;
+          }
+          if (p1Ok && p2Ok && totOk) {
+            showFeedback(true, `¡Súper trabajo! ${ex.a} × ${ex.b} = <strong>${fmtNum(ex.total)}</strong>.`);
+            recordOutcome(true);
+          } else {
+            const errs = [];
+            if (!p1Ok) errs.push(`Paso 1 (${ex.a} × ${ex.bUnits})`);
+            if (!p2Ok) errs.push(`Paso 2 (${ex.a} × ${ex.bTens})`);
+            if (!totOk) errs.push('Paso 3 (Suma final)');
+            showFeedback(false, `Revisa las casillas en rojo en: <strong>${errs.join(', ')}</strong>.`);
+            recordOutcome(false);
+          }
+          return;
+        }
+
+        if (ex.type === 'place-value') {
+          const valCell = document.querySelector('[data-cell="pv-val"]');
+          const typed = valCell.textContent.trim();
+          if (!ex.selectedCode || !typed) { showFeedback(false, 'Elige la posición y escribe cuánto vale el dígito.'); return; }
+          const codeOk = ex.selectedCode === ex.code, valOk = Number(typed) === ex.value;
+          markCell(valCell, valOk);
+          if (codeOk && valOk) { showFeedback(true, `¡Correcto! El <strong>${ex.digit}</strong> ocupa las <strong>${PLACE_NAMES[ex.code]}s</strong> y vale <strong>${fmtNum(ex.value)}</strong>.`); recordOutcome(true); }
+          else { showFeedback(false, !codeOk ? 'Revisa la posición empezando desde la derecha (U, D, C, UM...).' : 'La posición está bien, pero revisa cuántos ceros lleva su valor.'); recordOutcome(false); }
+          return;
+        }
+
+        if (ex.type === 'rounding') {
+          if (ex.selected === null) { showFeedback(false, 'Selecciona una opción.'); return; }
+          if (ex.selected === ex.ans) { showFeedback(true, `¡Exacto! <strong>${fmtNum(ex.num)}</strong> redondeado a la ${ex.target.name} es <strong>${fmtNum(ex.ans)}</strong>.`); recordOutcome(true); }
+          else { showFeedback(false, 'No es esa opción. Pulsa "💡 Pista" para ver la recta numérica.'); recordOutcome(false); }
+          return;
+        }
+
+        if (ex.type === 'property') {
+          const cMiss = document.querySelector('[data-cell="pr-miss"]'), cTot = document.querySelector('[data-cell="pr-tot"]');
+          if (!cMiss.textContent.trim() || !cTot.textContent.trim() || !ex.selectedProp) { showFeedback(false, 'Completa los dos cuadros numéricos y elige la propiedad.'); return; }
+          const mOk = Number(cMiss.textContent.trim()) === ex.missing, tOk = Number(cTot.textContent.trim()) === ex.total, pOk = ex.selectedProp === ex.propName;
+          markCell(cMiss, mOk); markCell(cTot, tOk);
+          if (mOk && tOk && pOk) { showFeedback(true, `¡Excelente! Propiedad <strong>${ex.propName}</strong> y resultado <strong>${ex.total}</strong>.`); recordOutcome(true); }
+          else { showFeedback(false, !pOk ? 'Revisa el nombre de la propiedad (Conmutativa = orden; Asociativa = paréntesis).' : 'Revisa los números en rojo.'); recordOutcome(false); }
+          return;
+        }
+
+        if (ex.type === 'reading') {
+          if (ex.selectedOpt === null) { showFeedback(false, 'Selecciona una respuesta.'); return; }
+          const curQ = ex.questions[ex.qIdx];
+          if (ex.selectedOpt === curQ.ok) {
+            if (ex.qIdx >= ex.questions.length - 1) {
+              showFeedback(true, `¡Muy bien! ${curQ.exp}`);
+              recordOutcome(true, true);
+            } else {
+              showFeedback(true, `¡Correcto! ${curQ.exp} — Pasando a la pregunta ${ex.qIdx + 2}...`);
+              recordOutcome(true, false);
+              ex.qIdx++;
+              ex.selectedOpt = null;
+              setTimeout(() => { if (currentEx === ex) renderReading(ex); }, 1050);
+            }
+          } else {
+            showFeedback(false, 'Vuelve a leer con atención el texto e intenta otra opción.');
+            recordOutcome(false, false);
+          }
+          return;
+        }
+
+        if (ex.type === 'spelling') {
+          if (!ex.selected) { showFeedback(false, 'Toca una de las letras.'); return; }
+          if (ex.selected === ex.ans) { showFeedback(true, `¡Perfecto! Se escribe <strong>${ex.word}</strong>. ${ex.rule}`); recordOutcome(true); }
+          else { showFeedback(false, `Casi... ${ex.rule}`); recordOutcome(false); }
+          return;
+        }
+
+        if (ex.type === 'visual') {
+          let allOk = true, missed = 0, wrong = 0;
+          ex.cells.forEach((ch, idx) => {
+            const btn = document.querySelector(`[data-vi="${idx}"]`);
+            const isT = ch === ex.target, isP = ex.picked.has(idx);
+            btn.classList.remove('ok', 'err');
+            if (isT && isP) btn.classList.add('ok');
+            else if (!isT && isP) { allOk = false; wrong++; btn.classList.add('err'); }
+            else if (isT && !isP) { allOk = false; missed++; }
+          });
+          if (allOk) {
+            stopVisualTimer();
+            const tTxt = visualTimedMode ? ` en <strong>${fmtClock(visualSecs)}</strong>` : '';
+            showFeedback(true, `¡Ojo de águila! Encontraste todos los <strong>${ex.target}</strong>${tTxt}.`);
+            recordOutcome(true);
+          } else {
+            let msg = '';
+            if (wrong) msg += `Marcaste ${wrong} "${ex.dist}" por error (en rojo). `;
+            if (missed) msg += `Te faltan ${missed} "${ex.target}".`;
+            showFeedback(false, msg);
+            recordOutcome(false);
+          }
+        }
+      }
+
+      // --- PISTA PEDAGÓGICA (SIN REVELAR LA RESPUESTA) ---
+      function showHint() {
+        if (!currentEx) return;
+        const box = $('hintBox');
+
+        if (currentEx.type === 'division-manual') {
+          const st = currentEx.steps[currentEx.stepIdx];
+          if (!st || currentEx.phase === 'done') return;
+          let text = '';
+          if (currentEx.phase === 'quotient') {
+            if (st.cur < currentEx.divisor) {
+              text = `Como ${st.cur} es menor que ${currentEx.divisor}, no cabe ni una vez. ¿Qué dígito va en el cociente cuando no cabe?`;
+            } else {
+              text = `Piensa en la tabla del ${currentEx.divisor}: ¿qué número multiplicado por ${currentEx.divisor} se acerca más a ${st.cur} sin pasarse?`;
+            }
+          } else if (currentEx.phase === 'multiply') {
+            text = `Multiplica ${st.qDigit} × ${currentEx.divisor} y escribe ese resultado debajo de ${st.cur}.`;
+          } else if (currentEx.phase === 'subtract') {
+            text = `Resta ${st.cur} − ${st.sub} y escribe cuánto sobra debajo de la línea.`;
+          } else if (currentEx.phase === 'bringdown') {
+            text = `Mira el dígito resaltado en verde arriba en el dividendo y cópialo junto al ${st.rem}.`;
+          }
+          box.innerHTML = `<strong>💡 Pista:</strong> ${text}`;
+          box.classList.remove('hidden');
+          return;
+        }
+
+        if (currentEx.type === 'rounding') {
+          box.innerHTML = `
+            <strong>Recta numérica:</strong> ¿Está <strong>${fmtNum(currentEx.num)}</strong> más cerca de ${fmtNum(currentEx.low)} o de ${fmtNum(currentEx.high)}?
+            <div class="numline-wrap">
+              <div class="numline-bar">
+                <div class="numline-mid"></div>
+                <div class="numline-pin" style="left:${currentEx.pct}%;">${fmtNum(currentEx.num)}</div>
+              </div>
+              <div class="numline-labels">
+                <span>${fmtNum(currentEx.low)}</span><span>${fmtNum(currentEx.mid)}</span><span>${fmtNum(currentEx.high)}</span>
+              </div>
+            </div>
+          `;
+        } else {
+          box.innerHTML = `<strong>💡 Pista:</strong> ${currentEx.hint}`;
+        }
+        box.classList.remove('hidden');
+      }
+
+      /* =====================================================================
+         10. VIDEO EDUCATIVO Y CRONÓMETROS
+         ===================================================================== */
+      function openVideoModal() {
+        pauseStudyTimer();
+        if (!state.videos.length) state.videos = [...DEFAULT_VIDEOS];
+        state.lastVideoIdx = (state.lastVideoIdx + 1) % state.videos.length;
+        saveState();
+        loadVideoInModal(state.lastVideoIdx);
+
+        $('videoTimeUpBox').classList.add('hidden');
+        breakSecs = state.breakMins * 60;
+        $('videoBreakClock').textContent = fmtClock(breakSecs);
+        clearInterval(breakTimerId);
+        breakTimerId = setInterval(() => {
+          if (breakSecs > 0) {
+            breakSecs--;
+            $('videoBreakClock').textContent = fmtClock(breakSecs);
+          } else {
+            clearInterval(breakTimerId);
+            $('ytPlayer').src = '';
+            $('videoTimeUpBox').classList.remove('hidden');
+          }
+        }, 1000);
+        $('videoModal').classList.remove('hidden');
+      }
+
+      function loadVideoInModal(idx) {
+        const v = state.videos[idx] || DEFAULT_VIDEOS[0];
+        $('vidTitle').textContent = v.title;
+        $('vidTag').textContent = v.tag || 'Educativo';
+        $('ytPlayer').src = `https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1`;
+      }
+
+      function closeVideoModal() {
+        clearInterval(breakTimerId);
+        $('ytPlayer').src = '';
+        $('videoModal').classList.add('hidden');
+        if (state.roundProgress >= state.roundSize) {
+          state.roundProgress = 0;
+          saveState();
+          renderHeaderUI();
+          loadExercise();
+        }
+      }
+
+      function renderStudyTimer() {
+        $('timerText').textContent = fmtClock(studySecs);
+        $('timerDot').className = 'dot ' + (studySecs === 0 ? 'done' : studyRunning ? 'running' : '');
+      }
+      function startStudyTimer() {
+        if (studyRunning || studySecs <= 0) return;
+        studyRunning = true;
+        renderStudyTimer();
+        studyTimerId = setInterval(() => {
+          if (studySecs > 0) { studySecs--; renderStudyTimer(); }
+          else { pauseStudyTimer(); $('timerDoneBanner').classList.remove('hidden'); }
+        }, 1000);
+      }
+      function pauseStudyTimer() { studyRunning = false; clearInterval(studyTimerId); renderStudyTimer(); }
+      function resetStudyTimer() { pauseStudyTimer(); studySecs = state.studyMins * 60; $('timerDoneBanner').classList.add('hidden'); renderStudyTimer(); }
+
+      /* =====================================================================
+         11. MODO PADRES (PIN, ESTADÍSTICAS, VIDEOS, AJUSTES)
+         ===================================================================== */
+      let pinBuf = '';
+      function openParentModal() {
+        pinBuf = '';
+        updatePinUI();
+        $('pinErr').textContent = '';
+        $('parentPinView').classList.remove('hidden');
+        $('parentDashView').classList.add('hidden');
+        $('confirmResetBox').classList.add('hidden');
+        $('parentModal').classList.remove('hidden');
+      }
+      function updatePinUI() { document.querySelectorAll('.pin-dot').forEach((d, i) => d.classList.toggle('filled', i < pinBuf.length)); }
+      function handlePinKey(k) {
+        $('pinErr').textContent = '';
+        if (k === 'CLR') pinBuf = '';
+        else if (k === 'BACK') pinBuf = pinBuf.slice(0, -1);
+        else if (pinBuf.length < 4) pinBuf += k;
+        updatePinUI();
+        if (pinBuf.length === 4) {
+          if (pinBuf === state.pin) {
+            $('parentPinView').classList.add('hidden');
+            $('parentDashView').classList.remove('hidden');
+            renderParentDash();
+            switchPTab('stats');
+          } else {
+            $('pinErr').textContent = 'PIN incorrecto';
+            pinBuf = '';
+            setTimeout(updatePinUI, 260);
+          }
+        }
+      }
+      function switchPTab(name) {
+        document.querySelectorAll('.ptab').forEach(b => b.classList.toggle('active', b.dataset.pt === name));
+        ['stats', 'videos', 'config'].forEach(t => $(`pt-${t}`).classList.toggle('hidden', t !== name));
+      }
+
+      function renderParentDash() {
+        const st = state.stats, tot = st.ok + st.err;
+        $('pStatOk').textContent = st.ok;
+        $('pStatErr').textContent = st.err;
+        $('pStatAcc').textContent = tot ? `${Math.round((st.ok / tot) * 100)}%` : '0%';
+
+        $('moduleStatsList').innerHTML = MODULE_META.map(m => {
+          const d = st.modules[m.key] || { ok: 0, err: 0 };
+          const mt = d.ok + d.err;
+          const pct = mt ? Math.round((d.ok / mt) * 100) : 0;
+          const color = mt === 0 ? '#94a3b8' : pct >= 75 ? '#059669' : pct >= 50 ? '#d97706' : '#e11d48';
+          return `
+            <div class="stat-row">
+              <span style="font-weight:700;">${m.label}</span>
+              <span style="white-space:nowrap;">
+                <span class="stat-bar-mini"><span class="stat-bar-fill" style="width:${pct}%;background:${color};"></span></span>
+                <strong style="font-family:var(--font-mono);color:${color};">${mt ? pct + '%' : '—'}</strong>
+                <span style="font-size:10px;color:var(--text-muted);">(${d.err} err)</span>
+              </span>
+            </div>
+          `;
+        }).join('');
+
+        $('vidListCount').textContent = state.videos.length;
+        $('parentVidList').innerHTML = state.videos.map((v, i) => `
+          <div class="video-item">
+            <div style="min-width:0;flex:1;">
+              <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.title}</div>
+              <div style="font-size:10px;color:var(--text-muted);">${v.tag || 'Educativo'} · ID: ${v.id}</div>
+            </div>
+            <div style="display:flex;gap:4px;flex-shrink:0;">
+              <button type="button" class="mini-btn" data-evid="${i}">✏️</button>
+              <button type="button" class="mini-btn" data-dvid="${i}" style="color:var(--danger);background:var(--danger-soft);">✕</button>
+            </div>
+          </div>
+        `).join('');
+
+        document.querySelectorAll('[data-evid]').forEach(b => {
+          b.addEventListener('click', () => {
+            const idx = Number(b.dataset.evid), v = state.videos[idx];
+            editingVideoIdx = idx;
+            $('vidFormHeading').textContent = 'Editando video seleccionado';
+            $('inpVidUrl').value = v.id;
+            $('inpVidTitle').value = v.title;
+            $('selVidTag').value = v.tag || 'Ciencias';
+            $('btnSaveVideoItem').textContent = 'Guardar cambios';
+            $('btnCancelEditVid').classList.remove('hidden');
+          });
+        });
+        document.querySelectorAll('[data-dvid]').forEach(b => {
+          b.addEventListener('click', () => {
+            if (state.videos.length <= 1) return;
+            state.videos.splice(Number(b.dataset.dvid), 1);
+            saveState();
+            renderParentDash();
+          });
+        });
+
+        $('cfgAge').value = String(state.age);
+        $('cfgGrade').value = String(state.grade);
+        $('cfgStudyMins').value = String(state.studyMins);
+        $('cfgBreakMins').value = String(state.breakMins);
+        $('cfgRoundSize').value = String(state.roundSize);
+        $('cfgNewPin').value = '';
+        $('cfgSavedMsg').classList.add('hidden');
+      }
+
+      function resetVideoForm() {
+        editingVideoIdx = -1;
+        $('vidFormHeading').textContent = 'Agregar video educativo de YouTube';
+        $('inpVidUrl').value = '';
+        $('inpVidTitle').value = '';
+        $('btnSaveVideoItem').textContent = '+ Guardar video';
+        $('btnCancelEditVid').classList.add('hidden');
+      }
+
+      /* =====================================================================
+         12. INTERFAZ GENERAL Y EVENTOS
+         ===================================================================== */
+      const SUB_MENUS = {
+        cuaderno: [
+          { k: 'all', l: 'Todos' }, { k: 'division', l: 'División Manual' },
+          { k: 'sumas', l: 'Sumas' }, { k: 'restas', l: 'Restas' },
+          { k: 'mult1', l: 'Mult. 1 cifra' }, { k: 'mult2', l: 'Mult. 2 cifras' }
+        ],
+        logica: [
+          { k: 'all', l: 'Todos' }, { k: 'valorPos', l: 'Valor Posicional' },
+          { k: 'redondeo', l: 'Redondeo' }, { k: 'propiedades', l: 'Propiedades' }
+        ],
+        lengua: [
+          { k: 'all', l: 'Todos' }, { k: 'lectura', l: 'Lecturas (10)' },
+          { k: 'ortografia', l: 'Ortografía' }, { k: 'visual', l: 'Visual 5×5' }
+        ]
+      };
+
+      function renderSubNav() {
+        const nav = $('subNav'), list = SUB_MENUS[state.mode];
+        if (!list) { nav.classList.add('hidden'); return; }
+        nav.classList.remove('hidden');
+        nav.innerHTML = list.map(item => `<button type="button" class="sub-pill ${state.subFilter === item.k ? 'active' : ''}" data-sub="${item.k}">${item.l}</button>`).join('');
+        nav.querySelectorAll('.sub-pill').forEach(b => {
+          b.addEventListener('click', () => {
+            state.subFilter = b.dataset.sub;
+            saveState();
+            renderSubNav();
+            loadExercise();
+          });
+        });
+      }
+
+      function renderHeaderUI() {
+        const gNames = { 2: '2do grado', 3: '3er grado', 4: '4to grado', 5: '5to grado', 6: '6to grado' };
+        $('hdrGradeBadge').textContent = `${state.grade}°`;
+        $('hdrName').textContent = state.name ? `Cuaderno de ${state.name}` : 'Cuaderno Digital v3';
+        $('hdrAgeGrade').textContent = `${state.age} años · ${gNames[state.grade] || state.grade + '°'}`;
+        $('hdrStreak').textContent = state.stats.streak;
+
+        const plan = getRoundPlan(state.roundSize);
+        $('roundTrack').innerHTML = plan.map((slot, idx) => {
+          let cls = 'round-seg';
+          if (idx < state.roundProgress) cls += slot === 'math' ? ' done-math' : ' done-lang';
+          else if (idx === state.roundProgress) cls += ' current';
+          return `<div class="${cls}"></div>`;
+        }).join('');
+        $('roundCountText').textContent = `${Math.min(state.roundProgress, state.roundSize)}/${state.roundSize}`;
+
+        document.querySelectorAll('.mode-tab').forEach(b => b.classList.toggle('active', b.dataset.mode === state.mode));
+
+        const tot = state.stats.ok + state.stats.err;
+        $('ftrCorrect').textContent = state.stats.ok;
+        $('ftrAcc').textContent = tot ? `${Math.round((state.stats.ok / tot) * 100)}%` : '0%';
+      }
+
+      function bindEvents() {
+        document.querySelectorAll('.mode-tab').forEach(b => {
+          b.addEventListener('click', () => {
+            state.mode = b.dataset.mode;
+            state.subFilter = 'all';
+            saveState();
+            renderHeaderUI();
+            renderSubNav();
+            loadExercise();
+          });
+        });
+
+        $('btnCheck').addEventListener('click', checkAnswer);
+        $('btnNext').addEventListener('click', () => {
+          if (state.roundProgress >= state.roundSize) openVideoModal();
+          else loadExercise();
+        });
+        $('btnSkip').addEventListener('click', loadExercise);
+        $('btnHint').addEventListener('click', showHint);
+
+        document.querySelectorAll('.num-key').forEach(b => b.addEventListener('click', () => handleKey(b.dataset.k)));
+
+        document.addEventListener('keydown', (e) => {
+          if (!$('profileModal').classList.contains('hidden') || !$('parentModal').classList.contains('hidden') || !$('videoModal').classList.contains('hidden')) return;
+          if (/^[0-9]$/.test(e.key)) handleKey(e.key);
+          else if (e.key === 'Backspace') handleKey('BACK');
+          else if (e.key === 'Enter') {
+            if (exSolved) $('btnNext').click();
+            else checkAnswer();
+          }
+        });
+
+        $('btnToggleTimer').addEventListener('click', () => studyRunning ? pauseStudyTimer() : startStudyTimer());
+        $('btnRestartTimer').addEventListener('click', () => { resetStudyTimer(); startStudyTimer(); });
+
+        $('btnOpenProfile').addEventListener('click', () => {
+          $('inpName').value = state.name;
+          $('selAge').value = String(state.age);
+          $('selGrade').value = String(state.grade);
+          $('profileModal').classList.remove('hidden');
+        });
+        $('btnCloseProfile').addEventListener('click', () => $('profileModal').classList.add('hidden'));
+        $('btnSaveProfile').addEventListener('click', () => {
+          state.name = $('inpName').value.trim();
+          state.age = Number($('selAge').value);
+          state.grade = Number($('selGrade').value);
+          state.profileSet = true;
+          saveState();
+          $('profileModal').classList.add('hidden');
+          renderHeaderUI();
+          loadExercise();
+        });
+
+        $('btnCloseVideoX').addEventListener('click', closeVideoModal);
+        $('btnReturnStudy').addEventListener('click', closeVideoModal);
+        $('btnSwitchVideo').addEventListener('click', () => {
+          state.lastVideoIdx = (state.lastVideoIdx + 1) % state.videos.length;
+          saveState();
+          loadVideoInModal(state.lastVideoIdx);
+        });
+
+        $('btnOpenParent').addEventListener('click', openParentModal);
+        $('btnCloseParent').addEventListener('click', () => $('parentModal').classList.add('hidden'));
+        document.querySelectorAll('.pin-key').forEach(b => b.addEventListener('click', () => handlePinKey(b.dataset.p)));
+        document.querySelectorAll('.ptab').forEach(b => b.addEventListener('click', () => switchPTab(b.dataset.pt)));
+
+        $('btnAskReset').addEventListener('click', () => $('confirmResetBox').classList.remove('hidden'));
+        $('btnConfirmResetNo').addEventListener('click', () => $('confirmResetBox').classList.add('hidden'));
+        $('btnConfirmResetYes').addEventListener('click', () => {
+          state.stats = createEmptyStats();
+          saveState();
+          $('confirmResetBox').classList.add('hidden');
+          renderHeaderUI();
+          renderParentDash();
+        });
+
+        $('btnCancelEditVid').addEventListener('click', resetVideoForm);
+        $('btnSaveVideoItem').addEventListener('click', () => {
+          const id = extractYTId($('inpVidUrl').value);
+          const title = $('inpVidTitle').value.trim();
+          const tag = $('selVidTag').value;
+          const msg = $('vidFormMsg');
+          msg.classList.remove('hidden');
+          if (!id) { msg.style.color = 'var(--danger)'; msg.textContent = 'URL o ID de YouTube no válido.'; return; }
+          const item = { id, title: title || `Video educativo (${id})`, tag };
+          if (editingVideoIdx >= 0) { state.videos[editingVideoIdx] = item; msg.textContent = '✓ Video actualizado.'; }
+          else { state.videos.unshift(item); msg.textContent = '✓ Video agregado a la lista.'; }
+          msg.style.color = 'var(--success)';
+          saveState();
+          resetVideoForm();
+          renderParentDash();
+        });
+
+        $('btnPreviewVideo').addEventListener('click', () => { $('parentModal').classList.add('hidden'); openVideoModal(); });
+
+        $('btnSaveConfig').addEventListener('click', () => {
+          state.age = Number($('cfgAge').value);
+          state.grade = Number($('cfgGrade').value);
+          const newStudy = Number($('cfgStudyMins').value);
+          state.breakMins = Number($('cfgBreakMins').value);
+          state.roundSize = Number($('cfgRoundSize').value);
+          const newPin = $('cfgNewPin').value.trim();
+          if (newStudy !== state.studyMins) { state.studyMins = newStudy; resetStudyTimer(); }
+          if (/^\d{4}$/.test(newPin)) state.pin = newPin;
+          saveState();
+          renderHeaderUI();
+          $('cfgSavedMsg').classList.remove('hidden');
+        });
+      }
+
+      bindEvents();
+      renderHeaderUI();
+      renderSubNav();
+      renderStudyTimer();
+      loadExercise();
+      if (!state.profileSet) $('profileModal').classList.remove('hidden');
+    })();
+  </script>
+  <script>
+    // Service worker: permite instalar la app y usarla sin internet
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
