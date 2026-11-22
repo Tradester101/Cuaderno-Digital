@@ -26,7 +26,7 @@ Es una sola página web (HTML + CSS + JavaScript puro). No usa frameworks ni lib
 
 ```
 index.html             La app completa
-manifest.webmanifest   Datos para instalarla como app
+manifest.json          Datos para instalarla como app
 sw.js                  Service worker (uso sin internet)
 icon.svg / icon-*.png  Íconos
 vercel.json            Encabezados para Vercel
