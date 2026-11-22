@@ -106,7 +106,8 @@ cuaderno-digital/
 ├── index.html                      La app completa
 ├── manifest.json                   Datos de la PWA (nombre, colores, íconos)
 ├── sw.js                           Service worker (solo en la web, no en el APK)
-├── icon.svg · icon-192/512.png     Íconos
+├── icon.svg · icon-*.png           Logo e íconos de la web (incluye maskable)
+├── assets/                         Ícono adaptable y splash para Android
 ├── package.json                    Dependencias de Capacitor
 ├── capacitor.config.json           Configuración del APK (webDir: www)
 ├── vercel.json                     Encabezados para Vercel
@@ -126,6 +127,8 @@ python3 -m http.server 8000      # o: npx serve .
 
 Cada push a `main` se publica automáticamente en **[cuaderno-digital-pi.vercel.app](https://cuaderno-digital-pi.vercel.app)**. El sitio no necesita build.
 
+> Para cambiar el logo, reemplaza `icon.svg`, los PNG y los archivos de `assets/`. El workflow regenera los íconos de Android en cada compilación.
+>
 > Si cambias los íconos o el manifest, sube `CACHE_VERSION` en `sw.js` para que los teléfonos que ya la instalaron descarguen la versión nueva.
 
 ---
