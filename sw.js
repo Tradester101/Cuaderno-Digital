@@ -3,7 +3,7 @@
 //   y, si no hay internet, sirve la copia guardada.
 // - Los íconos y el manifest usan "caché primero".
 // Cambia CACHE_VERSION cuando quieras forzar que todos los dispositivos borren la caché vieja.
-const CACHE_VERSION = 'cuaderno-v3-7';
+const CACHE_VERSION = 'cuaderno-v3-8';
 const ASSETS = ['/', '/index.html', '/manifest.json', '/icon.svg', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png'];
 
 self.addEventListener('install', (event) => {

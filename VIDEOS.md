@@ -1,6 +1,6 @@
 # 🎬 Videos recomendados
 
-Estos son los **118 videos** que trae Cuaderno Digital para las pausas entre rondas. Todos se verificaron en YouTube: existen y permiten reproducirse dentro de la app. Se reproducen con `youtube-nocookie.com`, sin videos relacionados al final.
+Estos son los **130 videos** que trae Cuaderno Digital para las pausas entre rondas. Todos se verificaron en YouTube: existen y permiten reproducirse dentro de la app. Se reproducen con `youtube-nocookie.com`, sin videos relacionados al final.
 
 Los padres pueden quitar, editar o agregar videos en **Modo Padres → Videos**. El botón **↺ Restaurar** vuelve a agregar los recomendados que se hayan borrado.
 
@@ -22,9 +22,10 @@ Los padres pueden quitar, editar o agregar videos en **Modo Padres → Videos**.
 | 💰 [Dinero](#dinero) | 3 |
 | 🎨 [Arte y música](#arte-y-música) | 3 |
 | ♻️ [Medio ambiente](#medio-ambiente) | 3 |
-| **Total** | **118** |
+| 🌍 [Escuelas del mundo](#escuelas-del-mundo) | 12 |
+| **Total** | **130** |
 
-> Los videos marcados como **en inglés** son documentales cortos de Nat Geo: se entienden por las imágenes y además sirven para practicar el idioma. El video sobre *vibe coding* es para los más grandes (5º–6º grado). Los de **Venezuela** vienen de canales pequeños: conviene verlos antes.
+> Los videos marcados como **en inglés** son documentales cortos de Nat Geo: se entienden por las imágenes y además sirven para practicar el idioma. El video sobre *vibe coding* es para los más grandes (5º–6º grado). Los de **Venezuela** vienen de canales pequeños: conviene verlos antes. **Escuelas del mundo** reúne reportajes de medios (BBC Mundo, DW, France 24, Telemadrid, Japan Video Topics) y relatos de familias que viven en esos países; acompañan las lecturas del mismo nombre en Lengua.
 
 
 ## Naturaleza
@@ -224,3 +225,20 @@ Los padres pueden quitar, editar o agregar videos en **Modo Padres → Videos**.
 | 1 | [Reducir, reutilizar y reciclar](https://www.youtube.com/watch?v=cvakvfXj0KE) | Happy Learning Español | 3:28 |
 | 2 | [El plástico, el enemigo del agua](https://www.youtube.com/watch?v=_MosbMVHIgU) | Happy Learning Español | 4:28 |
 | 3 | [Residuos y reciclaje](https://www.youtube.com/watch?v=DweX0pLybpQ) | CNTV Infantil | 4:51 |
+
+## Escuelas del mundo
+
+| # | Video | Canal | Duración |
+|:-:|---|---|:-:|
+| 1 | [Japón: aprender a comer bien en la escuela](https://www.youtube.com/watch?v=dhA5pGCHCfc) | Japan Video Topics - Español | 4:26 |
+| 2 | [Japón: los niños limpian su escuela desde pequeños](https://www.youtube.com/watch?v=yPnZF7CjW3k) | Ryowblog | 2:30 |
+| 3 | [Japón: así es una escuela primaria](https://www.youtube.com/watch?v=Lu9gclZ-P-A) | I LIKE SUSHI | 4:29 |
+| 4 | [Finlandia: escuelas donde los alumnos deciden qué estudiar](https://www.youtube.com/watch?v=MH6SfxrAAYw) | BBC News Mundo | 2:09 |
+| 5 | [Finlandia: personas, tecnología y escuela](https://www.youtube.com/watch?v=ORGmRteRBeQ) | Telemadrid | 2:24 |
+| 6 | [Dinamarca: en la escuela se aprende empatía](https://www.youtube.com/watch?v=Gq6THgFZiBE) | LADO B DE LAS COSAS  | 5:25 |
+| 7 | [Dinamarca: del aula digital de vuelta al libro](https://www.youtube.com/watch?v=FARKXNgK078) | FRANCE 24 Español | 5:04 |
+| 8 | [En bicicleta al colegio: el BiciBus](https://www.youtube.com/watch?v=FCM-fvvR3CY) | DW Español | 2:15 |
+| 9 | [Alemania: 10 curiosidades de la escuela](https://www.youtube.com/watch?v=EbOF6grc9aE) | UnaProfeArgentinaEnAlemania | 7:01 |
+| 10 | [Inglaterra y Reino Unido: lo mejor de su sistema educativo](https://www.youtube.com/watch?v=aqN7dg9lad0) | Cartas de RAJ | 8:16 |
+| 11 | [Inglaterra: 5 cosas de la primaria](https://www.youtube.com/watch?v=8Gyk2gUv118) | EsperanzaPineda_theofficial | 3:09 |
+| 12 | [Nueva Zelanda: cómo es la escuela, contado por una familia](https://www.youtube.com/watch?v=l3PydhG5OMY) | Y un día nos fuimos | 7:38 |

@@ -49,27 +49,44 @@ El estudio va por **rondas cortas**. Al completar una ronda se desbloquea un **v
 | | Área | Qué practica |
 |:-:|---|---|
 | 📐 | **Cuaderno** | Sumas con llevadas · Restas con préstamo · Multiplicación de 1 y 2 cifras (con productos parciales) · **División larga manual** en formato de galera: cociente → multiplicar → restar → bajar la cifra |
-| 🧩 | **Lógica** | Valor posicional · Redondeo con recta numérica · Propiedades conmutativa y asociativa |
-| 📖 | **Lengua** | Lectura comprensiva (10 textos) · Ortografía de letras confusas (b/d, p/q, s/z/c, v/b) · Entrenador visual 5×5 |
+| 🧩 | **Lógica** | Valor posicional · Redondeo con recta numérica · Propiedades conmutativa y asociativa · **Algoritmos sin pantalla**: ordenar pasos, seguir el programa de un robot y encontrar el error (depurar) |
+| 📖 | **Lengua** | Lectura comprensiva (10 textos) · Ortografía de letras confusas (b/d, p/q, s/z/c, v/b) · Entrenador visual 5×5 · **🌍 Escuelas del mundo** · **¿Es verdad o no?** (noticia, opinión, publicidad o bulo) |
+| 🌱 | **Convivir** | **💚 Rincón de emociones** (¿cómo me siento?, ideas para sentirse mejor, respiración guiada) · **⭐ Misiones de responsabilidad** diarias con estrellas |
 | ✨ | **Ronda mixta** | Intercala matemáticas y lengua en rondas de 3, 5, 7 o 10 ejercicios |
 
-## 🎬 118 videos para las pausas
+## 🌍 Lo mejor de las escuelas del mundo
 
-La app trae **[118 videos educativos verificados](VIDEOS.md)** en 16 temas, de 1 a 12 minutos y en su mayoría en español. Los padres eligen qué temas se pueden ver en cada momento. Si eligen todos, se intercalan para que cada pausa sea distinta:
+Algunas ideas vienen de los currículos de primaria de **Japón, Finlandia, Dinamarca, Inglaterra, Nueva Zelanda y Alemania**:
+
+| País | Idea | Dónde está en la app |
+|---|---|---|
+| 🇯🇵 Japón | *Tokkatsu*: los niños limpian, sirven el almuerzo y cuidan la escuela | ⭐ Misiones de responsabilidad |
+| 🇩🇰 Dinamarca | *Klassens tid*: una hora a la semana para hablar de cómo están y resolver problemas juntos | 💚 Rincón de emociones |
+| 🏴 Inglaterra · 🇳🇿 Nueva Zelanda | Algoritmos y pensamiento computacional desde los 5 años | 🧩 Algoritmos sin pantalla |
+| 🇫🇮 Finlandia | Alfabetización mediática: saber si algo es confiable | 📖 ¿Es verdad o no? |
+| Los seis | Una lectura por país con 3 preguntas cortas e ideas para aplicarlo en el colegio | 📖 Escuelas del mundo, más 12 videos |
+
+## 🎬 130 videos para las pausas
+
+La app trae **[130 videos educativos verificados](VIDEOS.md)** en 17 temas, de 1 a 12 minutos y en su mayoría en español. Los padres eligen qué temas se pueden ver en cada momento. Si eligen todos, se intercalan para que cada pausa sea distinta:
 
 | 🦁 Naturaleza | 🔬 Ciencias | 🚀 Astronomía | 💻 Tecnología | 🧩 Programación | 🤖 IA | 🌎 Sociales | 🇬🇧 Inglés |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | **14** | **12** | **10** | **10** | **7** | **8** | **9** | **9** |
 | **➗ Matemáticas** | **📖 Lengua** | **💡 Curiosidades** | **🇻🇪 Venezuela** | **💚 Emociones y salud** | **💰 Dinero** | **🎨 Arte y música** | **♻️ Medio ambiente** |
 | **8** | **6** | **7** | **3** | **6** | **3** | **3** | **3** |
+| **🌍 Escuelas del mundo** | | | | | | | |
+| **12** | | | | | | | |
 
 Vienen de canales como Happy Learning, Smile and Learn, CuriosaMente, NASA en Español, Nat Geo Kids, Planeta Darwin (CNTV), TED-Ed en español, Educ.ar y BrainPOP Español. Hay temas de actualidad: Artemis II, el telescopio James Webb, inteligencia artificial, cómo escribir *prompts*, seguridad en internet, ahorro y *vibe coding* (este último, para los más grandes).
 
 ## 👨‍👩‍👧 Para padres
 
 - 🔒 **Modo Padres con PIN** con estadísticas por módulo: aciertos, errores y precisión.
+- 💚 **Resumen de convivencia**: cómo se sintió en los últimos 7 días, con un aviso suave si marcó varias emociones difíciles, y las estrellas de misiones de la semana. La app le dice al niño que sus papás pueden verlo.
+- ⭐ **Misiones personalizables**: en *Ajustes* escribes las misiones diarias, una por línea.
 - 🎯 **Elige los temas del momento**: en *Modo Padres → Videos* tocas, por ejemplo, 🚀 Astronomía y 🇬🇧 Inglés, y en las pausas solo salen videos de esos temas. Con **Todos** vuelve la lista completa.
-- 🎬 **Videos agrupados por tema**: 118 recomendados que puedes editar, borrar o restaurar, y además los tuyos de YouTube. Solo se reproducen los de la lista.
+- 🎬 **Videos agrupados por tema**: 130 recomendados que puedes editar, borrar o restaurar, y además los tuyos de YouTube. Solo se reproducen los de la lista.
 - ⏱️ **Tiempos configurables**: duración de la sesión de estudio y de la pausa de video.
 - 🎯 **Edad y grado**, que ajustan la dificultad de los ejercicios.
 - 💾 **Privacidad**: el progreso se guarda solo en el dispositivo. No hay cuentas, servidores ni anuncios.
@@ -124,7 +141,7 @@ cuaderno-digital/
 ├── package.json                    Dependencias de Capacitor
 ├── capacitor.config.json           Configuración del APK (webDir: www)
 ├── vercel.json                     Encabezados para Vercel
-├── VIDEOS.md                       Lista de los 118 videos recomendados
+├── VIDEOS.md                       Lista de los 130 videos recomendados
 ├── docs/                           Capturas del README
 └── .github/workflows/
     └── build-apk.yml               Compilación del APK

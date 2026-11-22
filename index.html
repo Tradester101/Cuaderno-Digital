@@ -234,15 +234,15 @@
       border-bottom: 1px solid var(--border);
       padding: 6px 8px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
     }
     .mode-tab {
-      padding: 7px 4px;
+      padding: 7px 2px;
       border-radius: 10px;
       background: var(--bg-soft);
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 800;
       text-align: center;
       transition: all 0.15s;
@@ -1016,6 +1016,128 @@
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
     @keyframes bounceDown { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
     /* =====================================================================
+       12b. MÓDULOS NUEVOS: ESCUELAS DEL MUNDO, MEDIOS, ALGORITMOS, CONVIVENCIA
+       ===================================================================== */
+    .badge-conv { background: var(--success-soft); color: #047857; }
+    .apply-box {
+      margin-top: 8px; background: #fff; border: 1px dashed var(--success-border); border-radius: 10px;
+      padding: 8px 10px; font-size: 13.5px; line-height: 1.45; color: var(--text-main);
+    }
+    .apply-box ul { margin: 5px 0 0; padding-left: 18px; }
+    .apply-box li { margin: 3px 0; }
+
+    .media-card {
+      background: #f8fafc; border: 1px solid var(--border); border-left: 4px solid var(--violet);
+      border-radius: 12px; padding: 10px 12px; margin-bottom: 10px;
+    }
+    .media-src { font-size: 12.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; }
+    .media-text { margin: 0; font-size: 15px; line-height: 1.5; font-weight: 600; }
+
+    .algo-title { font-size: 15px; margin-bottom: 4px; }
+    .algo-label { font-size: 12.5px; font-weight: 800; color: var(--text-muted); margin: 8px 0 5px; }
+    .algo-seq {
+      display: flex; flex-direction: column; gap: 6px; min-height: 52px; padding: 8px;
+      border: 2px dashed var(--border); border-radius: 12px; background: #fffdf5;
+    }
+    .algo-empty { font-size: 13.5px; color: var(--text-muted); text-align: center; padding: 8px; }
+    .algo-seq-item, .algo-step {
+      display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 7px 10px; border-radius: 10px;
+      background: #fff; font-size: 14px; text-align: left; color: var(--text-main); width: 100%;
+    }
+    .algo-seq-item { border: 2px solid var(--primary); font-weight: 700; }
+    .algo-seq-item.ok { border-color: var(--success); background: var(--success-soft); }
+    .algo-seq-item.err { border-color: var(--danger); background: var(--danger-soft); }
+    .algo-step { border: 2px solid var(--border); font-weight: 600; }
+    .algo-num {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+    }
+    .algo-x { color: var(--text-muted); font-size: 13px; }
+    .algo-pool { display: flex; flex-direction: column; gap: 6px; }
+
+    .prog-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; justify-content: center; }
+    .prog-chip {
+      display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 5px 10px; border-radius: 10px;
+      background: var(--violet-soft); border: 2px solid #ddd6fe; font-size: 17px; font-weight: 800; color: var(--text-main);
+    }
+    .prog-chip.selected { border-color: var(--violet); background: #ede9fe; box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25); }
+    .prog-n { font-size: 12px; color: var(--violet); font-weight: 800; }
+    .robot-grid {
+      display: grid; grid-template-columns: repeat(5, 46px); grid-auto-rows: 46px; gap: 4px;
+      justify-content: center; width: max-content; margin: 0 auto; padding: 8px;
+      background: #fffdf5; border: 1px solid var(--border); border-radius: 12px;
+    }
+    .rb-cell {
+      width: 46px; height: 46px; border-radius: 8px; background: #fff; border: 1.5px solid #bfdbfe;
+      font-size: 24px; display: flex; align-items: center; justify-content: center;
+    }
+    .rb-cell.selected { border-color: var(--primary); background: var(--primary-soft); box-shadow: inset 0 0 0 2px var(--primary); }
+    .rb-cell.path { background: #fef3c7; border-color: #f59e0b; }
+
+    .conv-intro {
+      font-size: 14px; line-height: 1.45; background: var(--success-soft); border: 1px solid var(--success-border);
+      border-radius: 12px; padding: 9px 11px; margin-bottom: 10px;
+    }
+    .emo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .emo-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 72px;
+      padding: 7px 2px; border-radius: 12px; border: 2px solid var(--border); background: #fff;
+      font-size: 12.5px; font-weight: 800; color: var(--text-main);
+    }
+    .emo-face { font-size: 28px; line-height: 1; }
+    .emo-btn.selected { border-color: var(--success); background: var(--success-soft); }
+    .emo-resp {
+      margin-top: 10px; background: #fff; border: 1px solid var(--success-border); border-radius: 12px;
+      padding: 10px 12px; font-size: 14px; line-height: 1.45;
+    }
+    .emo-resp ul { margin: 6px 0 8px; padding-left: 18px; }
+    .emo-resp li { margin: 3px 0; }
+    .emo-resp.sit { background: var(--primary-soft); border-color: #bfdbfe; }
+    .sit-title { font-size: 14px; font-weight: 800; margin: 12px 0 6px; }
+    .sit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .sit-btn {
+      min-height: 44px; padding: 7px 8px; border-radius: 10px; border: 2px solid var(--border); background: #fff;
+      font-size: 13px; font-weight: 700; text-align: left; color: var(--text-main);
+    }
+    .sit-btn.selected { border-color: var(--primary); background: var(--primary-soft); }
+    .emo-note { margin-top: 10px; font-size: 12.5px; color: var(--text-muted); text-align: center; }
+    .breath-box { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 10px; }
+    .breath-circle {
+      width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #6ee7b7, #10b981);
+      transform: scale(0.7); transition: transform 4s ease-in-out;
+    }
+    .breath-circle.grow { transform: scale(1.3); }
+    .breath-txt { font-weight: 800; font-size: 14px; color: #047857; text-align: center; }
+
+    .mission-summary { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; padding: 0 2px; }
+    .mission-list { display: flex; flex-direction: column; gap: 6px; }
+    .mission-item {
+      display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 11px; border-radius: 12px;
+      border: 2px solid var(--border); background: #fff; font-size: 14.5px; font-weight: 700; text-align: left;
+      color: var(--text-main); width: 100%;
+    }
+    .mission-check {
+      width: 28px; height: 28px; border-radius: 8px; border: 2px solid #cbd5e1; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 17px;
+    }
+    .mission-item.done { border-color: #f59e0b; background: #fffbeb; }
+    .mission-item.done .mission-check { border-color: #f59e0b; background: #fef3c7; }
+    .week-strip {
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 4px; margin-top: 12px;
+      padding: 8px 6px 4px; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px;
+    }
+    .week-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .week-bar { width: 16px; border-radius: 4px; background: #fcd34d; }
+    .week-n { font-size: 12px; font-weight: 800; color: #b45309; min-height: 15px; }
+    .week-l { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+    .week-day.today .week-l { color: var(--primary); font-weight: 800; }
+    .emo-chip { font-size: 12.5px; font-weight: 700; background: #f1f5f9; border-radius: 99px; padding: 3px 9px; }
+    .conv-alert {
+      margin-top: 6px; font-size: 13px; background: var(--amber-soft); border: 1px solid var(--amber-border);
+      color: #78350f; border-radius: 9px; padding: 6px 9px;
+    }
+
+    /* =====================================================================
        13. ACCESIBILIDAD Y ÁREAS TÁCTILES (revisión UI/UX Pro Max)
        ===================================================================== */
     button, [role="button"], select, input { touch-action: manipulation; }
@@ -1106,6 +1228,7 @@
       <button class="mode-tab" data-mode="cuaderno"><span class="mode-ico" aria-hidden="true">📐</span>Cuaderno</button>
       <button class="mode-tab" data-mode="logica"><span class="mode-ico" aria-hidden="true">🧩</span>Lógica</button>
       <button class="mode-tab" data-mode="lengua"><span class="mode-ico" aria-hidden="true">📖</span>Lengua</button>
+      <button class="mode-tab" data-mode="convivir"><span class="mode-ico" aria-hidden="true">🌱</span>Convivir</button>
     </nav>
 
     <div id="subNav" class="sub-nav hidden"></div>
@@ -1304,9 +1427,11 @@
             </div>
 
             <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:9px 11px;">
-              <div style="font-size:13.5px;font-weight:800;margin-bottom:5px;">Rendimiento por los 11 módulos</div>
+              <div style="font-size:13.5px;font-weight:800;margin-bottom:5px;">Rendimiento por módulo</div>
               <div id="moduleStatsList"></div>
             </div>
+
+            <div id="convSummary" style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:9px 11px;"></div>
 
             <div style="background:var(--amber-soft);border:1px solid var(--amber-border);border-radius:11px;padding:9px;font-size:13px;color:#78350f;line-height:1.4;">
               <strong>💡 Bloqueo de otras apps en Android:</strong> Activa <em>"Fijar aplicaciones"</em> en Ajustes → Seguridad para que tu hija no pueda abrir YouTube u otras apps durante su sesión de estudio.
@@ -1355,6 +1480,7 @@
                 <option value="Dinero">Dinero</option>
                 <option value="Arte y música">Arte y música</option>
                 <option value="Medio ambiente">Medio ambiente</option>
+                <option value="Escuelas del mundo">Escuelas del mundo</option>
                 <option value="Geografía">Geografía</option>
               </select>
               <div style="display:flex;gap:6px;">
@@ -1423,6 +1549,11 @@
             </div>
 
             <div>
+              <label class="form-label" for="cfgMissions">Misiones diarias (una por línea, máximo 8)</label>
+              <textarea id="cfgMissions" class="form-input" rows="6" style="resize:vertical;line-height:1.4;"></textarea>
+            </div>
+
+            <div>
               <label class="form-label" for="cfgNewPin">Cambiar PIN parental (4 dígitos)</label>
               <input id="cfgNewPin" class="form-input" type="password" inputmode="numeric" maxlength="4" placeholder="Dejar vacío para mantener actual" />
             </div>
@@ -1441,23 +1572,24 @@
       'use strict';
 
       /* =====================================================================
-         1. BANCOS DE CONTENIDO (118 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
+         1. BANCOS DE CONTENIDO (130 VIDEOS VERIFICADOS, 10 LECTURAS, ORTOGRAFÍA, VISUAL)
          ===================================================================== */
-      // 118 videos verificados (existen y permiten incrustarse). Intercalados por categoría
+      // 130 videos verificados (existen y permiten incrustarse). Intercalados por categoría
       // para que cada pausa sea de un tema distinto. Si cambias esta lista, sube VIDEOS_VERSION.
-      const VIDEOS_VERSION = 3;
-      const VIDEO_TAGS = ["Naturaleza", "Ciencias", "Tecnología", "Astronomía", "Matemáticas", "Inteligencia Artificial", "Sociales", "Inglés", "Programación", "Lengua", "Curiosidades", "Venezuela", "Emociones y salud", "Dinero", "Arte y música", "Medio ambiente"];
+      const VIDEOS_VERSION = 4;
+      const VIDEO_TAGS = ["Naturaleza", "Ciencias", "Tecnología", "Astronomía", "Matemáticas", "Inteligencia Artificial", "Sociales", "Inglés", "Programación", "Lengua", "Curiosidades", "Venezuela", "Emociones y salud", "Dinero", "Arte y música", "Medio ambiente", "Escuelas del mundo"];
       const CAT_EMOJI = {
         'Naturaleza': '🦁', 'Ciencias': '🔬', 'Astronomía': '🚀', 'Tecnología': '💻', 'Programación': '🧩',
         'Inteligencia Artificial': '🤖', 'Sociales': '🌎', 'Geografía': '🗺️', 'Inglés': '🇬🇧', 'Matemáticas': '➗',
         'Lengua': '📖', 'Curiosidades': '💡', 'Venezuela': '🇻🇪', 'Emociones y salud': '💚', 'Dinero': '💰',
-        'Arte y música': '🎨', 'Medio ambiente': '♻️'
+        'Arte y música': '🎨', 'Medio ambiente': '♻️', 'Escuelas del mundo': '🌍'
       };
       // En qué versión de la lista entró cada video (los demás entraron en la v2).
       // Al actualizar solo se suman los de versiones nuevas: un video borrado por los padres no vuelve solo.
       const VIDEOS_V1 = new Set(["0t31zWMX8KI", "CGXHrIp7Dpw", "21Aqc1TQVBQ", "ZykXgSqet6A", "3QVj99UGk3Q", "QDCohXW6blg"]);
       const VIDEOS_V3 = new Set(["hBRs-W1N8zM", "qDhEA9Lf6LI", "s72YTj3FCe0", "tqOers0tWvI", "qBZSlGo4N1k", "aQinbTzVS9Q", "FaLmwmN1MP0", "i9WV6oRGgoA", "PSw6wj2ppGk", "VzBJ_FV6eoI", "187yOH-TtDQ", "TEKaSi2aijE", "0cXfbb39VQ4", "VYL1Mf1msOc", "40sZNGOXEBw", "cvakvfXj0KE", "_MosbMVHIgU", "DweX0pLybpQ"]);
-      const videoSince = id => VIDEOS_V1.has(id) ? 1 : VIDEOS_V3.has(id) ? 3 : 2;
+      const VIDEOS_V4 = new Set(["dhA5pGCHCfc", "yPnZF7CjW3k", "Lu9gclZ-P-A", "MH6SfxrAAYw", "ORGmRteRBeQ", "Gq6THgFZiBE", "FARKXNgK078", "FCM-fvvR3CY", "EbOF6grc9aE", "aqN7dg9lad0", "8Gyk2gUv118", "l3PydhG5OMY"]);
+      const videoSince = id => VIDEOS_V1.has(id) ? 1 : VIDEOS_V3.has(id) ? 3 : VIDEOS_V4.has(id) ? 4 : 2;
       const DEFAULT_VIDEOS = [
         { id: "O2IfmbfwysM", title: "SOS: animales en peligro de extinción (Happy Learning)", tag: "Naturaleza" },
         { id: "3QVj99UGk3Q", title: "El ciclo del agua (Smile and Learn)", tag: "Ciencias" },
@@ -1475,6 +1607,7 @@
         { id: "VzBJ_FV6eoI", title: "La historia del dinero (Happy Learning)", tag: "Dinero" },
         { id: "0cXfbb39VQ4", title: "Instrumentos musicales: viento, cuerda y percusión (Smile and Learn)", tag: "Arte y música" },
         { id: "cvakvfXj0KE", title: "Reducir, reutilizar y reciclar (Happy Learning)", tag: "Medio ambiente" },
+        { id: "dhA5pGCHCfc", title: "Japón: aprender a comer bien en la escuela (Japan Video Topics)", tag: "Escuelas del mundo" },
         { id: "5hOBFMX_JPE", title: "Animales vertebrados e invertebrados (Happy Learning)", tag: "Naturaleza" },
         { id: "QDCohXW6blg", title: "El ciclo del agua (Happy Learning)", tag: "Ciencias" },
         { id: "bu3ToO5mJU8", title: "El interior de tu computadora (TED-Ed en español)", tag: "Tecnología" },
@@ -1491,6 +1624,7 @@
         { id: "187yOH-TtDQ", title: "¿Qué es el ahorro? (Smile and Learn)", tag: "Dinero" },
         { id: "VYL1Mf1msOc", title: "Leonardo da Vinci, el genio del Renacimiento (Happy Learning)", tag: "Arte y música" },
         { id: "_MosbMVHIgU", title: "El plástico, el enemigo del agua (Happy Learning)", tag: "Medio ambiente" },
+        { id: "yPnZF7CjW3k", title: "Japón: los niños limpian su escuela desde pequeños (Ryowblog)", tag: "Escuelas del mundo" },
         { id: "4tAQyFSYou4", title: "La ballena azul, el animal más grande del mundo (Planeta Darwin)", tag: "Naturaleza" },
         { id: "h8Wg9y2GKXQ", title: "Curiosidades del cuerpo humano (Happy Learning)", tag: "Ciencias" },
         { id: "ZXLVU9zFrvE", title: "Cómo funciona el ratón o mouse (GCFAprendeLibre)", tag: "Tecnología" },
@@ -1507,6 +1641,7 @@
         { id: "TEKaSi2aijE", title: "¿Qué es un presupuesto? (Smile and Learn)", tag: "Dinero" },
         { id: "40sZNGOXEBw", title: "Frida Kahlo (Shackleton Kids)", tag: "Arte y música" },
         { id: "DweX0pLybpQ", title: "Residuos y reciclaje (Planeta Darwin)", tag: "Medio ambiente" },
+        { id: "Lu9gclZ-P-A", title: "Japón: así es una escuela primaria (I Like Sushi)", tag: "Escuelas del mundo" },
         { id: "90NDETtorCs", title: "¿Qué es la biodiversidad? (Planeta Darwin)", tag: "Naturaleza" },
         { id: "1-0Tm0r41v8", title: "Cómo funciona el corazón (Happy Learning)", tag: "Ciencias" },
         { id: "lcxkRC1kTvQ", title: "Mecanografía 1: cómo colocar los dedos en el teclado (interDidactica)", tag: "Tecnología" },
@@ -1519,6 +1654,7 @@
         { id: "TiKkleVQ4AM", title: "La tilde en las palabras agudas (Smile and Learn)", tag: "Lengua" },
         { id: "q2yI14F0WLg", title: "¿Cómo nos ayudan los anteojos a ver? (TED-Ed en español)", tag: "Curiosidades" },
         { id: "FaLmwmN1MP0", title: "Una dieta saludable (Happy Learning)", tag: "Emociones y salud" },
+        { id: "MH6SfxrAAYw", title: "Finlandia: escuelas donde los alumnos deciden qué estudiar (BBC Mundo)", tag: "Escuelas del mundo" },
         { id: "lXtDWYcPbXY", title: "Los 12 animales más curiosos (CuriosaMente)", tag: "Naturaleza" },
         { id: "CIhwGRIBEQ8", title: "El aparato digestivo (Happy Learning)", tag: "Ciencias" },
         { id: "-JVdH8ne-2s", title: "¿Qué es internet? (Educ.ar)", tag: "Tecnología" },
@@ -1531,6 +1667,7 @@
         { id: "i_Khe6k8kj4", title: "La coma (Smile and Learn)", tag: "Lengua" },
         { id: "DML24R1x3W0", title: "La rueda: inventos que cambiaron la historia (Happy Learning)", tag: "Curiosidades" },
         { id: "i9WV6oRGgoA", title: "Los nutrientes (Happy Learning)", tag: "Emociones y salud" },
+        { id: "ORGmRteRBeQ", title: "Finlandia: personas, tecnología y escuela (Telemadrid)", tag: "Escuelas del mundo" },
         { id: "N6vZBEEWrnY", title: "¿Qué esconden los océanos y los mares? (Happy Learning)", tag: "Naturaleza" },
         { id: "YeHAxnApHQw", title: "El cerebro (Happy Learning)", tag: "Ciencias" },
         { id: "l-zFtlzanvQ", title: "¿Quién inventó internet? (CuriosaMente)", tag: "Tecnología" },
@@ -1543,6 +1680,7 @@
         { id: "wVD9I3IZXHk", title: "El punto: cómo y cuándo usarlo (Happy Learning)", tag: "Lengua" },
         { id: "i53aXjnPRig", title: "¿Quién inventó la imprenta? (Happy Learning)", tag: "Curiosidades" },
         { id: "PSw6wj2ppGk", title: "Higiene corporal: hábitos de higiene (Smile and Learn)", tag: "Emociones y salud" },
+        { id: "Gq6THgFZiBE", title: "Dinamarca: en la escuela se aprende empatía (Lado B de las Cosas)", tag: "Escuelas del mundo" },
         { id: "SsRdLoYOMQA", title: "Aprende sobre los ecosistemas (Happy Learning)", tag: "Naturaleza" },
         { id: "8ZGrFsGiubM", title: "Las partes de la planta y la fotosíntesis (Smile and Learn)", tag: "Ciencias" },
         { id: "rHDTJQKW2y8", title: "Privacidad y seguridad en internet (Smile and Learn)", tag: "Tecnología" },
@@ -1553,6 +1691,7 @@
         { id: "SLZcWGQQsmg", title: "Rainbow Colors song (The Singing Walrus)", tag: "Inglés" },
         { id: "ZapZiZs-lUw", title: "Programa con Angry Birds · La Hora del Código (elmaestrodetecno)", tag: "Programación" },
         { id: "soC989dyXoo", title: "¿Cómo se inventó la bicicleta? (Happy Learning)", tag: "Curiosidades" },
+        { id: "FARKXNgK078", title: "Dinamarca: del aula digital de vuelta al libro (France 24)", tag: "Escuelas del mundo" },
         { id: "gMFO3YuJriA", title: "Cadenas alimentarias: niveles tróficos (Smile and Learn)", tag: "Naturaleza" },
         { id: "huVPSc9X61E", title: "Los estados de la materia (Happy Learning)", tag: "Ciencias" },
         { id: "SrDvQCcNwWQ", title: "¿Qué es la netiqueta? Normas en internet (Smile and Learn)", tag: "Tecnología" },
@@ -1561,20 +1700,25 @@
         { id: "YtG5yUi87J4", title: "¿Qué es el vibe coding? Programar con IA · para los más grandes (Computer Hoy)", tag: "Inteligencia Artificial" },
         { id: "_yqOqnCWXak", title: "¿Qué es la democracia? (Happy Learning)", tag: "Sociales" },
         { id: "3wdM1Rx0HdI", title: "Family vocabulary (Smile and Learn English)", tag: "Inglés" },
+        { id: "FCM-fvvR3CY", title: "En bicicleta al colegio: el BiciBus (DW Español)", tag: "Escuelas del mundo" },
         { id: "tUZriJ9qZD0", title: "Dinosaurios: datos curiosos (Happy Learning)", tag: "Naturaleza" },
         { id: "4eEri5RivV8", title: "Las energías renovables (Smile and Learn)", tag: "Ciencias" },
         { id: "rKn4eCLzZ-E", title: "Somos ciudadanos digitales (Common Sense Education)", tag: "Tecnología" },
         { id: "YBwYar9JY40", title: "El telescopio espacial James Webb (NASA en Español)", tag: "Astronomía" },
         { id: "7v9ZV0ak1DY", title: "Sudamérica: países y capitales (Hopscotch Español)", tag: "Sociales" },
         { id: "ChqnN3cKzXQ", title: "ABC Phonics: los sonidos del alfabeto (Tora the Teacher)", tag: "Inglés" },
+        { id: "EbOF6grc9aE", title: "Alemania: 10 curiosidades de la escuela (Una profe argentina en Alemania)", tag: "Escuelas del mundo" },
         { id: "6-5-A9w5swM", title: "La selva: un lugar misterioso (Happy Learning)", tag: "Naturaleza" },
         { id: "PW1eXZ81xKg", title: "Volcanes y géiseres (Happy Learning)", tag: "Ciencias" },
         { id: "Cp4Tiq3LOrc", title: "Contraseñas seguras: 8 claves (PantallasAmigas)", tag: "Tecnología" },
         { id: "Pt2U47Fu8ZA", title: "¿De qué tamaño es el universo? (CuriosaMente)", tag: "Astronomía" },
+        { id: "aqN7dg9lad0", title: "Inglaterra y Reino Unido: lo mejor de su sistema educativo (Cartas de RAJ)", tag: "Escuelas del mundo" },
         { id: "snwd8N3IZJg", title: "Los pulmones de la Tierra: el Amazonas (Happy Learning)", tag: "Naturaleza" },
         { id: "TporKW2jjxI", title: "Causas del cambio climático (Planeta Darwin)", tag: "Ciencias" },
+        { id: "8Gyk2gUv118", title: "Inglaterra: 5 cosas de la primaria (Esperanza Pineda)", tag: "Escuelas del mundo" },
         { id: "OMkEVX23BdM", title: "Leones 101 · en inglés (Nat Geo Wild)", tag: "Naturaleza" },
         { id: "5E3kl_7_cT0", title: "¿Qué es la luz? ¿Por qué vemos colores? (CuriosaMente)", tag: "Ciencias" },
+        { id: "l3PydhG5OMY", title: "Nueva Zelanda: cómo es la escuela, contado por una familia (Y un día nos fuimos)", tag: "Escuelas del mundo" },
         { id: "P_ckAbOr0r4", title: "Jirafas 101 · en inglés (Nat Geo Wild)", tag: "Naturaleza" },
         { id: "J20eXhZTHEo", title: "El guepardo · en inglés (Nat Geo Kids)", tag: "Naturaleza" }
       ];
@@ -1700,6 +1844,157 @@
         { target: 'u', dist: 'n', desc: 'la letra u' }
       ];
 
+      /* ---------- LECTURAS: ESCUELAS DEL MUNDO (con «Ponlo en práctica») ---------- */
+      const WORLD_READINGS = [
+        {
+          flag: '🇯🇵', title: 'Japón: los niños cuidan su escuela',
+          text: 'En más del 90 % de las escuelas primarias de Japón, los niños dedican unos 15 minutos después del almuerzo a limpiar: barren el salón, limpian las mesas y ordenan los pasillos junto con sus maestros. También se turnan en grupos pequeños para servir el almuerzo a sus compañeros. Estas tareas forman parte del tokkatsu, que en japonés significa «actividades especiales». Con ellas aprenden a ser responsables, a trabajar en equipo y a cuidar lo que es de todos. Además, desde 2020 todos los niños de primaria aprenden programación, y en quinto grado el inglés pasa a ser una materia formal.',
+          questions: [
+            { q: '¿Cuánto tiempo limpian después del almuerzo?', opts: ['Dos horas', 'Unos 15 minutos', 'No limpian nunca'], ok: 1, exp: 'Limpian unos 15 minutos, todos juntos, después de comer.' },
+            { q: '¿Qué significa «tokkatsu»?', opts: ['Actividades especiales', 'Examen final', 'Recreo largo'], ok: 0, exp: 'Tokkatsu son las «actividades especiales»: limpiar, servir el almuerzo, las asambleas de clase y más.' },
+            { q: '¿Qué aprenden con estas tareas?', opts: ['A no compartir', 'A llegar tarde', 'A ser responsables y trabajar en equipo'], ok: 2, exp: 'Cuidar el espacio común les enseña responsabilidad y trabajo en equipo.' }
+          ],
+          apply: [
+            'Antes de salir del salón, deja tu puesto limpio y la silla en su lugar.',
+            'Ofrécete para repartir el material o los cuadernos a tus compañeros.',
+            'En casa, ayuda a poner y a recoger la mesa. ¡Búscalo en ⭐ Misiones!'
+          ]
+        },
+        {
+          flag: '🇫🇮', title: 'Finlandia: aprender mezclando materias',
+          text: 'En Finlandia, las escuelas trabajan con proyectos que mezclan varias materias a la vez. Por ejemplo, para estudiar el agua pueden medir cuánta se usa en casa (matemáticas), leer sobre los ríos (lengua) y experimentar con hielo y vapor (ciencias). El objetivo es que los niños aprendan a aprender, a expresarse y a disfrutar aprendiendo. Desde pequeños también aprenden a revisar si lo que ven en internet y en los medios es confiable. En matemáticas usan programas sencillos con bloques, y en manualidades aprenden a coser y a construir objetos con sus manos.',
+          questions: [
+            { q: '¿Qué tienen de especial los proyectos de las escuelas finlandesas?', opts: ['Mezclan varias materias', 'Solo usan matemáticas', 'Se hacen sin maestros'], ok: 0, exp: 'Un mismo proyecto junta matemáticas, lengua, ciencias y más.' },
+            { q: '¿Qué aprenden a revisar en internet?', opts: ['El color de las páginas', 'Si la información es confiable', 'Cuántos videos hay'], ok: 1, exp: 'Aprenden a preguntarse si una información es confiable antes de creerla.' },
+            { q: '¿Con qué programan en matemáticas?', opts: ['Con pinceles', 'Con tijeras', 'Con bloques'], ok: 2, exp: 'Usan programas sencillos de bloques para dar instrucciones.' }
+          ],
+          apply: [
+            'Conecta lo que estudias con otra materia: mide cada semana cuánto crece una planta y anótalo.',
+            'Antes de creer algo de internet, pregúntate: ¿quién lo dice? Practica en Lengua → ¿Es verdad?',
+            'Prueba dar instrucciones paso a paso en Lógica → Algoritmos.'
+          ]
+        },
+        {
+          flag: '🇩🇰', title: 'Dinamarca: la hora de la clase',
+          text: 'En las escuelas de Dinamarca existe el Klassens tid, que significa «la hora de la clase». Es una hora a la semana en la que los alumnos, de 6 a 16 años, hablan de lo que les preocupa: si alguien se sintió excluido, si hubo una pelea o si algo no salió bien. Entre todos buscan una solución, escuchándose con respeto. Así practican la empatía, que es la capacidad de ponerse en el lugar del otro. La empatía se aprende practicando, igual que las matemáticas o el fútbol. Además, desde el año escolar 2026-2027 sus escuelas serán libres de celulares.',
+          questions: [
+            { q: '¿Qué es el Klassens tid?', opts: ['Una clase de natación', 'Una hora a la semana para hablar y resolver problemas juntos', 'Un examen de matemáticas'], ok: 1, exp: 'Es una hora semanal para conversar y buscar soluciones entre todos.' },
+            { q: '¿Qué es la empatía?', opts: ['Ponerse en el lugar del otro', 'Ganar siempre', 'Hablar más fuerte que los demás'], ok: 0, exp: 'Empatía es entender cómo se siente otra persona.' },
+            { q: '¿Qué cambiará en sus escuelas desde 2026-2027?', opts: ['No habrá recreo', 'Estudiarán de noche', 'Serán libres de celulares'], ok: 2, exp: 'Las escuelas danesas serán libres de celulares desde ese año escolar.' }
+          ],
+          apply: [
+            'Si ves a alguien solo en el recreo, invítalo a jugar.',
+            'Si tienes un problema con un amigo, prueba decir: «Me sentí ___ cuando ___. ¿Podemos ___?».',
+            'Visita 💚 Emociones para pensar cómo te sientes hoy.'
+          ]
+        },
+        {
+          flag: '🏴', title: 'Inglaterra: programar desde los 5 años',
+          text: 'En Inglaterra, la computación es una materia obligatoria desde los 5 años. Lo primero que aprenden es qué es un algoritmo: una lista de pasos ordenados para resolver algo, como una receta. Luego crean programas sencillos, buscan y corrigen errores, y aprenden a usar la tecnología de forma segura y respetuosa. Pero no todo es pantalla: en educación física aprenden a nadar, desde los 7 años estudian un idioma extranjero y tienen clases sobre relaciones y salud, donde hablan de la amistad, del respeto y de cómo cuidar su cuerpo y su mente.',
+          questions: [
+            { q: '¿Desde qué edad es obligatoria la computación en Inglaterra?', opts: ['Desde los 15 años', 'Nunca', 'Desde los 5 años'], ok: 2, exp: 'Desde los 5 años ya aprenden computación en la escuela.' },
+            { q: '¿Qué es un algoritmo?', opts: ['Una lista de pasos ordenados', 'Un tipo de animal', 'Un juego de pelota'], ok: 0, exp: 'Un algoritmo es una lista de pasos en orden, como una receta.' },
+            { q: '¿Qué aprenden en educación física?', opts: ['A cocinar', 'A nadar', 'A manejar'], ok: 1, exp: 'La natación forma parte de la educación física en primaria.' }
+          ],
+          apply: [
+            'Escribe el «algoritmo» de tu mañana: los pasos para llegar listo al colegio.',
+            'Si algo no te sale, búscale el error paso a paso, como hacen los programadores.',
+            'Practica en Lógica → Algoritmos.'
+          ]
+        },
+        {
+          flag: '🇳🇿', title: 'Nueva Zelanda: convivir y cuidar la cultura',
+          text: 'El currículo de Nueva Zelanda no solo dice qué materias estudiar: también define competencias clave, como saber organizarse uno mismo y relacionarse bien con los demás. En tecnología, los niños aprenden pensamiento computacional, es decir, a dividir un problema en partes y resolverlo paso a paso, pensando siempre en usar la tecnología con ética y ser buenos ciudadanos digitales. El país también cuida la cultura maorí, el pueblo originario de esas islas: el te reo maorí es idioma oficial y todos pueden aprenderlo, y desde 2022 se estudia la historia propia de Aotearoa Nueva Zelanda.',
+          questions: [
+            { q: '¿Cuál es una competencia clave del currículo de Nueva Zelanda?', opts: ['Relacionarse bien con los demás', 'Memorizar números de teléfono', 'Correr más rápido que todos'], ok: 0, exp: 'Relacionarse con los demás y organizarse uno mismo son competencias clave.' },
+            { q: '¿Qué es el pensamiento computacional?', opts: ['Usar la computadora todo el día', 'Dividir un problema en partes y resolverlo paso a paso', 'Jugar videojuegos'], ok: 1, exp: 'Es una forma de pensar: partir el problema en pasos pequeños.' },
+            { q: '¿Quiénes son los maoríes?', opts: ['Un equipo de fútbol', 'Unos dinosaurios', 'El pueblo originario de Nueva Zelanda'], ok: 2, exp: 'Los maoríes son el pueblo originario de Nueva Zelanda.' }
+          ],
+          apply: [
+            'Organízate: prepara tu mochila la noche anterior con una lista.',
+            'Divide una tarea grande en pasos pequeños y táchalos al terminarlos.',
+            'Descubre palabras que vienen de lenguas indígenas del Caribe, como «hamaca», «canoa» y «maíz».'
+          ]
+        },
+        {
+          flag: '🇩🇪', title: 'Alemania: el carné de bicicleta',
+          text: 'En Alemania, los niños de primaria tienen una materia llamada Sachunterricht, que une ciencias naturales, tecnología, historia, geografía y vida en sociedad. Uno de sus temas más esperados es la educación vial. En tercer o cuarto grado se preparan para la prueba de bicicleta, que tiene una parte teórica y otra práctica, ¡como el examen para manejar un carro! Aprenden las señales de tránsito, a revisar que su bicicleta esté en buen estado y a girar con cuidado. Al aprobar, reciben su carné de ciclista.',
+          questions: [
+            { q: '¿Qué une la materia Sachunterricht?', opts: ['Solo música', 'Ciencias, tecnología, historia, geografía y sociedad', 'Solo deportes'], ok: 1, exp: 'Sachunterricht junta varias miradas para entender el mundo.' },
+            { q: '¿En qué grado suelen hacer la prueba de bicicleta?', opts: ['En tercero o cuarto', 'En la universidad', 'En preescolar'], ok: 0, exp: 'Se prepara en tercero o cuarto grado de primaria.' },
+            { q: '¿Qué partes tiene la prueba?', opts: ['Solo cantar', 'Solo dibujar', 'Una teórica y una práctica'], ok: 2, exp: 'Como el examen de manejo: una parte teórica y otra práctica.' }
+          ],
+          apply: [
+            'Aprende las señales de tránsito que ves camino al colegio.',
+            'Cruza siempre por el rayado y mira a ambos lados antes de cruzar.',
+            'Antes de usar tu bici o patineta, revisa los frenos y ponte el casco con un adulto.'
+          ]
+        }
+      ];
+
+      /* ---------- ¿ES VERDAD O NO? (alfabetización mediática) ---------- */
+      const MEDIA_TIP = 'Antes de creer o compartir: <strong>¿Quién lo dice? ¿Cómo lo sabe? ¿Me quiere vender algo? ¿Lo dicen otras fuentes confiables?</strong>';
+      const MEDIA_TYPES = ['📰 Hecho o noticia', '💭 Opinión', '🛍️ Publicidad', '⚠️ Falso o exagerado'];
+      const MEDIA_ITEMS = [
+        { icon: '📰', src: 'Periódico local', text: 'La biblioteca municipal abrió una sala infantil el sábado. Según la alcaldía, tiene 2.000 libros nuevos.', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 0, exp: 'Cuenta algo que pasó y dice quién da la información: es una noticia.' },
+        { icon: '📺', src: 'Comercial de TV', text: '¡Los zapatos SaltaMax te hacen saltar el doble de alto! Cómpralos hoy con 50 % de descuento.', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 2, exp: 'Quiere que compres algo y promete cosas difíciles de creer: es publicidad.' },
+        { icon: '🗨️', src: 'Un compañero', text: 'Para mí, el fútbol es el deporte más divertido del mundo.', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 1, exp: '«Para mí» y «más divertido» muestran un gusto personal: es una opinión.' },
+        { icon: '📱', src: 'Cadena de WhatsApp', text: '¡URGENTE! Si comes mango con leche te puedes enfermar gravemente. ¡Compártelo con todos!', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 3, exp: 'Es un mito muy viejo y no tiene pruebas. «URGENTE» y «compártelo con todos» son señales de alerta.' },
+        { icon: '📘', src: 'Libro de ciencias', text: 'A nivel del mar, el agua hierve a 100 °C.', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 0, exp: 'Es un dato que se puede comprobar con un termómetro: es un hecho.' },
+        { icon: '🎥', src: 'Video viral', text: 'Este video tiene un millón de vistas, así que seguro es verdad.', q: '¿Es correcto ese razonamiento?', opts: ['Sí, si lo vio mucha gente es cierto', 'No, que mucha gente lo vea no prueba que sea verdad', 'Sí, los videos nunca mienten'], ok: 1, exp: 'Lo popular no siempre es verdadero. Hay que buscar quién lo dice y cómo lo sabe.' },
+        { icon: '⭐', src: 'Influencer en redes', text: '¡Este jugo me hizo sacar 20 en todos mis exámenes! Usa mi código y cómpralo.', q: '¿Qué está pasando aquí?', opts: ['Es una noticia científica', 'Es publicidad: quiere que compres el jugo', 'Es un consejo de una maestra'], ok: 1, exp: 'Un código de descuento y una promesa exagerada son señales de publicidad.' },
+        { icon: '🔬', src: 'Revista de ciencia', text: 'Un estudio universitario encontró que dormir bien ayuda a recordar lo que aprendiste.', q: '¿Qué hace más confiable este mensaje?', opts: ['Que dice de dónde viene la información', 'Que tiene muchos emojis', 'Que está en mayúsculas'], ok: 0, exp: 'Cuando un mensaje dice de dónde sale la información, se puede comprobar.' },
+        { icon: '📰', src: 'Titular en internet', text: '¡INCREÍBLE! Gato aprende a hablar inglés en 3 días.', q: '¿Qué deberías hacer antes de creerlo?', opts: ['Compartirlo rápido', 'Buscar si fuentes confiables dicen lo mismo', 'Creerlo porque tiene foto'], ok: 1, exp: 'Los titulares exagerados buscan clics. Compara con otras fuentes.' },
+        { icon: '🎁', src: 'Mensaje desconocido', text: '¡Ganaste un celular gratis! Escribe tu dirección y la clave del banco de tu mamá aquí.', q: '¿Qué haces?', opts: ['Escribo los datos rápido', 'Lo reenvío a mis amigos', 'No escribo nada y le aviso a un adulto'], ok: 2, exp: 'Es una estafa. Nunca compartas datos personales ni claves: avisa a un adulto.' },
+        { icon: '🗨️', src: 'Comentario en redes', text: 'Creo que la próxima película de dinosaurios va a ser la mejor del año.', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 1, exp: '«Creo que» muestra que es lo que piensa una persona: es una opinión.' },
+        { icon: '🖼️', src: 'Foto en redes', text: 'Foto: un tiburón nadando por una calle inundada de la ciudad.', q: '¿Por qué hay que dudar de esta foto?', opts: ['Porque las fotos se pueden editar o sacar de otro lugar', 'Porque los tiburones no existen', 'No hay que dudar de ninguna foto'], ok: 0, exp: 'Las fotos se pueden editar o usar fuera de contexto. Busca la fuente original.' },
+        { icon: '📘', src: 'Enciclopedia', text: 'La Luna gira alrededor de la Tierra.', q: '¿Qué tipo de mensaje es?', opts: MEDIA_TYPES, ok: 0, exp: 'Es un hecho comprobado por la ciencia.' },
+        { icon: '🇻🇪', src: 'Tres frases', text: 'A) En Venezuela está el Salto Ángel. B) El Salto Ángel es el lugar más bonito del mundo. C) Todos deberían visitar el Salto Ángel.', q: '¿Cuál de las tres frases es un hecho?', opts: ['La frase A', 'La frase B', 'La frase C'], ok: 0, exp: 'A se puede comprobar. B y C dicen lo que piensa alguien: son opiniones.' },
+        { icon: '💬', src: 'Chat del salón', text: 'Mañana no hay clases. (El mensaje no dice quién lo envió).', q: '¿Qué es lo mejor que puedes hacer?', opts: ['Creerlo y no ir al colegio', 'Confirmarlo con la maestra o con mis papás', 'Reenviarlo a todos los grupos'], ok: 1, exp: 'Si no sabes quién lo dice, confírmalo con una fuente oficial antes de creerlo.' }
+      ];
+
+      /* ---------- ALGORITMOS SIN PANTALLA ---------- */
+      const ALGO_TASKS = [
+        { title: 'Lavarse los dientes', icon: '🪥', steps: ['Poner pasta en el cepillo', 'Cepillar todos los dientes', 'Escupir y enjuagar la boca', 'Lavar y guardar el cepillo'] },
+        { title: 'Sembrar una semilla', icon: '🌱', steps: ['Llenar la maceta con tierra', 'Hacer un hoyito con el dedo', 'Poner la semilla y taparla', 'Regar con un poco de agua'] },
+        { title: 'Preparar la mochila', icon: '🎒', steps: ['Revisar el horario de mañana', 'Meter los cuadernos de cada materia', 'Guardar lápiz, borrador y sacapuntas', 'Cerrar la mochila y dejarla junto a la puerta'] },
+        { title: 'Hacer arepas', icon: '🫓', steps: ['Lavarse las manos', 'Mezclar la harina con agua y sal', 'Amasar y formar las arepas', 'Cocinarlas en el budare'] },
+        { title: 'Cruzar la calle', icon: '🚸', steps: ['Llegar al rayado peatonal', 'Mirar a la izquierda y a la derecha', 'Esperar a que no vengan carros', 'Cruzar caminando, sin correr'] },
+        { title: 'Lavarse las manos', icon: '🧼', steps: ['Mojar las manos con agua', 'Echar jabón', 'Frotar las manos 20 segundos', 'Enjuagar y secar'] },
+        { title: 'Sumar con llevada', icon: '➕', steps: ['Sumar las unidades', 'Escribir la unidad y llevar la decena', 'Sumar las decenas más lo que llevaste', 'Escribir el resultado de las decenas'] },
+        { title: 'Buscar en internet de forma segura', icon: '🔎', steps: ['Pedir permiso a un adulto', 'Escribir palabras clave', 'Revisar que la página sea confiable', 'Leer y anotar de dónde sacaste la información'] },
+        { title: 'Escribir un mensaje a la maestra', icon: '✉️', steps: ['Escribir un saludo', 'Escribir la pregunta', 'Revisar la ortografía', 'Enviar el mensaje'] },
+        { title: 'Plantar un árbol en el colegio', icon: '🌳', steps: ['Elegir un lugar con sol', 'Cavar un hoyo', 'Poner el árbol y cubrir la raíz con tierra', 'Regarlo y ponerle un tutor'] }
+      ];
+
+      /* ---------- CONVIVENCIA: RINCÓN DE EMOCIONES Y MISIONES ---------- */
+      const EMOTIONS = [
+        { k: 'feliz', e: '😄', l: 'Feliz', heavy: false, msg: '¡Qué bueno! Disfruta ese sentimiento.', ideas: ['Cuéntale a alguien qué te hizo feliz.', 'Comparte tu alegría: ayuda o invita a jugar a alguien.'] },
+        { k: 'calma', e: '😌', l: 'En calma', heavy: false, msg: 'Estar en calma ayuda a concentrarse y aprender.', ideas: ['Es un buen momento para estudiar algo nuevo.', 'Fíjate qué te ayudó a estar así para repetirlo.'] },
+        { k: 'orgullo', e: '🤩', l: 'Orgulloso/a', heavy: false, msg: '¡Te esforzaste y se nota!', ideas: ['Anota qué lograste para recordarlo.', 'Felicita también a un compañero por lo suyo.'] },
+        { k: 'cansancio', e: '🥱', l: 'Cansado/a', heavy: false, msg: 'El cuerpo también necesita descansar.', ideas: ['Toma agua y estírate un minuto.', 'Haz una pausa corta y luego sigue con algo fácil.', 'Esta noche intenta dormir temprano.'] },
+        { k: 'tristeza', e: '😢', l: 'Triste', heavy: true, msg: 'Está bien sentirse triste a veces. No tienes que guardártelo.', ideas: ['Habla con un adulto de confianza: mamá, papá o tu maestra.', 'Haz algo que te guste: dibujar, música o jugar.', 'Un abrazo también ayuda.'] },
+        { k: 'enojo', e: '😠', l: 'Enojado/a', heavy: true, msg: 'El enojo es normal. Lo importante es qué hacemos con él.', ideas: ['Respira despacio: inhala en 4 y exhala en 4.', 'Cuenta hasta 10 antes de hablar.', 'Cuando estés más tranquilo/a, di cómo te sentiste sin gritar.'] },
+        { k: 'preocupacion', e: '😟', l: 'Preocupado/a', heavy: true, msg: 'Cuando algo nos preocupa, contarlo lo hace más pequeño.', ideas: ['Cuéntale a un adulto de confianza qué te preocupa.', 'Piensa en un paso pequeño que puedes dar hoy.', 'Respira despacio tres veces.'] },
+        { k: 'nervios', e: '😬', l: 'Nervioso/a', heavy: true, msg: 'Los nervios avisan que algo te importa.', ideas: ['Respira despacio: inhala en 4 y exhala en 4.', 'Repasa un poquito y dite: «Puedo hacerlo».', 'Pide ayuda si algo no está claro.'] }
+      ];
+      const SITUATIONS = [
+        { k: 'bien', l: '👍 Todo bien', tip: '¡Genial! Si ves a alguien que no está bien, puedes ayudarle.' },
+        { k: 'excluido', l: '🙁 Me dejaron por fuera', tip: 'Busca a otro compañero para jugar y cuéntaselo a tu maestra. En Dinamarca, la clase lo habla entre todos para que nadie se quede solo.' },
+        { k: 'discusion', l: '💢 Discutí con un amigo', tip: 'Cuando estén tranquilos, prueba decir: «Me sentí ___ cuando ___. ¿Podemos ___?». Escucha también su parte.' },
+        { k: 'noentendi', l: '🤔 No entendí algo en clase', tip: 'Es normal. Levanta la mano o pregúntale a tu maestra después de clase. Preguntar es de valientes.' },
+        { k: 'examen', l: '📝 Tengo un examen o tarea difícil', tip: 'Divídelo en partes pequeñas y empieza por la más fácil. Pide ayuda si la necesitas.' },
+        { k: 'otra', l: '💬 Otra cosa', tip: 'Cuéntaselo a un adulto de confianza. Hablarlo siempre ayuda.' }
+      ];
+      const DEFAULT_MISSIONS = [
+        'Preparar mi mochila para mañana',
+        'Dejar mi puesto de estudio ordenado',
+        'Ayudar a poner o recoger la mesa',
+        'Cuidar mis útiles escolares',
+        'Ayudar a un compañero o a alguien en casa',
+        'Leer 10 minutos algo que me guste'
+      ];
+
       const MODULE_META = [
         { key: 'sumas', label: 'Sumas en cuadrícula' },
         { key: 'restas', label: 'Restas en cuadrícula' },
@@ -1709,7 +2004,10 @@
         { key: 'valorPos', label: 'Valor Posicional' },
         { key: 'redondeo', label: 'Redondeo' },
         { key: 'propiedades', label: 'Propiedades (Conm./Asoc.)' },
+        { key: 'algoritmos', label: 'Algoritmos sin pantalla' },
         { key: 'lectura', label: 'Lectura comprensiva' },
+        { key: 'mundo', label: 'Lecturas: escuelas del mundo' },
+        { key: 'medios', label: '¿Es verdad o no? (medios)' },
         { key: 'ortografia', label: 'Ortografía (letras confusas)' },
         { key: 'visual', label: 'Discriminación Visual 5×5' }
       ];
@@ -1742,6 +2040,9 @@
         videosVersion: VIDEOS_VERSION,
         videoCats: [], // temas permitidos ahora; vacío = todos
         lastVideoIdx: -1,
+        missions: [...DEFAULT_MISSIONS],
+        missionLog: {}, // { 'AAAA-MM-DD': ['misión hecha', ...] } (últimos 14 días)
+        emotionLog: [], // [{ d: 'AAAA-MM-DD', t, e: 'feliz', s: 'bien' }] (últimos 90 registros)
         stats: createEmptyStats()
       };
 
@@ -2128,6 +2429,467 @@
         };
       }
 
+      // 4.12 ESCUELAS DEL MUNDO, 4.13 ¿ES VERDAD O NO?, 4.14 ALGORITMOS
+      function genMundo() {
+        const t = pick(WORLD_READINGS);
+        return {
+          moduleKey: 'mundo', category: 'lang',
+          badge: 'Lengua · Escuelas del mundo', subtype: `${t.flag} Lectura y práctica`,
+          type: 'reading', title: `${t.flag} ${t.title}`, text: t.text, questions: t.questions, apply: t.apply,
+          qIdx: 0, selectedOpt: null, usesNumpad: false,
+          hint: 'Busca en el texto la palabra clave de la pregunta y lee esa oración otra vez.'
+        };
+      }
+
+      function genMedios() {
+        const it = pick(MEDIA_ITEMS);
+        return {
+          moduleKey: 'medios', category: 'lang',
+          badge: 'Lengua · ¿Es verdad o no?', subtype: 'Piensa antes de creer',
+          type: 'media', icon: it.icon, src: it.src, text: it.text, q: it.q, opts: it.opts, okIdx: it.ok, exp: it.exp,
+          selectedOpt: null, usesNumpad: false,
+          hint: 'Busca pistas: ¿dice quién lo afirma? ¿usa «creo» o «para mí»? ¿quiere venderte algo? ¿te pide compartirlo con urgencia?'
+        };
+      }
+
+      const ROBOT_DIRS = { R: [0, 1], L: [0, -1], U: [-1, 0], D: [1, 0] };
+      const ROBOT_ARROWS = { R: '➡️', L: '⬅️', U: '⬆️', D: '⬇️' };
+      const ROBOT_NAMES = { R: 'derecha', L: 'izquierda', U: 'arriba', D: 'abajo' };
+      const OPPOSITE = { R: 'L', L: 'R', U: 'D', D: 'U' };
+
+      function genAlgoritmos(g) {
+        const kinds = ['order', 'robot'];
+        if (g >= 4) kinds.push('debug');
+        const kind = pick(kinds);
+        if (kind === 'order') return genAlgoOrder();
+        return genRobot(g, kind === 'debug');
+      }
+
+      function genAlgoOrder() {
+        const t = pick(ALGO_TASKS);
+        let order;
+        do {
+          order = t.steps.map((_, i) => i);
+          for (let i = order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [order[i], order[j]] = [order[j], order[i]];
+          }
+        } while (order.every((v, i) => v === i));
+        return {
+          moduleKey: 'algoritmos', category: 'logic',
+          badge: 'Lógica · Algoritmos', subtype: 'Ordena los pasos',
+          type: 'order-steps', title: t.title, icon: t.icon, steps: t.steps, shuffled: order, seq: [],
+          usesNumpad: false,
+          hint: 'Piensa: ¿qué tiene que pasar primero para que lo demás sea posible? ¿Qué paso va siempre al final?'
+        };
+      }
+
+      function runRobot(start, prog) {
+        let [r, c] = start;
+        const path = [[r, c]];
+        prog.forEach(t => {
+          for (let k = 0; k < t.n; k++) {
+            r += ROBOT_DIRS[t.d][0]; c += ROBOT_DIRS[t.d][1];
+            path.push([r, c]);
+          }
+        });
+        return path;
+      }
+
+      function genRobot(g, debug) {
+        const nTok = g <= 3 ? randInt(3, 4) : randInt(4, 6);
+        const dirs = Object.keys(ROBOT_DIRS);
+        for (let tries = 0; tries < 400; tries++) {
+          const start = [randInt(0, 4), randInt(0, 4)];
+          let [r, c] = start;
+          const prog = [];
+          let ok = true;
+          for (let i = 0; i < nTok; i++) {
+            const d = pick(dirs);
+            const rep = g >= 5 && !prog.some(t => t.n > 1) && Math.random() < 0.5;
+            const n = rep ? randInt(2, 3) : 1;
+            const nr = r + ROBOT_DIRS[d][0] * n, nc = c + ROBOT_DIRS[d][1] * n;
+            if (nr < 0 || nr > 4 || nc < 0 || nc > 4) { ok = false; break; }
+            if (prog.length && OPPOSITE[prog[prog.length - 1].d] === d) { ok = false; break; }
+            prog.push({ d, n });
+            r = nr; c = nc;
+          }
+          if (!ok || (r === start[0] && c === start[1])) continue;
+          const base = {
+            moduleKey: 'algoritmos', category: 'logic', badge: 'Lógica · Algoritmos',
+            start, end: [r, c], picked: null, usesNumpad: false
+          };
+          if (!debug) {
+            return {
+              ...base, subtype: 'Sigue el programa', type: 'robot-run', prog,
+              hint: 'Mueve el dedo casilla por casilla siguiendo cada flecha, en orden. «🔁 3× ➡️» significa avanzar 3 casillas a la derecha.'
+            };
+          }
+          // Depurar: se cambia un paso. Solo se acepta si existe UNA única corrección de un paso
+          // que lleve a la estrella (dos cambios distintos pueden mover al robot igual).
+          const bi = randInt(0, prog.length - 1);
+          const fixCount = (bug) => {
+            let fixes = 0;
+            bug.forEach((t, j) => dirs.forEach(d => {
+              if (d === t.d) return;
+              const path = runRobot(start, bug.map((x, k) => (k === j ? { ...x, d } : x)));
+              const last = path[path.length - 1];
+              if (last[0] === r && last[1] === c) fixes++;
+            }));
+            return fixes;
+          };
+          const options = dirs.filter(x => x !== prog[bi].d &&
+            fixCount(prog.map((t, i) => (i === bi ? { ...t, d: x } : t))) === 1);
+          if (!options.length) continue;
+          const wrongD = pick(options);
+          return {
+            ...base, subtype: 'Encuentra el error', type: 'robot-debug',
+            prog: prog.map((t, i) => (i === bi ? { ...t, d: wrongD } : t)),
+            bugIdx: bi, fixD: prog[bi].d,
+            hint: 'Sigue el programa con el dedo desde el robot. ¿En qué paso empieza a alejarse de la estrella?'
+          };
+        }
+        return genAlgoOrder();
+      }
+
+      function progChipLabel(t) {
+        return t.n > 1 ? `🔁 ${t.n}× ${ROBOT_ARROWS[t.d]}` : ROBOT_ARROWS[t.d];
+      }
+      function progChipAria(t, i) {
+        return `Paso ${i + 1}: ${t.n > 1 ? `repetir ${t.n} veces ` : ''}${ROBOT_NAMES[t.d]}`;
+      }
+
+      function applyHtml(ex) {
+        if (!ex.apply) return '';
+        return `<div class="apply-box"><strong>🏫 Ponlo en práctica en tu colegio:</strong><ul>${ex.apply.map(a => `<li>${a}</li>`).join('')}</ul></div>`;
+      }
+
+      function renderMedia(ex) {
+        $('exBody').innerHTML = `
+          <div class="media-card">
+            <div class="media-src"><span aria-hidden="true">${ex.icon}</span> ${ex.src}</div>
+            <p class="media-text">${ex.text}</p>
+          </div>
+          <div style="font-size:14.5px;font-weight:800;margin-bottom:7px;">${ex.q}</div>
+          <div>${ex.opts.map((o, i) => `<button type="button" class="read-opt" data-idx="${i}">${o}</button>`).join('')}</div>
+        `;
+        document.querySelectorAll('.read-opt').forEach(b => {
+          b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.selectedOpt = Number(b.dataset.idx);
+            document.querySelectorAll('.read-opt').forEach(x => x.classList.remove('selected'));
+            b.classList.add('selected');
+          });
+        });
+      }
+
+      function renderOrderSteps(ex, marks = null) {
+        const seqHtml = ex.seq.length
+          ? ex.seq.map((si, n) => `
+              <button type="button" class="algo-seq-item ${marks ? (marks[n] ? 'ok' : 'err') : ''}" data-pos="${n}" aria-label="Paso ${n + 1}: ${ex.steps[si]}. Tocar para quitar">
+                <span class="algo-num">${n + 1}</span><span style="flex:1;">${ex.steps[si]}</span><span class="algo-x" aria-hidden="true">✕</span>
+              </button>`).join('')
+          : '<div class="algo-empty">Toca los pasos de abajo en el orden correcto.</div>';
+        const pool = ex.shuffled.filter(si => !ex.seq.includes(si))
+          .map(si => `<button type="button" class="algo-step" data-si="${si}">${ex.steps[si]}</button>`).join('');
+        $('exBody').innerHTML = `
+          <div class="algo-title"><span aria-hidden="true">${ex.icon}</span> Algoritmo para: <strong>${ex.title}</strong></div>
+          <div class="algo-label">Tu algoritmo</div>
+          <div class="algo-seq">${seqHtml}</div>
+          ${pool ? `<div class="algo-label">Pasos disponibles</div><div class="algo-pool">${pool}</div>` : ''}
+        `;
+        document.querySelectorAll('.algo-step').forEach(b => b.addEventListener('click', () => {
+          if (exSolved) return;
+          ex.seq.push(Number(b.dataset.si));
+          $('feedbackBox').classList.add('hidden');
+          renderOrderSteps(ex);
+        }));
+        document.querySelectorAll('.algo-seq-item').forEach(b => b.addEventListener('click', () => {
+          if (exSolved) return;
+          ex.seq.splice(Number(b.dataset.pos), 1);
+          $('feedbackBox').classList.add('hidden');
+          renderOrderSteps(ex);
+        }));
+      }
+
+      function renderRobot(ex, pathCells = null) {
+        const isDebug = ex.type === 'robot-debug';
+        const onPath = new Set((pathCells || []).map(([r, c]) => `${r}-${c}`));
+        let cells = '';
+        for (let r = 0; r < 5; r++) {
+          for (let c = 0; c < 5; c++) {
+            const isStart = r === ex.start[0] && c === ex.start[1];
+            const isStar = isDebug && r === ex.end[0] && c === ex.end[1];
+            const picked = !isDebug && ex.picked && ex.picked[0] === r && ex.picked[1] === c;
+            const content = isStart ? '🤖' : isStar ? '⭐' : '';
+            const cls = ['rb-cell', picked ? 'selected' : '', onPath.has(`${r}-${c}`) ? 'path' : ''].join(' ');
+            cells += isDebug
+              ? `<div class="${cls}" aria-hidden="true">${content}</div>`
+              : `<button type="button" class="${cls}" data-r="${r}" data-c="${c}" aria-label="Fila ${r + 1}, columna ${c + 1}${isStart ? ', aquí empieza el robot' : ''}">${content}</button>`;
+          }
+        }
+        const chips = ex.prog.map((t, i) => isDebug
+          ? `<button type="button" class="prog-chip ${ex.picked === i ? 'selected' : ''}" data-ti="${i}" aria-label="${progChipAria(t, i)}"><span class="prog-n">${i + 1}</span>${progChipLabel(t)}</button>`
+          : `<span class="prog-chip" aria-label="${progChipAria(t, i)}"><span class="prog-n">${i + 1}</span>${progChipLabel(t)}</span>`
+        ).join('');
+        $('exBody').innerHTML = `
+          <div style="font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.4;">
+            ${isDebug
+              ? 'El robot 🤖 debe llegar a la ⭐, pero <strong>un paso del programa está equivocado</strong>. ¿Cuál es? Tócalo.'
+              : 'El robot 🤖 sigue este programa, paso por paso. <strong>¿En qué casilla termina?</strong> Tócala.'}
+          </div>
+          <div class="prog-row" aria-label="Programa del robot">${chips}</div>
+          <div class="robot-grid" ${isDebug ? 'aria-hidden="true"' : 'role="group" aria-label="Cuadrícula de 5 por 5"'}>${cells}</div>
+        `;
+        if (isDebug) {
+          document.querySelectorAll('.prog-chip[data-ti]').forEach(b => b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.picked = Number(b.dataset.ti);
+            renderRobot(ex);
+          }));
+        } else {
+          document.querySelectorAll('.rb-cell[data-r]').forEach(b => b.addEventListener('click', () => {
+            if (exSolved) return;
+            ex.picked = [Number(b.dataset.r), Number(b.dataset.c)];
+            renderRobot(ex);
+          }));
+        }
+      }
+
+      // Validación de los módulos nuevos. Devuelve true si el tipo le corresponde.
+      function checkNewTypes(ex) {
+        if (ex.type === 'media') {
+          if (ex.selectedOpt === null) { showFeedback(false, 'Selecciona una respuesta.'); return true; }
+          if (ex.selectedOpt === ex.okIdx) {
+            showFeedback(true, `¡Bien pensado! ${ex.exp}<div class="apply-box">💡 ${MEDIA_TIP}</div>`);
+            recordOutcome(true);
+          } else {
+            showFeedback(false, 'Mira otra vez las pistas del mensaje: ¿quién lo dice, cómo lo sabe y qué quiere que hagas?');
+            recordOutcome(false);
+          }
+          return true;
+        }
+        if (ex.type === 'order-steps') {
+          if (ex.seq.length < ex.steps.length) {
+            const left = ex.steps.length - ex.seq.length;
+            showFeedback(false, `Te falta${left === 1 ? '' : 'n'} ${left} paso${left === 1 ? '' : 's'} por ordenar.`);
+            return true;
+          }
+          const marks = ex.seq.map((si, n) => si === n);
+          renderOrderSteps(ex, marks);
+          if (marks.every(Boolean)) {
+            showFeedback(true, '¡Algoritmo correcto! Con los pasos en orden, cualquier persona (o computadora) puede seguirlos sin equivocarse.');
+            recordOutcome(true);
+          } else {
+            showFeedback(false, 'Hay pasos fuera de orden (en rojo). Tócalos para quitarlos y vuelve a intentarlo.');
+            recordOutcome(false);
+          }
+          return true;
+        }
+        if (ex.type === 'robot-run') {
+          if (!ex.picked) { showFeedback(false, 'Toca la casilla donde crees que termina el robot.'); return true; }
+          if (ex.picked[0] === ex.end[0] && ex.picked[1] === ex.end[1]) {
+            renderRobot(ex, runRobot(ex.start, ex.prog));
+            showFeedback(true, '¡Exacto! Seguiste el programa paso a paso, como una computadora. El camino quedó marcado.');
+            recordOutcome(true);
+          } else {
+            showFeedback(false, 'Esa no es. Empieza en el robot y mueve el dedo una casilla por cada flecha.');
+            recordOutcome(false);
+          }
+          return true;
+        }
+        if (ex.type === 'robot-debug') {
+          if (ex.picked === null) { showFeedback(false, 'Toca el paso del programa que crees que está mal.'); return true; }
+          if (ex.picked === ex.bugIdx) {
+            const fixed = ex.prog.map((t, i) => (i === ex.bugIdx ? { ...t, d: ex.fixD } : t));
+            ex.prog = fixed;
+            renderRobot(ex, runRobot(ex.start, fixed));
+            showFeedback(true, `¡Encontraste el error! El paso ${ex.bugIdx + 1} debía ser ${progChipLabel(fixed[ex.bugIdx])}. A esto los programadores le dicen «depurar».`);
+            recordOutcome(true);
+          } else {
+            showFeedback(false, 'Ese paso está bien. Sigue el programa desde el robot y fíjate dónde empieza a alejarse de la ⭐.');
+            recordOutcome(false);
+          }
+          return true;
+        }
+        return false;
+      }
+
+      /* =====================================================================
+         CONVIVENCIA: RINCÓN DE EMOCIONES Y MISIONES DE RESPONSABILIDAD
+         ===================================================================== */
+      let emoSel = { e: null, s: null };
+      let breathTimers = [];
+
+      function dayKey(d = new Date()) {
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      }
+      function lastDays(n) {
+        return Array.from({ length: n }, (_, i) => {
+          const d = new Date(); d.setDate(d.getDate() - (n - 1 - i));
+          return d;
+        });
+      }
+      const DAY_SHORT = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
+
+      function stopBreathing() {
+        breathTimers.forEach(clearTimeout);
+        breathTimers = [];
+      }
+
+      function renderConvivir() {
+        currentEx = null;
+        exSolved = false;
+        activeCell = null;
+        stopBreathing();
+        const sub = state.subFilter === 'misiones' ? 'misiones' : 'emociones';
+        $('exBadge').textContent = 'Convivencia';
+        $('exBadge').className = 'badge badge-conv';
+        $('exSubtype').textContent = sub === 'misiones' ? 'Misiones de responsabilidad' : 'Rincón de emociones';
+        $('hintBox').classList.add('hidden');
+        $('feedbackBox').classList.add('hidden');
+        $('numpad').classList.add('hidden');
+        setCardControls(false);
+        if (sub === 'misiones') renderMisiones(); else renderEmociones();
+      }
+
+      function setCardControls(show) {
+        $('btnHint').classList.toggle('hidden', !show);
+        $('btnSkip').classList.toggle('hidden', !show);
+        document.querySelector('.card-footer').classList.toggle('hidden', !show);
+      }
+
+      function renderEmociones() {
+        const em = EMOTIONS.find(x => x.k === emoSel.e);
+        const sit = SITUATIONS.find(x => x.k === emoSel.s);
+        $('exBody').innerHTML = `
+          <div class="conv-intro"><strong>💚 Rincón de emociones</strong><br />¿Cómo te sientes hoy? No hay respuestas buenas ni malas.</div>
+          <div class="emo-grid" role="group" aria-label="Elige cómo te sientes">
+            ${EMOTIONS.map(e => `<button type="button" class="emo-btn ${emoSel.e === e.k ? 'selected' : ''}" data-emo="${e.k}" aria-pressed="${emoSel.e === e.k}"><span class="emo-face" aria-hidden="true">${e.e}</span>${e.l}</button>`).join('')}
+          </div>
+          ${em ? `
+            <div class="emo-resp" role="status">
+              <strong>${em.e} ${em.msg}</strong>
+              <ul>${em.ideas.map(i => `<li>${i}</li>`).join('')}</ul>
+              <button type="button" id="btnBreath" class="mini-btn">🌬️ Respira conmigo</button>
+              <div id="breathBox" class="breath-box hidden" aria-live="polite">
+                <div class="breath-circle" aria-hidden="true"></div>
+                <div id="breathTxt" class="breath-txt"></div>
+              </div>
+            </div>
+            <div class="sit-title">¿Pasó algo en el colegio?</div>
+            <div class="sit-grid" role="group" aria-label="¿Pasó algo en el colegio?">
+              ${SITUATIONS.map(s => `<button type="button" class="sit-btn ${emoSel.s === s.k ? 'selected' : ''}" data-sit="${s.k}" aria-pressed="${emoSel.s === s.k}">${s.l}</button>`).join('')}
+            </div>
+            ${sit ? `<div class="emo-resp sit" role="status">${sit.tip}${em.heavy && sit.k !== 'bien' ? '<br /><strong>Recuerda:</strong> siempre puedes hablarlo con un adulto de confianza.' : ''}</div>` : ''}
+          ` : ''}
+          <div class="emo-note">👨‍👩‍👧 Tus papás pueden ver cómo te sentiste para poder ayudarte.</div>
+        `;
+        document.querySelectorAll('.emo-btn').forEach(b => b.addEventListener('click', () => {
+          emoSel = { e: b.dataset.emo, s: null };
+          // Si cambia de idea en menos de 2 minutos, se reemplaza el registro anterior
+          const log = [...(state.emotionLog || [])];
+          const prev = log[log.length - 1];
+          if (prev && Date.now() - prev.t < 120000) log.pop();
+          state.emotionLog = [...log, { d: dayKey(), t: Date.now(), e: emoSel.e }].slice(-90);
+          saveState();
+          renderEmociones();
+        }));
+        document.querySelectorAll('.sit-btn').forEach(b => b.addEventListener('click', () => {
+          emoSel.s = b.dataset.sit;
+          const log = state.emotionLog || [];
+          if (log.length && log[log.length - 1].e === emoSel.e) log[log.length - 1].s = emoSel.s;
+          saveState();
+          renderEmociones();
+        }));
+        const bb = $('btnBreath');
+        if (bb) bb.addEventListener('click', startBreathing);
+      }
+
+      function startBreathing() {
+        stopBreathing();
+        const box = $('breathBox'), txt = $('breathTxt'), circle = box.querySelector('.breath-circle');
+        box.classList.remove('hidden');
+        const steps = [];
+        for (let i = 0; i < 3; i++) { steps.push(['in', 'Inhala despacio… 1, 2, 3, 4']); steps.push(['out', 'Exhala despacio… 4, 3, 2, 1']); }
+        steps.push(['done', '¡Muy bien! ¿Te sientes un poco mejor?']);
+        steps.forEach(([phase, label], i) => {
+          breathTimers.push(setTimeout(() => {
+            txt.textContent = label;
+            circle.classList.toggle('grow', phase === 'in');
+          }, i * 4000));
+        });
+      }
+
+      function renderMisiones() {
+        const today = dayKey();
+        const log = state.missionLog || {};
+        const done = new Set(log[today] || []);
+        const list = state.missions && state.missions.length ? state.missions : DEFAULT_MISSIONS;
+        const doneToday = list.filter(m => done.has(m)).length;
+        const days = lastDays(7);
+        const week = days.reduce((s, d) => s + (log[dayKey(d)] || []).length, 0);
+        $('exBody').innerHTML = `
+          <div class="conv-intro"><strong>⭐ Misiones de responsabilidad</strong><br />Como en las escuelas de Japón: pequeñas tareas para cuidar tu espacio y ayudar a los demás. Se renuevan cada día.</div>
+          <div class="mission-summary">
+            <span>Hoy: <strong>${doneToday}/${list.length}</strong> ⭐</span>
+            <span>Esta semana: <strong>${week}</strong> ⭐</span>
+          </div>
+          <div class="mission-list">
+            ${list.map((m, i) => `
+              <button type="button" class="mission-item ${done.has(m) ? 'done' : ''}" data-mi="${i}" aria-pressed="${done.has(m)}">
+                <span class="mission-check" aria-hidden="true">${done.has(m) ? '⭐' : ''}</span><span>${escapeHtml(m)}</span>
+              </button>`).join('')}
+          </div>
+          ${doneToday === list.length ? '<div class="emo-resp" role="status">🎉 ¡Completaste todas tus misiones de hoy! Eres parte del equipo.</div>' : ''}
+          <div class="week-strip" aria-label="Estrellas de los últimos 7 días">
+            ${days.map(d => {
+              const n = (log[dayKey(d)] || []).length;
+              return `<div class="week-day ${dayKey(d) === today ? 'today' : ''}"><div class="week-n">${n || ''}</div><div class="week-bar" style="height:${Math.min(n, 8) * 5 + 3}px"></div><div class="week-l">${DAY_SHORT[d.getDay()]}</div></div>`;
+            }).join('')}
+          </div>
+        `;
+        document.querySelectorAll('.mission-item').forEach(b => b.addEventListener('click', () => {
+          const m = list[Number(b.dataset.mi)];
+          const cur = new Set((state.missionLog || {})[today] || []);
+          cur.has(m) ? cur.delete(m) : cur.add(m);
+          const keep = new Set(lastDays(14).map(d => dayKey(d)));
+          const next = {};
+          Object.entries(state.missionLog || {}).forEach(([k, v]) => { if (keep.has(k)) next[k] = v; });
+          next[today] = [...cur];
+          state.missionLog = next;
+          saveState();
+          renderMisiones();
+        }));
+      }
+
+      // Resumen para padres (Progreso)
+      function renderConvivenciaSummary() {
+        const keys = new Set(lastDays(7).map(d => dayKey(d)));
+        const emos = (state.emotionLog || []).filter(x => keys.has(x.d));
+        const counts = {};
+        emos.forEach(x => { counts[x.e] = (counts[x.e] || 0) + 1; });
+        const heavy = emos.filter(x => (EMOTIONS.find(e => e.k === x.e) || {}).heavy).length;
+        const last = (state.emotionLog || []).slice(-1)[0];
+        const lastEm = last && EMOTIONS.find(e => e.k === last.e);
+        const lastSit = last && last.s && SITUATIONS.find(s => s.k === last.s);
+        const log = state.missionLog || {};
+        const week = lastDays(7).reduce((s, d) => s + (log[dayKey(d)] || []).length, 0);
+        const activeDays = lastDays(7).filter(d => (log[dayKey(d)] || []).length).length;
+        $('convSummary').innerHTML = `
+          <div style="font-size:13.5px;font-weight:800;margin-bottom:6px;">💚 Emociones (últimos 7 días)</div>
+          ${emos.length ? `
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;">
+              ${EMOTIONS.filter(e => counts[e.k]).map(e => `<span class="emo-chip">${e.e} ${e.l} ×${counts[e.k]}</span>`).join('')}
+            </div>
+            ${lastEm ? `<div style="font-size:13px;color:var(--text-muted);">Última: ${lastEm.e} ${lastEm.l}${lastSit ? ` · ${lastSit.l}` : ''}</div>` : ''}
+            ${heavy >= 3 ? '<div class="conv-alert">Esta semana marcó varias emociones difíciles. Puede ser un buen momento para conversar con calma.</div>' : ''}
+          ` : '<div style="font-size:13px;color:var(--text-muted);">Todavía no ha registrado emociones esta semana.</div>'}
+          <div style="font-size:13.5px;font-weight:800;margin:10px 0 4px;">⭐ Misiones</div>
+          <div style="font-size:13.5px;">${week} estrella${week === 1 ? '' : 's'} esta semana, en ${activeDays} día${activeDays === 1 ? '' : 's'}.</div>
+        `;
+      }
+
       /* =====================================================================
          5. SELECCIÓN Y CARGA DE EJERCICIOS
          ===================================================================== */
@@ -2137,9 +2899,9 @@
           const plan = getRoundPlan(state.roundSize);
           const slot = plan[Math.min(state.roundProgress, plan.length - 1)];
           if (slot === 'math') {
-            return pick([genSumas, genRestas, genMult1, genMult2, genDivision, genValorPos, genRedondeo, genPropiedades])(g);
+            return pick([genSumas, genRestas, genMult1, genMult2, genDivision, genValorPos, genRedondeo, genPropiedades, genAlgoritmos])(g);
           }
-          return pick([genLectura, genOrtografia, genVisual])(g);
+          return pick([genLectura, genOrtografia, genVisual, genMundo, genMedios])(g);
         }
         if (mode === 'cuaderno') {
           if (sub === 'sumas') return genSumas(g);
@@ -2153,18 +2915,24 @@
           if (sub === 'valorPos') return genValorPos(g);
           if (sub === 'redondeo') return genRedondeo(g);
           if (sub === 'propiedades') return genPropiedades(g);
-          return pick([genValorPos, genRedondeo, genPropiedades])(g);
+          if (sub === 'algoritmos') return genAlgoritmos(g);
+          return pick([genValorPos, genRedondeo, genPropiedades, genAlgoritmos])(g);
         }
         if (sub === 'lectura') return genLectura();
         if (sub === 'ortografia') return genOrtografia();
         if (sub === 'visual') return genVisual();
-        return pick([genLectura, genOrtografia, genVisual])();
+        if (sub === 'mundo') return genMundo();
+        if (sub === 'medios') return genMedios();
+        return pick([genLectura, genOrtografia, genVisual, genMundo, genMedios])(g);
       }
 
       function stopVisualTimer() { clearInterval(visualTimerId); visualTimerId = null; }
 
       function loadExercise() {
         stopVisualTimer();
+        stopBreathing();
+        if (state.mode === 'convivir') { renderConvivir(); return; }
+        setCardControls(true);
         currentEx = buildNextExercise();
         exSolved = false;
         activeCell = null;
@@ -2193,6 +2961,10 @@
           case 'reading': renderReading(currentEx); break;
           case 'spelling': renderSpelling(currentEx); break;
           case 'visual': renderVisual(currentEx); break;
+          case 'media': renderMedia(currentEx); break;
+          case 'order-steps': renderOrderSteps(currentEx); break;
+          case 'robot-run':
+          case 'robot-debug': renderRobot(currentEx); break;
         }
       }
 
@@ -2556,7 +3328,7 @@
         const opts = curQ.opts.map((o, i) => `<button type="button" class="read-opt" data-idx="${i}"><strong style="color:var(--accent);">${String.fromCharCode(65 + i)})</strong> ${o}</button>`).join('');
         $('exBody').innerHTML = `
           <div class="reading-box">
-            <h4 class="reading-title">📖 ${ex.title}</h4>
+            <h4 class="reading-title">${ex.apply ? '' : '📖 '}${ex.title}</h4>
             <p class="reading-text">${ex.text}</p>
           </div>
           <div class="q-progress">Pregunta ${ex.qIdx + 1} de ${ex.questions.length}</div>
@@ -2906,6 +3678,7 @@
           validateDivisionStep(ex);
           return;
         }
+        if (checkNewTypes(ex)) return;
 
         if (ex.type === 'vertical-basic') {
           const exp = String(ex.res).padStart(ex.cols, ' ');
@@ -2994,7 +3767,7 @@
           const curQ = ex.questions[ex.qIdx];
           if (ex.selectedOpt === curQ.ok) {
             if (ex.qIdx >= ex.questions.length - 1) {
-              showFeedback(true, `¡Muy bien! ${curQ.exp}`);
+              showFeedback(true, `¡Muy bien! ${curQ.exp}${applyHtml(ex)}`);
               recordOutcome(true, true);
             } else {
               showFeedback(true, `¡Correcto! ${curQ.exp} — Pasando a la pregunta ${ex.qIdx + 2}...`);
@@ -3225,6 +3998,7 @@
             </div>
           `;
         }).join('');
+        renderConvivenciaSummary();
 
         $('vidListCount').textContent = state.videos.length;
         renderVideoCats();
@@ -3285,6 +4059,7 @@
         $('cfgBreakMins').value = String(state.breakMins);
         $('cfgRoundSize').value = String(state.roundSize);
         $('cfgNewPin').value = '';
+        if (document.activeElement !== $('cfgMissions')) $('cfgMissions').value = (state.missions || DEFAULT_MISSIONS).join('\n');
         $('cfgSavedMsg').classList.add('hidden');
       }
 
@@ -3357,11 +4132,16 @@
         ],
         logica: [
           { k: 'all', l: 'Todos' }, { k: 'valorPos', l: 'Valor Posicional' },
-          { k: 'redondeo', l: 'Redondeo' }, { k: 'propiedades', l: 'Propiedades' }
+          { k: 'redondeo', l: 'Redondeo' }, { k: 'propiedades', l: 'Propiedades' },
+          { k: 'algoritmos', l: 'Algoritmos' }
         ],
         lengua: [
           { k: 'all', l: 'Todos' }, { k: 'lectura', l: 'Lecturas (10)' },
-          { k: 'ortografia', l: 'Ortografía' }, { k: 'visual', l: 'Visual 5×5' }
+          { k: 'ortografia', l: 'Ortografía' }, { k: 'visual', l: 'Visual 5×5' },
+          { k: 'mundo', l: '🌍 Escuelas del mundo' }, { k: 'medios', l: '¿Es verdad o no?' }
+        ],
+        convivir: [
+          { k: 'emociones', l: '💚 Emociones' }, { k: 'misiones', l: '⭐ Misiones' }
         ]
       };
 
@@ -3369,7 +4149,8 @@
         const nav = $('subNav'), list = SUB_MENUS[state.mode];
         if (!list) { nav.classList.add('hidden'); return; }
         nav.classList.remove('hidden');
-        nav.innerHTML = list.map(item => `<button type="button" class="sub-pill ${state.subFilter === item.k ? 'active' : ''}" data-sub="${item.k}">${item.l}</button>`).join('');
+        const cur = state.mode === 'convivir' && state.subFilter !== 'misiones' ? 'emociones' : state.subFilter;
+        nav.innerHTML = list.map(item => `<button type="button" class="sub-pill ${cur === item.k ? 'active' : ''}" data-sub="${item.k}">${item.l}</button>`).join('');
         nav.querySelectorAll('.sub-pill').forEach(b => {
           b.addEventListener('click', () => {
             state.subFilter = b.dataset.sub;
@@ -3413,7 +4194,7 @@
         document.querySelectorAll('.mode-tab').forEach(b => {
           b.addEventListener('click', () => {
             state.mode = b.dataset.mode;
-            state.subFilter = 'all';
+            state.subFilter = state.mode === 'convivir' ? 'emociones' : 'all';
             saveState();
             renderHeaderUI();
             renderSubNav();
@@ -3531,10 +4312,18 @@
           const newPin = $('cfgNewPin').value.trim();
           if (newStudy !== state.studyMins) { state.studyMins = newStudy; resetStudyTimer(); }
           if (/^\d{4}$/.test(newPin)) state.pin = newPin;
+          const missions = $('cfgMissions').value.split('\n').map(x => x.trim()).filter(Boolean).slice(0, 8);
+          state.missions = missions.length ? missions : [...DEFAULT_MISSIONS];
           saveState();
+          if (state.mode === 'convivir') loadExercise();
           renderHeaderUI();
           $('cfgSavedMsg').classList.remove('hidden');
         });
+      }
+
+      // Gancho de pruebas automáticas: solo existe si la URL incluye ?test
+      if (new URLSearchParams(location.search).has('test')) {
+        window.__cd = { get ex() { return currentEx; }, get state() { return state; }, defaultState, genRobot, runRobot };
       }
 
       bindEvents();
