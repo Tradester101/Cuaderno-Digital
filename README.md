@@ -68,7 +68,8 @@ Vienen de canales como Happy Learning, Smile and Learn, CuriosaMente, NASA en Es
 ## 👨‍👩‍👧 Para padres
 
 - 🔒 **Modo Padres con PIN** con estadísticas por módulo: aciertos, errores y precisión.
-- 🎬 **Lista de videos permitidos**: 100 recomendados que puedes filtrar por categoría, editar, borrar o restaurar, y además los tuyos de YouTube. Solo se reproducen los de la lista.
+- 🎯 **Elige los temas del momento**: en *Modo Padres → Videos* tocas, por ejemplo, 🚀 Astronomía y 🇬🇧 Inglés, y en las pausas solo salen videos de esos temas. Con **Todos** vuelve la lista completa.
+- 🎬 **Videos agrupados por tema**: 100 recomendados que puedes editar, borrar o restaurar, y además los tuyos de YouTube. Solo se reproducen los de la lista.
 - ⏱️ **Tiempos configurables**: duración de la sesión de estudio y de la pausa de video.
 - 🎯 **Edad y grado**, que ajustan la dificultad de los ejercicios.
 - 💾 **Privacidad**: el progreso se guarda solo en el dispositivo. No hay cuentas, servidores ni anuncios.

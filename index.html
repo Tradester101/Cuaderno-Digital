@@ -980,6 +980,29 @@
       font-size: 13.5px;
     }
 
+    .vid-cats-box {
+      background: var(--primary-soft); border: 1px solid #bfdbfe; border-radius: 12px;
+      padding: 10px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .cat-chip {
+      display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 11px;
+      border-radius: 999px; border: 1.5px solid var(--border); background: #fff;
+      font-size: 13.5px; font-weight: 700; color: var(--text-muted); cursor: pointer;
+    }
+    .cat-chip .n { font-size: 12px; font-weight: 800; opacity: .75; }
+    .cat-chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .vid-group { border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+    .vid-group > summary {
+      list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      min-height: 44px; padding: 8px 11px; font-weight: 800; font-size: 14.5px;
+    }
+    .vid-group > summary::-webkit-details-marker { display: none; }
+    .vid-group > summary .chev { margin-left: auto; transition: transform .15s; color: var(--text-muted); }
+    .vid-group[open] > summary .chev { transform: rotate(90deg); }
+    .vid-group .badge-on { font-size: 12px; font-weight: 800; color: var(--success); background: var(--success-soft); padding: 2px 8px; border-radius: 99px; }
+    .vid-group .badge-off { font-size: 12px; font-weight: 700; color: var(--text-muted); background: #f1f5f9; padding: 2px 8px; border-radius: 99px; }
+    .vid-group-body { display: flex; flex-direction: column; gap: 5px; padding: 0 8px 8px; }
+
     .confirm-inline { background: var(--danger-soft); border: 1px solid var(--danger-border); border-radius: 11px; padding: 10px; font-size: 13.5px; color: #9f1239; }
 
     .footer-stats { display: flex; justify-content: space-between; padding: 0 5px; font-size: 13px; font-weight: 700; color: var(--text-muted); }
@@ -1303,6 +1326,14 @@
 
           <!-- TAB 2: VIDEOS -->
           <div id="pt-videos" class="hidden" style="display:flex;flex-direction:column;gap:9px;">
+            <div class="vid-cats-box">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                <strong id="vidCatsTitle" style="font-size:14.5px;">¿Qué temas puede ver ahora?</strong>
+                <button id="btnCatsAll" class="mini-btn" type="button">Todos</button>
+              </div>
+              <div id="vidCatChips" role="group" aria-labelledby="vidCatsTitle" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+              <div id="vidCatsInfo" role="status" style="font-size:13px;color:var(--text-muted);"></div>
+            </div>
             <div style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;">
               <div id="vidFormHeading" style="font-size:13.5px;font-weight:800;">Agregar video educativo de YouTube</div>
               <input id="inpVidUrl" class="form-input" type="text" placeholder="URL de YouTube o ID (ej. youtu.be/...)" aria-label="URL o ID del video de YouTube" />
@@ -1332,8 +1363,8 @@
               <strong style="font-size:13.5px;">Lista permitida (<span id="vidListCount">0</span>)</strong>
               <button id="btnPreviewVideo" style="font-size:13.5px;font-weight:800;color:var(--primary);">Probar pausa 🎬</button>
             </div>
-            <div style="display:flex;gap:6px;align-items:center;">
-              <select id="selVidFilter" class="form-select" aria-label="Filtrar videos por categoría" style="flex:1;min-width:0;"></select>
+            <div style="display:flex;gap:6px;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;color:var(--text-muted);">Toca un tema para ver sus videos.</span>
               <button id="btnRestoreVideos" class="mini-btn" type="button" title="Volver a agregar los videos recomendados que se hayan borrado" aria-label="Restaurar videos recomendados" style="flex-shrink:0;">↺ Restaurar</button>
             </div>
             <div id="vidRestoreMsg" class="hidden" role="status" style="font-size:13px;font-weight:700;color:var(--success);"></div>
@@ -1411,6 +1442,11 @@
       // para que cada pausa sea de un tema distinto. Si cambias esta lista, sube VIDEOS_VERSION.
       const VIDEOS_VERSION = 2;
       const VIDEO_TAGS = ["Naturaleza", "Ciencias", "Tecnología", "Astronomía", "Matemáticas", "Inteligencia Artificial", "Sociales", "Inglés", "Programación", "Lengua", "Curiosidades"];
+      const CAT_EMOJI = {
+        'Naturaleza': '🦁', 'Ciencias': '🔬', 'Astronomía': '🚀', 'Tecnología': '💻', 'Programación': '🧩',
+        'Inteligencia Artificial': '🤖', 'Sociales': '🌎', 'Geografía': '🗺️', 'Inglés': '🇬🇧', 'Matemáticas': '➗',
+        'Lengua': '📖', 'Curiosidades': '💡'
+      };
       const DEFAULT_VIDEOS = [
         { id: "O2IfmbfwysM", title: "SOS: animales en peligro de extinción (Happy Learning)", tag: "Naturaleza" },
         { id: "3QVj99UGk3Q", title: "El ciclo del agua (Smile and Learn)", tag: "Ciencias" },
@@ -1675,6 +1711,7 @@
         pin: '1234',
         videos: DEFAULT_VIDEOS,
         videosVersion: VIDEOS_VERSION,
+        videoCats: [], // temas permitidos ahora; vacío = todos
         lastVideoIdx: -1,
         stats: createEmptyStats()
       };
@@ -1703,6 +1740,7 @@
               ? ((parsed.videosVersion || 1) < VIDEOS_VERSION ? mergeDefaultVideos(parsed.videos) : parsed.videos)
               : [...DEFAULT_VIDEOS],
             videosVersion: VIDEOS_VERSION,
+            videoCats: Array.isArray(parsed.videoCats) ? parsed.videoCats : [],
             stats: {
               ok: parsed.stats?.ok || 0,
               err: parsed.stats?.err || 0,
@@ -3024,7 +3062,7 @@
       function openVideoModal() {
         pauseStudyTimer();
         if (!state.videos.length) state.videos = [...DEFAULT_VIDEOS];
-        state.lastVideoIdx = (state.lastVideoIdx + 1) % state.videos.length;
+        state.lastVideoIdx = nextVideoIdx();
         saveState();
         loadVideoInModal(state.lastVideoIdx);
 
@@ -3044,6 +3082,19 @@
         }, 1000);
         $('videoModal').classList.remove('hidden');
         focusModal('videoModal');
+      }
+
+      const videoTag = v => v.tag || 'Educativo';
+      // Temas activos que todavía tienen videos (si no queda ninguno, se permiten todos)
+      function activeVideoCats() {
+        const present = new Set(state.videos.map(videoTag));
+        return (state.videoCats || []).filter(t => present.has(t));
+      }
+      function nextVideoIdx() {
+        const cats = activeVideoCats();
+        const pool = state.videos.map((v, i) => i).filter(i => !cats.length || cats.includes(videoTag(state.videos[i])));
+        const next = pool.find(i => i > state.lastVideoIdx);
+        return next !== undefined ? next : pool[0];
       }
 
       function loadVideoInModal(idx) {
@@ -3144,22 +3195,36 @@
         }).join('');
 
         $('vidListCount').textContent = state.videos.length;
-        renderVideoFilter();
-        const filter = $('selVidFilter').value;
-        $('parentVidList').innerHTML = state.videos.map((v, i) => ({ v, i }))
-          .filter(({ v }) => !filter || (v.tag || 'Educativo') === filter)
-          .map(({ v, i }) => `
-          <div class="video-item">
-            <div style="min-width:0;flex:1;">
-              <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escapeHtml(v.title)}">${escapeHtml(v.title)}</div>
-              <div style="font-size:12px;color:var(--text-muted);">${escapeHtml(v.tag || 'Educativo')} · ID: ${escapeHtml(v.id)}</div>
+        renderVideoCats();
+        const groups = videoGroups();
+        const cats = activeVideoCats();
+        $('parentVidList').innerHTML = groups.map(([tag, items]) => {
+          const on = !cats.length || cats.includes(tag);
+          return `
+          <details class="vid-group" data-group="${escapeHtml(tag)}" ${openVideoGroups.has(tag) ? 'open' : ''}>
+            <summary>
+              <span aria-hidden="true">${CAT_EMOJI[tag] || '🎬'}</span>
+              <span>${escapeHtml(tag)} <span style="color:var(--text-muted);font-weight:700;">(${items.length})</span></span>
+              <span class="${on ? 'badge-on' : 'badge-off'}">${on ? 'Activo' : 'Pausado'}</span>
+              <span class="chev" aria-hidden="true">›</span>
+            </summary>
+            <div class="vid-group-body">${items.map(({ v, i }) => `
+              <div class="video-item">
+                <div style="min-width:0;flex:1;">
+                  <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escapeHtml(v.title)}">${escapeHtml(v.title)}</div>
+                  <div style="font-size:12px;color:var(--text-muted);">ID: ${escapeHtml(v.id)}</div>
+                </div>
+                <div style="display:flex;gap:4px;flex-shrink:0;">
+                  <button type="button" class="mini-btn" data-evid="${i}" aria-label="Editar ${escapeHtml(v.title)}">✏️</button>
+                  <button type="button" class="mini-btn" data-dvid="${i}" aria-label="Quitar ${escapeHtml(v.title)}" style="color:var(--danger);background:var(--danger-soft);">✕</button>
+                </div>
+              </div>`).join('')}
             </div>
-            <div style="display:flex;gap:4px;flex-shrink:0;">
-              <button type="button" class="mini-btn" data-evid="${i}">✏️</button>
-              <button type="button" class="mini-btn" data-dvid="${i}" style="color:var(--danger);background:var(--danger-soft);">✕</button>
-            </div>
-          </div>
-        `).join('');
+          </details>`;
+        }).join('');
+        document.querySelectorAll('.vid-group').forEach(d => d.addEventListener('toggle', () => {
+          d.open ? openVideoGroups.add(d.dataset.group) : openVideoGroups.delete(d.dataset.group);
+        }));
 
         document.querySelectorAll('[data-evid]').forEach(b => {
           b.addEventListener('click', () => {
@@ -3195,15 +3260,49 @@
         return String(str ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
       }
 
-      function renderVideoFilter() {
-        const sel = $('selVidFilter');
-        const current = sel.value;
-        const counts = {};
-        state.videos.forEach(v => { const t = v.tag || 'Educativo'; counts[t] = (counts[t] || 0) + 1; });
-        const tags = [...VIDEO_TAGS.filter(t => counts[t]), ...Object.keys(counts).filter(t => !VIDEO_TAGS.includes(t))];
-        sel.innerHTML = `<option value="">Todas las categorías (${state.videos.length})</option>` +
-          tags.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)} (${counts[t]})</option>`).join('');
-        sel.value = tags.includes(current) ? current : '';
+      const openVideoGroups = new Set();
+
+      // [[tema, [{v, i}, ...]], ...] en el orden de VIDEO_TAGS y luego los temas propios de los padres
+      function videoGroups() {
+        const map = new Map();
+        state.videos.forEach((v, i) => {
+          const t = videoTag(v);
+          if (!map.has(t)) map.set(t, []);
+          map.get(t).push({ v, i });
+        });
+        const order = [...VIDEO_TAGS.filter(t => map.has(t)), ...[...map.keys()].filter(t => !VIDEO_TAGS.includes(t))];
+        return order.map(t => [t, map.get(t)]);
+      }
+
+      function renderVideoCats() {
+        const groups = videoGroups();
+        const cats = activeVideoCats();
+        $('vidCatChips').innerHTML = groups.map(([tag, items]) => {
+          const on = !cats.length || cats.includes(tag);
+          return `<button type="button" class="cat-chip" data-cat="${escapeHtml(tag)}" aria-pressed="${on}">
+            <span aria-hidden="true">${CAT_EMOJI[tag] || '🎬'}</span>${escapeHtml(tag)} <span class="n">${items.length}</span></button>`;
+        }).join('');
+        const total = cats.length
+          ? state.videos.filter(v => cats.includes(videoTag(v))).length
+          : state.videos.length;
+        $('vidCatsInfo').textContent = cats.length
+          ? `En la próxima pausa saldrán solo videos de: ${cats.join(', ')} (${total}).`
+          : `En las pausas saldrán videos de todos los temas (${total}). Toca uno o varios para limitar.`;
+        $('btnCatsAll').disabled = !cats.length;
+        document.querySelectorAll('.cat-chip').forEach(b => b.addEventListener('click', () => toggleVideoCat(b.dataset.cat)));
+      }
+
+      // Con todos activos, tocar un tema deja solo ese; después cada toque suma o quita.
+      // Si se quita el último, vuelven a quedar todos.
+      function toggleVideoCat(tag) {
+        let cats = activeVideoCats();
+        if (!cats.length) cats = [tag];
+        else if (cats.includes(tag)) cats = cats.filter(t => t !== tag);
+        else cats = [...cats, tag];
+        const allTags = videoGroups().map(([t]) => t);
+        state.videoCats = cats.length === allTags.length ? [] : cats;
+        saveState();
+        renderParentDash();
       }
 
       function resetVideoForm() {
@@ -3340,7 +3439,7 @@
         $('btnCloseVideoX').addEventListener('click', closeVideoModal);
         $('btnReturnStudy').addEventListener('click', closeVideoModal);
         $('btnSwitchVideo').addEventListener('click', () => {
-          state.lastVideoIdx = (state.lastVideoIdx + 1) % state.videos.length;
+          state.lastVideoIdx = nextVideoIdx();
           saveState();
           loadVideoInModal(state.lastVideoIdx);
         });
@@ -3378,7 +3477,7 @@
         });
 
         $('btnPreviewVideo').addEventListener('click', () => { $('parentModal').classList.add('hidden'); openVideoModal(); });
-        $('selVidFilter').addEventListener('change', renderParentDash);
+        $('btnCatsAll').addEventListener('click', () => { state.videoCats = []; saveState(); renderParentDash(); });
         $('btnRestoreVideos').addEventListener('click', () => {
           const before = state.videos.length;
           state.videos = mergeDefaultVideos(state.videos);
