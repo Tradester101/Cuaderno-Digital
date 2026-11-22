@@ -1,0 +1,8 @@
+{
+  "appId": "com.cuadernodigital.app",
+  "appName": "Cuaderno Digital",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
